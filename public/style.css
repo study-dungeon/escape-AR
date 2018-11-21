@@ -1,3 +1,46 @@
-.selected {
-  font-weight: bold;
+body {
+  background: #1A1A1A;
 }
+
+.welcome {
+  font-family: 'Courier New';
+  font-size: 6vw;
+  text-align: center;
+  color: #F2F2F2;
+}
+
+.sub-title {
+  line-height: 0.0em;
+  font-family: 'Courier New';
+  font-size: 3vw;
+  text-align: center;
+  color: #FF3333;
+}
+
+.button-grid-container {
+  display: grid;
+  justify-content: center;
+  grid-row-gap: 1.5vh;
+}
+
+.button-grid-item {
+  justify-self: center;
+}
+
+.welcome-btn {
+  color: #1A1A1A;
+  border-radius: 30px;
+  text-align: center;
+  width: 7em;
+  height: 2em;
+  font-size: 3vw;
+  font-family: 'Courier New';
+}
+
+.welcome-btn:hover {
+  background: #CC0000;
+  cursor: pointer;
+  color: #F2F2F2;
+}
+
+
