@@ -3,7 +3,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Header from './Header';
 import Nav from './Nav';
-import GamePlay from './GamePlay'
+import GamePlay from './GamePlay';
 
 
 class App extends Component {

@@ -1,8 +1,27 @@
+/* ### GLOBAL ### */
+
 body {
   background: #1A1A1A;
 }
 
-.welcome {
+h1 {
+  margin: 0;
+}
+
+
+/* ### HEADER ### */
+
+.header-container {
+  top: 0;
+  display: grid;
+  justify-content: center;
+}
+
+.header-item {
+  justify-self: start
+}
+
+.game-title {
   font-family: 'Courier New';
   font-size: 6vw;
   text-align: center;
@@ -16,6 +35,8 @@ body {
   text-align: center;
   color: #FF3333;
 }
+
+/* ### NAV BUTTONS */
 
 .button-grid-container {
   display: grid;
@@ -44,3 +65,64 @@ body {
 }
 
 
+
+/* ### HOW TO PLAY */
+
+.how-to-play-container {
+  display: grid;
+  justify-content: center;
+}
+
+.how-to-play-grid-item {
+  justify-self: center;
+  border: 1px solid green;
+  text-align: center;
+  border-radius: 15px;
+  width: 80vw;
+}
+
+.how-to-play-title {
+  font-family: 'Courier New';
+  font-size: 3vw;
+  color: green;
+}
+
+.trapped {
+  font-family: 'Courier New';
+  font-size: 3vw;
+  color: red;
+}
+
+.play-list {
+  list-style: none;
+  line-height: 2.0em;
+}
+
+.play-instructions {
+  font-family: 'Courier New';
+  font-size: 1.5vw;
+  color: white;
+}
+
+.hiro-link {
+  text-decoration: none;
+  font-family: 'Courier New';
+  font-weight: bold;
+  color: white;
+}
+
+.play-btn {
+  color: #1A1A1A;
+  border-radius: 30px;
+  text-align: center;
+  width: 6em;
+  height: 2em;
+  font-size: 3vw;
+  font-family: 'Courier New';
+}
+
+.play-btn:hover {
+  background: green;
+  cursor: pointer;
+  color: #F2F2F2;
+}
