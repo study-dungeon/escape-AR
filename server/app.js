@@ -3,8 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-// routes
-const apiImages = require('./api/images');
 
 
 // instantiate express
@@ -17,8 +15,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 
-// api routes
-app.use('/api/images', apiImages);
 
 // static resources
 app.use('/dist', express.static(path.join(__dirname, '..', 'dist')));
