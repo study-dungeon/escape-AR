@@ -1,0 +1,60 @@
+{
+  "name": "escape-ar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "DATABASE_URL=postgres://localhost/escape_ar_test nodemon ./node_modules/mocha/bin/mocha",
+    "postinstall": "npm run webpack",
+    "webpack": "webpack",
+    "build": "npm run webpack -- --watch --mode=development",
+    "start:dev": "npm run build & DATABASE_URL=postgres://localhost/escape_ar nodemon server/server.js --ignore dist --ignore src",
+    "start": "node server/server.js"
+  },
+  "keywords": [],
+  "author": "Team Study Dungeon",
+  "contributors": [
+    "Andrew Reis, Tom Licitra, Charlie Robinson, Andrew Heller"
+  ],
+  "license": "MIT",
+  "babel": {
+    "presets": [
+      "react",
+      "env",
+      "stage-3"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
+    ]
+  },
+  "dependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "axios": "^0.18.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "pg": "^7.4.3",
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "sequelize": "^4.38.1",
+    "webpack": "^4.17.2",
+    "webpack-cli": "^3.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "supertest": "^3.3.0"
+  }
+}

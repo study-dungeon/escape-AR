@@ -1,1 +1,1 @@
-escape AR the game!
+Escape AR The Game!
