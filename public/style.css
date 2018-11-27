@@ -1,7 +1,9 @@
 /* ### GLOBAL ### */
 
 body {
+  box-sizing: border-box;
   background: #1A1A1A;
+  margin: 0;
 }
 
 h1 {
