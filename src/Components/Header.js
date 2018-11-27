@@ -7,7 +7,7 @@ const Header = () => {
       <div className="header-container">
 
         <div className="header-item">
-          <h1 className="game-title">Escape From Study Dungeon</h1>
+          <h1 className="main-title">Escape From Study Dungeon</h1>
           <p className="sub-title">An Augmented Reality Experience</p>
 
           <br />

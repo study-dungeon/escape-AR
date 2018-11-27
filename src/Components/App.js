@@ -1,20 +1,17 @@
 import React, { Fragment, Component } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Header from './Header';
-import Nav from './Nav';
+import Home from './Home';
 import GamePlay from './GamePlay';
 
 
 class App extends Component {
   
-
   render() {
     return (
       <Router>
         <Fragment>
-          <Header />
-          <Route exact path="/" component={ Nav } />
+          <Home />
           <Route path="/info" component={ GamePlay } />
         </Fragment>
       </Router>

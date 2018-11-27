@@ -6,13 +6,64 @@ body {
   margin: 0;
 }
 
-h1 {
+
+
+/* ### BACKGROUND IMAGE / ANIMATION ### */
+
+.main-title {
+  font-family: 'Special Elite', cursive;
+  color: white;
+  text-align: center;
+  font-size: 5vw;
+  z-index: 10;
+}
+
+/* Background */
+.background-image {
   margin: 0;
+  background-image: url('background.jpeg');
+  background-size: auto;
+  background-position: 0px -300px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.fog-img {
+  top: 0;
+  left: 0;
+  position: absolute;
+  height: 100vh;
+  width: 300vw;
+  z-index: -1;
+}
+
+.fog-img1 {
+  background: url('fog-1.png');
+  background-size: contain;
+  animation: marquee 60s linear infinite;
+  z-index: -1;
+}
+
+.fog-img2 {
+  background: url('fog-2.png');
+  background-size: contain;
+  animation: marquee 40s linear infinite;
+  z-index: -1;
+}
+
+/* Marquee */
+@keyframes marquee {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-200vw, 0, 0); }
 }
 
 
 /* ### HEADER ### */
-
 .header-container {
   top: 0;
   display: grid;
@@ -34,6 +85,7 @@ h1 {
   line-height: 0.0em;
   font-family: 'Courier New';
   font-size: 3vw;
+  font-weight: bold;
   text-align: center;
   color: #FF3333;
 }
@@ -52,12 +104,12 @@ h1 {
 
 .welcome-btn {
   color: #1A1A1A;
-  border-radius: 30px;
+  border-radius: 20px;
   text-align: center;
-  width: 7em;
-  height: 2em;
+  width: 5em;
+  height: 1.5em;
   font-size: 3vw;
-  font-family: 'Courier New';
+  font-family: 'Special Elite', cursive;
 }
 
 .welcome-btn:hover {
