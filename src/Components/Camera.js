@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import { initializeArToolkit } from '../utils/arToolkit';
 
 export default class Camera extends Component {
+  constructor() {
+    super();
+    this.state = {
+      m1: false,
+      m2: false,
+    };
+  }
+
   componentDidMount() {
     // init webGL renderer with canvas element
     const renderer = (this.renderer = new THREE.WebGLRenderer({
@@ -10,7 +18,7 @@ export default class Camera extends Component {
     }));
     renderer.setClearColor(new THREE.Color('lightgrey'), 0);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    // document.body.appendChild(renderer.domElement);
+    document.body.appendChild(renderer.domElement);
 
     // init scene
     const scene = new THREE.Scene();
@@ -55,9 +63,9 @@ export default class Camera extends Component {
       patternUrl: '../../assets/patt.hiro',
     });
 
-    //marker found event listener
-    marker.addEventListener('markerFound', () => {
-      console.log('MARKER FOUND!');
+    const marker2 = new ArMarkerControls(arToolkitContext, markerRoot, {
+      type: 'pattern',
+      patternUrl: '../../assets/arjs.hiro',
     });
 
     // init 3d sphere & torusKnot
@@ -68,14 +76,42 @@ export default class Camera extends Component {
         wireframe: true,
       })
     );
+    const sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(0.5, 8, 8),
+      new THREE.MeshNormalMaterial()
+    );
+    sphere.material.shading = THREE.FlatShading;
 
-    markerRoot.add(torusKnot);
+    //marker found event listener
+    marker.addEventListener('../../assets/patt.hiro', () => {
+      if (!this.state.m1) {
+        console.log('m1found');
+        markerRoot.add(sphere);
+        this.setState({ m1: true });
+        setTimeout(function() {
+          console.log('m1removed');
+          markerRoot.remove(sphere);
+          this.setState({ m1: false });
+        }, 1000);
+      }
+    });
+    marker2.addEventListener('../../assets/arjs.hiro', () => {
+      if (!this.state.m2) {
+        console.log('m2found');
+        markerRoot.add(torusKnot);
+        this.setState({ m2: true });
+        setTimeout(function() {
+          console.log('m2removed');
+          markerRoot.remove(torusKnot);
+          this.setState({ m2: false });
+        }, 1000);
+      }
+    });
 
     // init 3d object rotation
     onRenderFcts.push(() => {
       torusKnot.rotation.x += 0.02;
       torusKnot.rotation.y += 0.02;
-      // details.position.y = 5 + 3 * Math.sin(1.2 * pulse);
     });
 
     // render the scene
@@ -93,13 +129,13 @@ export default class Camera extends Component {
       lastTimeMsec = lastTimeMsec || nowMsec - 1000 / 60;
       const deltaMsec = Math.min(200, nowMsec - lastTimeMsec);
       lastTimeMsec = nowMsec;
-      //  const pulse = Date.now() * 0.0009;
 
       // call each update function
       onRenderFcts.forEach(function(onRenderFct) {
         onRenderFct(deltaMsec / 1000, nowMsec / 1000);
       });
     }
+
     animate();
   }
   componentWillUnmount() {
