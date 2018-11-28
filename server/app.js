@@ -22,7 +22,7 @@ app.use(express.static('public'));
 
 // grab files
 const index = path.join(__dirname, '..', 'index.html');
-const pageNotFound = path.join(__dirname, '..', '404.html');
+const pageNotFound = path.join(__dirname, '../public', '404.html');
 
 // ### MAIN ROUTES ###
 
