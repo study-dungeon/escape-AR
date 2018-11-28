@@ -38,6 +38,19 @@ h1 {
 
 /* ### NAV BUTTONS */
 
+.background {
+  /* The image used */
+  background-image: url("http://i64.tinypic.com/2d8j0pi.jpg");
+
+  /* Full height */
+  height: 100%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .button-grid-container {
   display: grid;
   justify-content: center;
