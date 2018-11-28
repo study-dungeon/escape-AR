@@ -1,3 +1,5 @@
+/*global THREE THREEx*/
+
 import React, { Component } from 'react';
 import { initializeArToolkit } from '../utils/arToolkit';
 
@@ -5,8 +7,10 @@ export default class Camera extends Component {
   constructor() {
     super();
     this.state = {
-      m1: false,
-      m2: false,
+      marker_lock: false,
+      marker_letter: false,
+      marker_clock: false,
+      marker_chest: false,
     };
   }
 
@@ -58,14 +62,14 @@ export default class Camera extends Component {
     // init
     const { ArMarkerControls } = THREEx;
 
-    const marker = new ArMarkerControls(arToolkitContext, markerRoot, {
+    const marker_lock = new ArMarkerControls(arToolkitContext, markerRoot, {
       type: 'pattern',
-      patternUrl: '../../assets/patt.hiro',
+      patternUrl: '../../assets/marker_lock.hiro',
     });
 
-    const marker2 = new ArMarkerControls(arToolkitContext, markerRoot, {
+    const marker_letter = new ArMarkerControls(arToolkitContext, markerRoot, {
       type: 'pattern',
-      patternUrl: '../../assets/arjs.hiro',
+      patternUrl: '../../assets/marker_letter.hiro',
     });
 
     // init 3d sphere & torusKnot
@@ -83,28 +87,33 @@ export default class Camera extends Component {
     sphere.material.shading = THREE.FlatShading;
 
     //marker found event listener
-    marker.addEventListener('../../assets/patt.hiro', () => {
-      if (!this.state.m1) {
-        console.log('m1found');
+    marker_lock.addEventListener('marker_lock', () => {
+      if (!this.state.marker_lock) {
+
+        console.log('lock found');
+        this.setState({ marker_lock: true });
         markerRoot.add(sphere);
-        this.setState({ m1: true });
-        setTimeout(function() {
-          console.log('m1removed');
+
+        setTimeout(function () {
+          console.log('lock removed');
           markerRoot.remove(sphere);
-          this.setState({ m1: false });
-        }, 1000);
+          this.setState({ marker_lock: false });
+        }, 2000);
       }
     });
-    marker2.addEventListener('../../assets/arjs.hiro', () => {
-      if (!this.state.m2) {
-        console.log('m2found');
+
+    marker_letter.addEventListener('marker_letter', () => {
+      if (!this.state.marker_letter) {
+
+        console.log('letter found');
         markerRoot.add(torusKnot);
-        this.setState({ m2: true });
-        setTimeout(function() {
-          console.log('m2removed');
+        this.setState({ marker_letter: true });
+
+        setTimeout(function () {
+          console.log('letter removed');
           markerRoot.remove(torusKnot);
-          this.setState({ m2: false });
-        }, 1000);
+          this.setState({ marker_letter: false });
+        }, 2000);
       }
     });
 
@@ -115,7 +124,7 @@ export default class Camera extends Component {
     });
 
     // render the scene
-    onRenderFcts.push(function() {
+    onRenderFcts.push(function () {
       renderer.render(scene, camera);
     });
 
@@ -131,7 +140,7 @@ export default class Camera extends Component {
       lastTimeMsec = nowMsec;
 
       // call each update function
-      onRenderFcts.forEach(function(onRenderFct) {
+      onRenderFcts.forEach(function (onRenderFct) {
         onRenderFct(deltaMsec / 1000, nowMsec / 1000);
       });
     }
