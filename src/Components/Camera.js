@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { initializeArToolkit } from '../utils/arToolkit';
-// import hiro from '../../assets/patt.hiro';
 
 export default class Camera extends Component {
   componentDidMount() {
@@ -50,16 +49,18 @@ export default class Camera extends Component {
 
     // init
     const { ArMarkerControls } = THREEx;
-    const marker = ArMarkerControls(arToolkitContext, markerRoot, {
+
+    const marker = new ArMarkerControls(arToolkitContext, markerRoot, {
       type: 'pattern',
-      patternUrl: '../../assets/camera_para.dat',
+      patternUrl: '../../assets/patt.hiro',
+    });
+
+    //marker found event listener
+    marker.addEventListener('markerFound', () => {
+      console.log('MARKER FOUND!');
     });
 
     // init 3d sphere & torusKnot
-    const sphere = new THREE.Mesh(
-      new THREE.SphereGeometry(0.5, 8, 8),
-      new THREE.MeshStandardMaterial()
-    );
     const torusKnot = new THREE.Mesh(
       new THREE.TorusKnotGeometry(1, 0.2, 30, 16),
       new THREE.MeshStandardMaterial({
@@ -68,27 +69,12 @@ export default class Camera extends Component {
       })
     );
 
-    // toggle 3d objects in markerRoot
-    let ball = true;
-    markerRoot.add(ball);
-    window.setInterval(() => {
-      if (ball) {
-        markerRoot.children.pop();
-        markerRoot.add(torusKnot);
-        ball = false;
-      } else {
-        markerRoot.children.pop();
-        markerRoot.add(sphere);
-        ball = true;
-      }
-    }, 5000);
+    markerRoot.add(torusKnot);
 
     // init 3d object rotation
     onRenderFcts.push(() => {
       torusKnot.rotation.x += 0.02;
       torusKnot.rotation.y += 0.02;
-      sphere.rotation.x -= 0.02;
-      sphere.rotation.y -= 0.02;
       // details.position.y = 5 + 3 * Math.sin(1.2 * pulse);
     });
 
@@ -107,7 +93,7 @@ export default class Camera extends Component {
       lastTimeMsec = lastTimeMsec || nowMsec - 1000 / 60;
       const deltaMsec = Math.min(200, nowMsec - lastTimeMsec);
       lastTimeMsec = nowMsec;
-      // const pulse = Date.now() * 0.0009;
+      //  const pulse = Date.now() * 0.0009;
 
       // call each update function
       onRenderFcts.forEach(function(onRenderFct) {

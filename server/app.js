@@ -13,10 +13,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // static resources
-app.use('/dist', express.static(path.join(__dirname, '..', 'dist')));
-app.use('/assets', express.static(path.join(__dirname, '..', 'assets')));
-app.use('/lib', express.static(path.join(__dirname, '..', 'lib')));
 app.use(express.static('public'));
+app.use('/dist', express.static(path.join(__dirname, '..', 'dist')));
+app.use('/lib', express.static(path.join(__dirname, '..', 'lib')));
+app.use('/assets', express.static(path.join(__dirname, '..', 'assets')));
 
 // grab files
 const index = path.join(__dirname, '..', 'public', 'index.html');

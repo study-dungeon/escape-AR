@@ -3,7 +3,7 @@ const { ArToolkitContext, ArToolkitSource } = THREEx;
 export const initializeArToolkit = (renderer, camera, onRenderFcts) => {
   ArToolkitContext.baseURL = '../';
   const arToolkitSource = new ArToolkitSource({
-    // to read fro`m the webcam
+    // to read from the webcam
     sourceType: 'webcam',
   });
 
@@ -17,7 +17,7 @@ export const initializeArToolkit = (renderer, camera, onRenderFcts) => {
 
   // create atToolkitContext
   const arToolkitContext = new ArToolkitContext({
-    cameraParametersUrl: '../../assets/patt.hiro',
+    cameraParametersUrl: '../../assets/camera_para.dat',
     detectionMode: 'mono',
     maxDetectionRate: 30,
     canvasWidth: 80 * 3,
