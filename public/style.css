@@ -1,13 +1,12 @@
 /* ### GLOBAL ### */
 
 body {
-  background: #1A1A1A;
+  background: #1a1a1a;
 }
 
 h1 {
   margin: 0;
 }
-
 
 /* ### HEADER ### */
 
@@ -18,22 +17,22 @@ h1 {
 }
 
 .header-item {
-  justify-self: start
+  justify-self: start;
 }
 
 .game-title {
   font-family: 'Courier New';
   font-size: 6vw;
   text-align: center;
-  color: #F2F2F2;
+  color: #f2f2f2;
 }
 
 .sub-title {
-  line-height: 0.0em;
+  line-height: 0em;
   font-family: 'Courier New';
   font-size: 3vw;
   text-align: center;
-  color: #FF3333;
+  color: #ff3333;
 }
 
 /* ### NAV BUTTONS */
@@ -62,7 +61,7 @@ h1 {
 }
 
 .welcome-btn {
-  color: #1A1A1A;
+  color: #1a1a1a;
   border-radius: 30px;
   text-align: center;
   width: 7em;
@@ -72,12 +71,10 @@ h1 {
 }
 
 .welcome-btn:hover {
-  background: #CC0000;
+  background: #cc0000;
   cursor: pointer;
-  color: #F2F2F2;
+  color: #f2f2f2;
 }
-
-
 
 /* ### HOW TO PLAY */
 
@@ -108,7 +105,7 @@ h1 {
 
 .play-list {
   list-style: none;
-  line-height: 2.0em;
+  line-height: 2em;
 }
 
 .play-instructions {
@@ -125,7 +122,7 @@ h1 {
 }
 
 .play-btn {
-  color: #1A1A1A;
+  color: #1a1a1a;
   border-radius: 30px;
   text-align: center;
   width: 6em;
@@ -137,5 +134,5 @@ h1 {
 .play-btn:hover {
   background: green;
   cursor: pointer;
-  color: #F2F2F2;
+  color: #f2f2f2;
 }
