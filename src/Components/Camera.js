@@ -62,20 +62,21 @@ export default class Camera extends Component {
     // init
     const { ArMarkerControls } = THREEx;
 
+    // load custom markers
     const marker_lock = new ArMarkerControls(arToolkitContext, markerRoot, {
       type: 'pattern',
       patternUrl: '../../assets/marker_lock.hiro',
     });
-
     const marker_lock2 = new ArMarkerControls(arToolkitContext, markerRoot, {
       type: 'pattern',
       patternUrl: '../../assets/marker_lock2.hiro',
     });
 
-    //const loader = new GLTFLoader();
+    // load .. loaders?
     const loader = new THREE.GLTFLoader();
 
-    //load models
+    // load 3d models
+    // TODO: DRY it
     loader.load(
       '../../assets/lock/scene.gltf',
       function(gltf) {
@@ -110,7 +111,7 @@ export default class Camera extends Component {
       e => console.error(e)
     );
 
-    //throttling function to handle multi-markerFound
+    // throttling function to handle frequent event firing
     function throttled(delay, fn) {
       let lastCall = 0;
       return function(...args) {
@@ -123,7 +124,8 @@ export default class Camera extends Component {
       };
     }
 
-    //multi-marker handling
+    // throttling of model add/remove's
+    // TODO: DRY it
     marker_lock.addEventListener(
       'marker_lock',
       throttled(3000, () => {
@@ -139,7 +141,6 @@ export default class Camera extends Component {
         }
       })
     );
-
     marker_lock2.addEventListener(
       'marker_lock2',
       throttled(3000, () => {
@@ -157,7 +158,7 @@ export default class Camera extends Component {
     );
 
     // init 3d object rotation
-
+    // TODO: deal with undefined vals before 3d models loaded
     onRenderFcts.push(() => {
       lock.rotation.x -= 0.02;
       lock.rotation.y -= 0.02;
@@ -172,7 +173,6 @@ export default class Camera extends Component {
 
     // run the animation loop
     let lastTimeMsec = null;
-
     function animate(nowMsec) {
       // keep looping
       requestAnimationFrame(animate);
