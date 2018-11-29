@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "test": "DATABASE_URL=postgres://localhost/escape_ar_test nodemon ./node_modules/mocha/bin/mocha",
+    "test": "nodemon ./node_modules/mocha/bin/mocha test/*.js",
     "postinstall": "npm run webpack",
     "webpack": "webpack",
     "build": "npm run webpack -- --watch --mode=development",
