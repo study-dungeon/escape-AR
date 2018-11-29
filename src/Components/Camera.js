@@ -67,64 +67,106 @@ export default class Camera extends Component {
       patternUrl: '../../assets/marker_lock.hiro',
     });
 
-    const marker_letter = new ArMarkerControls(arToolkitContext, markerRoot, {
+    const marker_lock2 = new ArMarkerControls(arToolkitContext, markerRoot, {
       type: 'pattern',
-      patternUrl: '../../assets/marker_letter.hiro',
+      patternUrl: '../../assets/marker_lock2.hiro',
     });
 
-    // init 3d sphere & torusKnot
-    const torusKnot = new THREE.Mesh(
-      new THREE.TorusKnotGeometry(1, 0.2, 30, 16),
-      new THREE.MeshStandardMaterial({
-        color: 0xff0051,
-        wireframe: true,
+    //const loader = new GLTFLoader();
+    const loader = new THREE.GLTFLoader();
+
+    //load models
+    loader.load(
+      '../../assets/lock/scene.gltf',
+      function(gltf) {
+        gltf.scene.traverse(function(child) {
+          if (child.isMesh) {
+            child.position.z = -1;
+            child.scale.x = 0.03;
+            child.scale.y = 0.03;
+            child.scale.z = 0.03;
+            window.lock = child;
+          }
+        });
+      },
+      console.log('loading..'),
+      e => console.error(e)
+    );
+
+    loader.load(
+      '../../assets/lock2/scene.gltf',
+      function(gltf) {
+        gltf.scene.traverse(function(child) {
+          if (child.isMesh) {
+            child.position.z = -1;
+            child.scale.x = 0.25;
+            child.scale.y = 0.25;
+            child.scale.z = 0.25;
+            window.lock2 = child;
+          }
+        });
+      },
+      console.log('loading..'),
+      e => console.error(e)
+    );
+
+    //throttling function to handle multi-markerFound
+    function throttled(delay, fn) {
+      let lastCall = 0;
+      return function(...args) {
+        const now = new Date().getTime();
+        if (now - lastCall < delay) {
+          return;
+        }
+        lastCall = now;
+        return fn(...args);
+      };
+    }
+
+    //multi-marker handling
+    marker_lock.addEventListener(
+      'marker_lock',
+      throttled(3000, () => {
+        if (!this.state.marker_lock) {
+          console.log('lock found');
+          this.setState({ marker_lock: true });
+          markerRoot.add(lock);
+          setTimeout(() => {
+            console.log('lock removed');
+            markerRoot.remove(lock);
+            this.setState({ marker_letter: false });
+          }, 3000);
+        }
       })
     );
-    const sphere = new THREE.Mesh(
-      new THREE.SphereGeometry(0.5, 8, 8),
-      new THREE.MeshNormalMaterial()
+
+    marker_lock2.addEventListener(
+      'marker_lock2',
+      throttled(3000, () => {
+        if (!this.state.marker_lock) {
+          console.log('lock2 found');
+          this.setState({ marker_lock: true });
+          markerRoot.add(lock2);
+          setTimeout(() => {
+            console.log('lock2 removed');
+            markerRoot.remove(lock2);
+            this.setState({ marker_letter: false });
+          }, 3000);
+        }
+      })
     );
-    sphere.material.shading = THREE.FlatShading;
-
-    //marker found event listener
-    marker_lock.addEventListener('marker_lock', () => {
-      if (!this.state.marker_lock) {
-
-        console.log('lock found');
-        this.setState({ marker_lock: true });
-        markerRoot.add(sphere);
-
-        setTimeout(function () {
-          console.log('lock removed');
-          markerRoot.remove(sphere);
-          this.setState({ marker_lock: false });
-        }, 2000);
-      }
-    });
-
-    marker_letter.addEventListener('marker_letter', () => {
-      if (!this.state.marker_letter) {
-
-        console.log('letter found');
-        markerRoot.add(torusKnot);
-        this.setState({ marker_letter: true });
-
-        setTimeout(function () {
-          console.log('letter removed');
-          markerRoot.remove(torusKnot);
-          this.setState({ marker_letter: false });
-        }, 2000);
-      }
-    });
 
     // init 3d object rotation
+
     onRenderFcts.push(() => {
-      torusKnot.rotation.x += 0.02;
-      torusKnot.rotation.y += 0.02;
+      lock.rotation.x -= 0.02;
+      lock.rotation.y -= 0.02;
+      lock2.rotation.x += 0.02;
+      lock2.rotation.y += 0.02;
     });
 
     // render the scene
-    onRenderFcts.push(function () {
+    onRenderFcts.push(function() {
       renderer.render(scene, camera);
     });
 
@@ -138,13 +180,11 @@ export default class Camera extends Component {
       lastTimeMsec = lastTimeMsec || nowMsec - 1000 / 60;
       const deltaMsec = Math.min(200, nowMsec - lastTimeMsec);
       lastTimeMsec = nowMsec;
-
       // call each update function
-      onRenderFcts.forEach(function (onRenderFct) {
+      onRenderFcts.forEach(function(onRenderFct) {
         onRenderFct(deltaMsec / 1000, nowMsec / 1000);
       });
     }
-
     animate();
   }
   componentWillUnmount() {
