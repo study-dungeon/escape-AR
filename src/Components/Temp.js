@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
+
+import Escaped from './Escaped';
 
 export default class Temp extends Component {
   constructor() {
     super();
     this.state = {
+      startTime: moment(),
       // marker_[item] field determine if call-to-action buttons show
       marker_lock: false,
       marker_letter: false,
@@ -71,16 +75,21 @@ export default class Temp extends Component {
       this.setState({ marker_door: true });
       // markerRoot.add(sphere);
 
-      setTimeout(() => {
-        console.log('door removed');
-        // markerRoot.remove(sphere);
-        this.setState({ marker_door: false });
-      }, 3000);
+      if (!this.state.hasKey) {
+        setTimeout(() => {
+          console.log('door removed');
+          // markerRoot.remove(sphere);
+          this.setState({
+            marker_door: false,
+            hasKey: true // NEED TO REMOVE AFTER TESTING
+          });
+        }, 3000);
+      }
     }
   }
 
   render() {
-    const { marker_letter, marker_clock, marker_door, marker_lock, hasKey } = this.state;
+    const { marker_letter, marker_clock, marker_door, marker_lock, hasKey, startTime } = this.state;
 
     return(
       <div className="button-grid-container">
@@ -107,7 +116,7 @@ export default class Temp extends Component {
           {marker_clock && <Link to='/clock'><button className="welcome-btn">Check the time</button></Link>}
           {marker_letter && <Link to='/letter'><button className="welcome-btn">Read me</button></Link>}
           {marker_lock && <Link to='/lock'><button className="welcome-btn">Unlock me</button></Link>}
-          {marker_door &&  (hasKey ? <Link to='/door'><button className="welcome-btn">Open sesame!</button></Link> : <div style={{"color": "white"}}>You need a key!</div>)}
+          {marker_door &&  (hasKey ? <Escaped startTime={startTime} endTime={moment()} /> : <div style={{"color": "white"}}>You need a key!</div>)}
         </div>
 
       </div>

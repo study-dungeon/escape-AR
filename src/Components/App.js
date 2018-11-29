@@ -12,6 +12,7 @@ import Letter from './Letter';
 import Opening from './Opening';
 import Nav from './Nav';
 import Temp from './Temp';
+import Escaped from './Escaped';
 
 class App extends Component {
   render() {
@@ -26,7 +27,8 @@ class App extends Component {
           <Route path="/lock" component={ Lock } />
           <Route path="/envelope" component={ Envelope } />
           <Route path="/letter" component={ Letter } />
-          <Route path='/opening' component={ Opening } />
+          <Route path="/escaped" component={ Escaped } />
+          <Route path="/opening" component={ Opening } />
         </Fragment>
       </Router>
     );
