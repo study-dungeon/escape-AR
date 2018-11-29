@@ -11,13 +11,15 @@ import Envelope from './Envelope';
 import Letter from './Letter';
 import Opening from './Opening';
 import Nav from './Nav';
+import Temp from './Temp';
 
 class App extends Component {
   render() {
     return (
       <Router>
         <Fragment>
-          <Route path="/" component={ Nav } />
+          <Route exact path="/" component={ Nav } />
+          <Route path="/temp" component={ Temp } />
           <Route path="/camera" component={Camera} />
           <Route path="/info" component={ GamePlay } />
           <Route path="/clock" component={ Clock } />
