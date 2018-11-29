@@ -11,20 +11,24 @@ import Envelope from './Envelope';
 import Letter from './Letter';
 import Opening from './Opening';
 import Nav from './Nav';
+import Temp from './Temp';
+import Escaped from './Escaped';
 
 class App extends Component {
   render() {
     return (
       <Router>
         <Fragment>
-          <Route exact path="/" component={Nav} />
-          <Route exact path="/camera" component={Camera} />
-          <Route exact path="/info" component={GamePlay} />
-          <Route exact path="/clock" component={Clock} />
-          <Route exact path="/lock" component={Lock} />
-          <Route exact path="/envelope" component={Envelope} />
-          <Route exact path="/letter" component={Letter} />
-          <Route exact path="/opening" component={Opening} />
+          <Route exact path="/" component={ Nav } />
+          <Route path="/temp" component={ Temp } />
+          <Route path="/camera" component={ Camera } />
+          <Route exact path="/info" component={ GamePlay } />
+          <Route exact path="/clock" component={ Clock } />
+          <Route exact path="/lock" component={ Lock } />
+          <Route exact path="/envelope" component={ Envelope } />
+          <Route exact path="/letter" component={ Letter } />
+          <Route exact path="/escaped" component={ Escaped } />
+          <Route exact path="/opening" component={ Opening } />
         </Fragment>
       </Router>
     );
