@@ -6,11 +6,23 @@ const path = require('path');
 // instantiate express
 const app = express();
 
+// routes
+const apiUser = require('./api/users');
+const apiTeam = require('./api/teams');
+const apiCaptain = require('./api/captains');
+const apiGame = require('./api/games');
+
 // ### MIDDLEWARE ###
 
 // body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// api routes
+app.use('/api/users', apiUser);
+app.use('/api/teams', apiTeam);
+app.use('/api/captains', apiCaptain);
+app.use('/api/games', apiGame);
 
 // static resources
 app.use(express.static('public'));
