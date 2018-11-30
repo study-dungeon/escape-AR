@@ -10,7 +10,6 @@ before_script:
 - psql -c 'create database escapeAR_dev;' -U postgres
 
 notifications:
-  email: false
   slack:
     on_success: never
     on_failure: always
