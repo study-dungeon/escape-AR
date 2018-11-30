@@ -9,7 +9,7 @@ describe('main game routes', () => {
   it('can reach the home page', () => {
     return app
       .get('/')
-      .expect(404)
+      .expect(200)
   })
 
   it('displays home page content', () => {
