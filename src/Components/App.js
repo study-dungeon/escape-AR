@@ -21,14 +21,14 @@ class App extends Component {
         <Fragment>
           <Route exact path="/" component={ Nav } />
           <Route path="/temp" component={ Temp } />
-          <Route path="/camera" component={Camera} />
-          <Route path="/info" component={ GamePlay } />
-          <Route path="/clock" component={ Clock } />
-          <Route path="/lock" component={ Lock } />
-          <Route path="/envelope" component={ Envelope } />
-          <Route path="/letter" component={ Letter } />
-          <Route path="/escaped" component={ Escaped } />
-          <Route path="/opening" component={ Opening } />
+          <Route path="/camera" component={ Camera } />
+          <Route exact path="/info" component={ GamePlay } />
+          <Route exact path="/clock" component={ Clock } />
+          <Route exact path="/lock" component={ Lock } />
+          <Route exact path="/envelope" component={ Envelope } />
+          <Route exact path="/letter" component={ Letter } />
+          <Route exact path="/escaped" component={ Escaped } />
+          <Route exact path="/opening" component={ Opening } />
         </Fragment>
       </Router>
     );
