@@ -20,7 +20,7 @@ const syncAndSeed = async () => {
 
   let enterprise, voyager, deepSpace9;
   let picard, riker, data, janeway, chakotay, tuvok, sisko, kira, odo;
-  let game1, game2, game3;
+  let game1, game2, game3, game4, game5;
 
   return conn.sync({ force: true })
     .then(async () => {
@@ -127,6 +127,18 @@ const syncAndSeed = async () => {
         startTime: moment().subtract(2, 'd'),
         endTime: moment().add(5, 'h'),
         teamId: deepSpace9.id
+      }),
+      game4 = await Game.create({
+        weekNum: 3,
+        startTime: moment(),
+        endTime: moment().add(30, 'm'),
+        teamId: enterprise.id
+      }),
+      game5 = await Game.create({
+        weekNum: 3,
+        startTime: moment().subtract(3, 'd'),
+        endTime: moment().add(3, 'h'),
+        teamId: voyager.id
       })
     })
     .catch(error => console.log(error))
