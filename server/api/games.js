@@ -73,11 +73,6 @@ router.delete('/:id', (req, res, next) => {
 })
 
 
-router.get('/', (req, res, next) => {
-  Game.findAll()
-    .then(games => res.send(games))
-    .catch(error => next(error))
-})
 
 
 
