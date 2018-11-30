@@ -1,61 +1,24 @@
-import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import Sound from 'react-sound';
+import React from 'react';
+import { connect } from 'react-redux';
 
 
-const Nav = () => {
+const Nav = ({ auth }) => {
   return (
+    <div className="header-container">
+      <div className="header-item">
+        <h1 className="game-title">Escape From ARoom</h1>
+        <p className="sub-title">An Augmented Reality Experience</p>
 
-  <div className='background'>
-      <div className="header-container">
-
-    <div className="header-item">
-      <h1 className="game-title">Escape From ARoom</h1>
-      <p className="sub-title">An Augmented Reality Experience</p>
-
-      <br />
-      <br />
-      <br />
-    </div>
-    </div>
-
-      <div className="button-grid-container">
-
-        <div className="button-grid-item">
-          <Link to='/temp' ><button className="welcome-btn">Play</button></Link>
-        </div>
-
-        <div className="button-grid-item">
-          <Link to='/info' ><button className="welcome-btn">Info</button></Link>
-        </div>
-
-        <div className="button-grid-item">
-          <Link to='/opening'><button className="welcome-btn">Opening</button></Link>
-        </div>
-
+        <br />
+        <br />
+        <br />
       </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-  </div>
-
-    
+    </div>
   )
 }
 
+const mapStateToProps = (state) => ({
+  auth: state.auth
+})
 
-export default Nav;
+export default connect(mapStateToProps)(Nav);

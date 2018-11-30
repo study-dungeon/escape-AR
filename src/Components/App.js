@@ -1,5 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import Header from './Header';
 import Home from './Home';
 import GamePlay from './GamePlay';
@@ -13,20 +15,37 @@ import Opening from './Opening';
 import Nav from './Nav';
 import Temp from './Temp';
 import Escaped from './Escaped';
+import Enter from './Enter';
+import Login from './Login';
 
 class App extends Component {
   render() {
-    return (
+    const { auth } = this.props
+    if (!auth.id) {
+      return (
+        <Router>
+          <div className='background'>
+            <Nav />
+            <Route path="/" render={ (props) => <Login props={props} /> } />
+          </div>
+        </Router>
+      )
+    }
+    return ( // left off here; need to figure out app.js routes, add account Component, finish Success page
       <Router>
         <Fragment>
-          <Route exact path="/" component={ Nav } />
+          <div id="preGame" className='background'>
+            <Nav />
+            <Route exact path="/" component={ Enter } />
+            <Route exact path="/account" component={ Account } />
+            <Route path="/info" component={ GamePlay } />
+          </div>
           <Route path="/temp" component={ Temp } />
-          <Route path="/camera" component={ Camera } />
-          <Route exact path="/info" component={ GamePlay } />
-          <Route exact path="/clock" component={ Clock } />
-          <Route exact path="/lock" component={ Lock } />
-          <Route exact path="/envelope" component={ Envelope } />
-          <Route exact path="/letter" component={ Letter } />
+          <Route path="/room" component={ Camera } />
+          <Route exact path="/room/clock" component={ Clock } />
+          <Route exact path="/room/lock" component={ Lock } />
+          <Route exact path="/room/envelope" component={ Envelope } />
+          <Route exact path="/room/letter" component={ Letter } />
           <Route exact path="/escaped" component={ Escaped } />
           <Route exact path="/opening" component={ Opening } />
         </Fragment>
@@ -35,4 +54,8 @@ class App extends Component {
   }
 }
 
-export default App;
+const MapStateToProps = (state) => ({
+  auth: state.auth
+})
+
+export default connect(MapStateToProps)(App);

@@ -110,7 +110,7 @@ export default class Temp extends Component {
           <button className="welcome-btn" onClick={this.doorClick}>Door</button>
         </div>
 
-        <div style={{"color": "white"}}>Button below will appear on appropriate markerFound</div>
+        <div>Button below will appear on appropriate markerFound</div>
 
         <div className="button-grid-item">
           {marker_clock && <Link to='/clock'><button className="welcome-btn">Check the time</button></Link>}
