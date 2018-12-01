@@ -25,7 +25,7 @@ class Profile extends Component {
     event.preventDefault();
     const { username, password, activeTeamId } = this.state;
     const { auth } = this.props;
-    this.props.createTeam({ auth, username, password, activeTeamId })
+    this.props.updateUser({ auth, username, password, activeTeamId }) // don't need activeTeamId
       .catch(ex => this.setState({ error: 'Error updating account' }));
   }
 
