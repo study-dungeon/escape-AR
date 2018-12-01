@@ -402,11 +402,12 @@ export default class Camera extends Component {
               Use Lock Pick
             </button>
           )}
-          {hasKey ? (
+          {door &&  ( hasKey ? (
             <Escaped startTime={startTime} endTime={moment()} />
           ) : (
             <div style={{ color: 'white' }}>You need a key!</div>
-          )}
+          ))
+          }
         </div>
         <Inventory
           hasKey={hasKey}
