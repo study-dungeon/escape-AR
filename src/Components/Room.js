@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { initializeArToolkit } from '../utils/arToolkit';
 import moment from 'moment';
 import Escaped from './Escaped';
+import Inventory from './Inventory';
 
 export default class Camera extends Component {
   constructor() {
@@ -16,10 +17,14 @@ export default class Camera extends Component {
       clock: false,
       letter: false,
       door: false,
-      hasKey: false,
       codeAnswer: '1234',
+      hasKey: false,
+      hasLetter: false,
+      hasNote: false,
+      hasLockPick: false,
     };
     this.removeCamera = this.removeCamera.bind(this);
+    this.lookBehindClock = this.lookBehindClock.bind(this);
   }
 
   componentDidMount() {
@@ -291,40 +296,44 @@ export default class Camera extends Component {
     let videoSource = document.getElementById('videoSource');
     videoSource.hidden = true;
     videoSource.remove();
+  }
 
-    // tracks.forEach(function(track) {
-    //   track.stop();
-    // });
-
-    // videoElem.src = null;
-
-    // const constraints = {
-    //   audio: false,
-    //   video: true,
-    // };
-    // navigator.getUserMedia(
-    //   constraints,
-    //   function(stream) {
-    //     var track = stream.getTracks();
-    //     console.log(track);
-    //     var track = stream.getTracks()[0];
-    //   },
-    //   function(error) {
-    //     console.log('getUserMedia() error', error);
-    //   }
-    // );
+  lookBehindClock() {
+    if (this.state.hasKey) {
+      return alert('hmm, nothing there');
+    } else {
+      alert(
+        'You look behind the lock and see a small object wedged behind. After a hard shake, it falls to your feet. It looks like an old lock pick - I wonder where we can use this?'
+      );
+      this.setState({ hasLockPick: true });
+    }
   }
 
   render() {
-    const { lock, clock, letter, door, hasKey, startTime } = this.state;
+    const {
+      lock,
+      clock,
+      letter,
+      door,
+      hasKey,
+      hasLetter,
+      hasNote,
+      hasLockPick,
+      startTime,
+    } = this.state;
 
     return (
       <div className="button-grid-container">
         <div className="button-grid-item">
           {clock && (
-            <Link to="/room/clock">
-              <button className="welcome-btn">Check the time</button>
-            </Link>
+            <div>
+              <Link to="/room/clock">
+                <button className="welcome-btn">Check the time</button>
+              </Link>
+              <button className="welcome-btn" onClick={this.lookBehindClock}>
+                Look behind clock
+              </button>
+            </div>
           )}
           {letter && (
             <Link to="/room/letter">
@@ -353,6 +362,12 @@ export default class Camera extends Component {
             <div style={{ color: 'white' }}>You need a key!</div>
           )}
         </div>
+        <Inventory
+          hasKey={hasKey}
+          hasLetter={hasLetter}
+          hasNote={hasNote}
+          hasLockPick={hasLockPick}
+        />
       </div>
     );
   }
