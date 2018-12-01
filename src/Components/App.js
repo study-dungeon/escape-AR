@@ -6,7 +6,7 @@ import Header from './Header';
 import Home from './Home';
 import GamePlay from './GamePlay';
 
-import Camera from './Camera';
+import Room from './Room';
 import Clock from './Clock';
 import Lock from './Lock';
 import Envelope from './Envelope';
@@ -43,7 +43,7 @@ class App extends Component {
           <Route path="/info" component={ GamePlay } />
           <Route path="/signup" component={ Signup } />
           <Route path="/temp" component={ Temp } />
-          <Route path="/room" component={ Camera } />
+          <Route path="/room" component={ Room } />
           <Route exact path="/room/clock" component={ Clock } />
           <Route exact path="/room/lock" component={ Lock } />
           <Route exact path="/room/envelope" component={ Envelope } />
