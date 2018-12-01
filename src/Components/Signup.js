@@ -31,8 +31,8 @@ class Signup extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const { email, username, password } = this.state;
-    this.props.createTeam({ email, username, password })
-      .catch(ex => this.setState({ error: 'Team name already exists!' }));
+    this.props.signup({ email, username, password })
+      .catch(ex => this.setState({ error: 'An error has occurred!' }));
   }
 
   render() {
@@ -82,8 +82,8 @@ class Signup extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-    signup: data => dispatch(signup(data)),
+const mapDispatchToProps = (dispatch, { history }) => ({
+    signup: data => dispatch(signup(data, history)),
 });
 
 export default connect(null, mapDispatchToProps)(Signup);
