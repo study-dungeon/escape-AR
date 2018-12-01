@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
+import Leaderboard from './Leaderboard';
+
 export default class Escaped extends Component {
   render() {
     const { startTime, endTime } = this.props;
@@ -13,12 +15,11 @@ export default class Escaped extends Component {
           <h3>You escaped in {timeElapsed.minutes()} min and {timeElapsed.seconds()} sec.</h3>
           <div>Your time ranks 3rd out of 29 escapes this week!</div>
           <br />
-          <div>Fastest times this week:</div>
+          <Leaderboard />
           <br />
           <br />
           <br />
           </div>
-          <Link to='/'><button className="welcome-btn">Home</button></Link>
       </div>
     )
   }

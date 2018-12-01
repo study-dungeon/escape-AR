@@ -18,6 +18,7 @@ import Escaped from './Escaped';
 import Enter from './Enter';
 import Login from './Login';
 import Account from './Account';
+import Signup from './Signup';
 
 class App extends Component {
   render() {
@@ -27,7 +28,10 @@ class App extends Component {
         <Router>
           <div className='background'>
             <Nav />
-            <Route path="/" render={ (props) => <Login props={props} /> } />
+            <Switch>
+              <Route path="/signup" component={ Signup } />
+              <Route exact path="/" render={ (props) => <Login props={props} /> } />
+            </Switch>
           </div>
         </Router>
       )
@@ -38,6 +42,7 @@ class App extends Component {
           <Route exact path="/" component={ Enter } />
           <Route path="/account" component={ Account } />
           <Route path="/info" component={ GamePlay } />
+          <Route path="/signup" component={ Signup } />
           <Route path="/temp" component={ Temp } />
           <Route path="/room" component={ Camera } />
           <Route exact path="/room/clock" component={ Clock } />
