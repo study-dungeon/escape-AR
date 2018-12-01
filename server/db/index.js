@@ -48,55 +48,55 @@ const syncAndSeed = async () => {
     })
     .then(async () => {
       picard = await User.create({
-        name: 'picard',
+        username: 'picard',
         email: 'picard@enterprise.com',
         password: 'password',
         teamId: enterprise.id
       }),
       riker = await User.create({
-        name: 'riker',
+        username: 'riker',
         email: 'riker@enterprise.com',
         password: 'password',
         teamId: enterprise.id
       }),
       data = await User.create({
-        name: 'data',
+        username: 'data',
         email: 'data@enterprise.com',
         password: 'password',
         teamId: enterprise.id
       }),
       janeway = await User.create({
-        name: 'janeway',
+        username: 'janeway',
         email: 'janeway@voyager.com',
         password: 'password',
         teamId: voyager.id
       }),
       chakotay = await User.create({
-        name: 'chakotay',
+        username: 'chakotay',
         email: 'chakotay@voyager.com',
         password: 'password',
         teamId: voyager.id
       }),
       tuvok = await User.create({
-        name: 'tuvok',
+        username: 'tuvok',
         email: 'tuvok@voyager.com',
         password: 'password',
         teamId: voyager.id
       }),
       sisko = await User.create({
-        name: 'sisko',
+        username: 'sisko',
         email: 'sisko@deepspace9.com',
         password: 'password',
         teamId: deepSpace9.id
       }),
       kira = await User.create({
-        name: 'kira',
+        username: 'kira',
         email: 'kira@deepspace9.com',
         password: 'password',
         teamId: deepSpace9.id
       }),
       odo = await User.create({
-        name: 'odo',
+        username: 'odo',
         email: 'odo@deepspace9.com',
         password: 'password',
         teamId: deepSpace9.id

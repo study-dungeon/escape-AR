@@ -8,9 +8,7 @@ const { Team } = require('../db').models;
 
 // find all teams
 router.get('/', (req, res, next) => {
-  Team.findAll({
-    include: [ User ]
-  })
+  Team.findAll()
     .then(users => res.send(users))
     .catch(error => next(error))
 });
