@@ -193,13 +193,24 @@ a {
 }
 
 .inventory {
-  position: absolute;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
   bottom: 10px;
-  right: 10px;
-  border-radius: 30px;
+  left: 10px;
+  background: dimgray;
+  border-radius: 2px;
+  border-style: solid 2px;
   text-align: center;
-  width: 7em;
-  height: 2em;
-  font-size: 3vw;
   font-family: 'Courier New';
+}
+
+.inv-item {
+  font-size: 10px;
+  justify-content: space-between;
+}
+
+.inv-png {
+  width: 30px;
+  height: 30px;
 }
