@@ -42,7 +42,9 @@ h1 {
   background-image: url('http://i64.tinypic.com/2d8j0pi.jpg');
 
   /* Full height */
-  height: 100%;
+  height: 100vh; 
+  min-height: 100vh;
+
 
   /* Center and scale the image nicely */
   background-position: center;
@@ -137,7 +139,13 @@ h1 {
   color: #f2f2f2;
 }
 
-/* ### HOW TO PLAY */
+#accountContainer {
+  display: flex;
+}
+
+#accountContainer > div {
+  flex: 1
+}
 
 .inventory {
   position: absolute;
