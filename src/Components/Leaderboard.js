@@ -15,8 +15,8 @@ class Leaderboard extends Component {
     const { games } = this.props;
     return (
       <div id="leaderboard">
-        <div>
-          <table>
+        <div id="leaderboard-container">
+          <table id="leaderboard-table">
             <thead>
               <tr>
                 <th>Team</th>
