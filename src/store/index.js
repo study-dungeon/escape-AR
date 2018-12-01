@@ -29,7 +29,7 @@ const exchangeTokenForAuth = () => {
   return dispatch => {
     const token = window.localStorage.getItem('token');
     if (!token) return;
-    return axios.get('/api/users/auth', {
+    return axios.get('/api/auth', {
         headers: {
           authorization: token,
         }
@@ -47,7 +47,7 @@ export const logout = () => {
 
 export const login = credentials => {
   return dispatch => {
-    return axios.post('/api/users/auth', credentials)
+    return axios.post('/api/auth/login', credentials)
       .then(res => res.data)
       .then(data => {
         window.localStorage.setItem('token', data.token);
