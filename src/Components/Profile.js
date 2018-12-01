@@ -34,7 +34,7 @@ class Profile extends Component {
     const { auth } = this.props;
     return (
       <div id="profile">
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className="basic-form">
           <div className="form-group">
             <label>Email</label>
             <input
@@ -68,9 +68,12 @@ class Profile extends Component {
               }
             </select>
           </div>
-          <button type="submit">
-            Update
-          </button>
+          <br />
+          <div className="button-grid-container">
+            <div className="button-grid-item">
+              <button type="submit" className="welcome-btn">Save</button>
+            </div>
+          </div>
           <br />
         </form>
       </div>

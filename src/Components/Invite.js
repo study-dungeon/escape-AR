@@ -29,7 +29,7 @@ class Invite extends Component {
     const { auth } = this.props;
     return (
       <div id="joinTeam">
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className="basic-form">
           <div className="form-group">
             <label>Select Team</label>
             <select value={teamId} name="teamId" onChange={this.handleChange}>
@@ -46,9 +46,12 @@ class Invite extends Component {
               onChange={this.handleChange}
             />
           </div>
-          <button type="submit">
-            Invite
-          </button>
+          <br />
+          <div className="button-grid-container">
+            <div className="button-grid-item">
+              <button type="submit" className="welcome-btn">Invite</button>
+            </div>
+          </div>
           <br />
         </form>
       </div>

@@ -15,7 +15,7 @@ const Enter = () => {
       <div className="button-grid-container">
 
         <div className="button-grid-item">
-          <Link to='/temp' ><button className="welcome-btn">Play</button></Link>
+          <Link to='/room' ><button className="welcome-btn">Play</button></Link>
         </div>
 
         <div className="button-grid-item">

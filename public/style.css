@@ -95,26 +95,26 @@ a {
 /* ### BUTTONS */
 
 .button-grid-container {
-  display: grid;
-  justify-content: center;
-  grid-row-gap: 1.5vh;
-}
-
-.button-grid-container * {
-  font-size: 3vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .button-grid-item {
-  justify-self: center;
+  width: 60%;
+  margin: 10px;
 }
 
 .welcome-btn {
   color: #1a1a1a;
   border-radius: 30px;
   text-align: center;
-  width: 7em;
-  height: 2em;
+  height: 8vh;
+  width: 100%;
   font-family: 'Courier New';
+  font-size: 3vh;
 }
 
 .welcome-btn:hover {
@@ -125,57 +125,22 @@ a {
 
 /* ### HOW TO PLAY */
 
-.how-to-play-container {
-  display: grid;
-  justify-content: center;
-}
-
-.how-to-play-grid-item {
-  justify-self: center;
-  border: 1px solid green;
-  text-align: center;
-  border-radius: 15px;
-  width: 80vw;
-}
-
-.how-to-play-title {
-  font-family: 'Courier New';
-  font-size: 3vw;
-  color: green;
-}
-
-.trapped {
-  font-family: 'Courier New';
-  font-size: 3vw;
-  color: red;
-}
-
-.play-list {
-  list-style: none;
-  line-height: 2em;
-}
 
 .play-instructions {
-  font-family: 'Courier New';
-  font-size: 1.5vw;
   color: white;
-}
-
-.hiro-link {
-  text-decoration: none;
-  font-family: 'Courier New';
+  padding: 3vw;
   font-weight: bold;
-  color: white;
 }
 
-.play-btn {
-  color: #1a1a1a;
-  border-radius: 30px;
+.play-instructions > h1 {
+  text-decoration-line: underline;
+  font-weight: bold;
   text-align: center;
-  width: 6em;
-  height: 2em;
-  font-size: 3vw;
-  font-family: 'Courier New';
+  margin-bottom: 3vw;
+}
+
+.play-instructions > p {
+  padding-left: 3vw;
 }
 
 .play-btn:hover {
@@ -186,10 +151,25 @@ a {
 
 #accountContainer {
   display: flex;
+  flex-direction: column;
 }
 
 #accountContainer > div {
   flex: 1
+}
+
+
+.account-button-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 6vh;
+}
+
+.account-button-container > div {
+  flex: .8;
 }
 
 .inventory {
@@ -214,3 +194,4 @@ a {
   width: 30px;
   height: 30px;
 }
+
