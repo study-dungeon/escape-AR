@@ -25,7 +25,7 @@ export const setStart = () => ({ type: SET_START, time: moment()});
 const setGames = (games) => ({ type: SET_GAMES, games })
 
 // THUNK CREATORS
-const exchangeTokenForAuth = () => {
+export const exchangeTokenForAuth = () => {
   return dispatch => {
     const token = window.localStorage.getItem('token');
     if (!token) return;
@@ -56,12 +56,12 @@ export const login = credentials => {
   }
 }
 
-export const signup = data => {
-  return dispatch => {
+export const signup = (data, history) => {
+  return (dispatch) => {
     const { email, password } = data;
     return axios.post('/api/users', data)
       .then(res => res.data)
-      .then(() => dispatch(login({ email, password })))
+      .then(() => history.push('/'))
   }
 }
 
@@ -112,4 +112,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default createStore(reducer, applyMiddleware(logger, thunk));
+export default createStore(reducer, applyMiddleware(thunk, logger));
