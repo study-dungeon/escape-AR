@@ -10,16 +10,18 @@ export default class Escaped extends Component {
     const timeElapsed = moment(endTime.diff(startTime));
     return (
       <div>
-        <div>
+        <div id="escaped-container">
           <h2>Congratulations!</h2>
           <h3>You escaped in {timeElapsed.minutes()} min and {timeElapsed.seconds()} sec.</h3>
-          <div>Your time ranks 3rd out of 29 escapes this week!</div>
+          <div>Your time ranks:
+            <br/>
+            <b style={{"color": "red"}}>3rd</b> out of 29
+            <br />
+            escapes this week!</div>
           <br />
           <Leaderboard />
           <br />
-          <br />
-          <br />
-          </div>
+        </div>
       </div>
     )
   }
