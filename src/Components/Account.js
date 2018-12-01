@@ -16,7 +16,7 @@ const Account = () => {
       <Nav />
 
       <div id="accountContainer">
-        <div className="button-grid-container">
+        <div className="account-button-container">
           <div className="button-grid-item">
             <Link to='/account/jointeam' ><button className="welcome-btn">Join Team</button></Link>
           </div>
@@ -29,9 +29,6 @@ const Account = () => {
           <div className="button-grid-item">
             <Link to='/account/profile'><button className="welcome-btn">Edit Profile</button></Link>
           </div>
-          <div className="button-grid-item">
-            <Link to='/' ><button className="welcome-btn">Back</button></Link>
-          </div>
         </div>
 
         <div id="accountTools">
@@ -43,6 +40,12 @@ const Account = () => {
               <Route path="/account/profile" component={ Profile } />
             </Switch>
           </Router>
+        </div>
+
+        <div className="button-grid-container">
+          <div className="button-grid-item">
+            <Link to='/' ><button className="welcome-btn">Back</button></Link>
+          </div>
         </div>
 
       </div>

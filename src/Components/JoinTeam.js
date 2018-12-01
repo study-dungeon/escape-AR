@@ -32,7 +32,7 @@ class JoinTeam extends Component {
     const { team, password, error } = this.state;
     return (
       <div id="joinTeam">
-        <form onSubmit={this.handleSubmit}>
+        <form  className="basic-form" onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label>Team Name</label>
             <input
@@ -52,9 +52,11 @@ class JoinTeam extends Component {
             />
             <div className="invalid-feedback">{error}</div>
           </div>
-          <button type="submit">
-            Join
-          </button>
+          <div className="button-grid-container">
+            <div className="button-grid-item">
+              <button type="submit" className="welcome-btn">Join</button>
+            </div>
+          </div>
           <br />
         </form>
       </div>

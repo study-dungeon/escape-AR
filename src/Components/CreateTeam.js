@@ -34,7 +34,7 @@ class CreateTeam extends Component {
     const { name, city, state, password, error } = this.state;
     return (
       <div id="createTeam">
-        <form onSubmit={this.handleSubmit}>
+        <form className="basic-form" onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label>Team Name</label>
             <input
@@ -72,9 +72,11 @@ class CreateTeam extends Component {
             />
             <div className="invalid-feedback">{error}</div>
           </div>
-          <button type="submit">
-            Create
-          </button>
+          <div className="button-grid-container">
+            <div className="button-grid-item">
+              <button type="submit" className="welcome-btn">Create</button>
+            </div>
+          </div>
           <br />
         </form>
       </div>
