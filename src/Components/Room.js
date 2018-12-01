@@ -19,6 +19,7 @@ export default class Camera extends Component {
       hasKey: false,
       codeAnswer: '1234',
     };
+    this.removeCamera = this.removeCamera.bind(this);
   }
 
   componentDidMount() {
@@ -72,19 +73,19 @@ export default class Camera extends Component {
     // load custom markers
     const mLock = new ArMarkerControls(arToolkitContext, markerRoot, {
       type: 'pattern',
-      patternUrl: '../../assets/markerP.hiro',
+      patternUrl: '../../assets/mCrown.hiro',
     });
     const mClock = new ArMarkerControls(arToolkitContext, markerRoot, {
       type: 'pattern',
-      patternUrl: '../../assets/markerX.hiro',
+      patternUrl: '../../assets/mMoon.hiro',
     });
     const mLetter = new ArMarkerControls(arToolkitContext, markerRoot, {
       type: 'pattern',
-      patternUrl: '../../assets/markerI.hiro',
+      patternUrl: '../../assets/mRadioactive.hiro',
     });
     const mDoor = new ArMarkerControls(arToolkitContext, markerRoot, {
       type: 'pattern',
-      patternUrl: '../../assets/markerZ.hiro',
+      patternUrl: '../../assets/mSatellite.hiro',
     });
 
     // load .. loaders?
@@ -173,7 +174,8 @@ export default class Camera extends Component {
         });
         onRenderFcts.push(() => {
           window.doorArr.map(door => {
-            door.rotation.x = +Math.PI / 2;
+            door.rotation.x = -Math.PI / 2;
+            door.rotation.y = Math.PI;
           });
         });
         console.log('door loaded.');
@@ -197,8 +199,8 @@ export default class Camera extends Component {
 
     // toggle display lock
     mLock.addEventListener(
-      'markerP',
-      throttled(3000, () => {
+      'mCrown',
+      throttled(500, () => {
         if (!this.state.lock) {
           console.log('lock found');
           this.setState({ lock: true });
@@ -214,9 +216,9 @@ export default class Camera extends Component {
 
     // toggle display clock
     mClock.addEventListener(
-      'markerX',
-      throttled(3000, () => {
-        if (!this.state.marker_clock) {
+      'mMoon',
+      throttled(500, () => {
+        if (!this.state.clock) {
           console.log('clock found');
           this.setState({ clock: true });
           window.clockArr.map(m => markerRoot.add(m));
@@ -231,8 +233,8 @@ export default class Camera extends Component {
 
     // toggle display letter
     mLetter.addEventListener(
-      'markerI',
-      throttled(3000, () => {
+      'mRadioactive',
+      throttled(500, () => {
         if (!this.state.letter) {
           console.log('letter found');
           this.setState({ letter: true });
@@ -248,8 +250,8 @@ export default class Camera extends Component {
 
     // toggle display door
     mDoor.addEventListener(
-      'markerZ',
-      throttled(3000, () => {
+      'mSatellite',
+      throttled(500, () => {
         if (!this.state.door) {
           console.log('door found');
           this.setState({ door: true });
@@ -285,6 +287,34 @@ export default class Camera extends Component {
     animate();
   }
 
+  removeCamera() {
+    let videoSource = document.getElementById('videoSource');
+    videoSource.hidden = true;
+    videoSource.remove();
+
+    // tracks.forEach(function(track) {
+    //   track.stop();
+    // });
+
+    // videoElem.src = null;
+
+    // const constraints = {
+    //   audio: false,
+    //   video: true,
+    // };
+    // navigator.getUserMedia(
+    //   constraints,
+    //   function(stream) {
+    //     var track = stream.getTracks();
+    //     console.log(track);
+    //     var track = stream.getTracks()[0];
+    //   },
+    //   function(error) {
+    //     console.log('getUserMedia() error', error);
+    //   }
+    // );
+  }
+
   render() {
     const { lock, clock, letter, door, hasKey, startTime } = this.state;
 
@@ -309,7 +339,10 @@ export default class Camera extends Component {
           {door && (
             <button
               className="welcome-btn"
-              onClick={() => this.setState({ hasKey: !this.state.hasKey })}
+              onClick={() => {
+                this.removeCamera();
+                this.setState({ hasKey: !this.state.hasKey });
+              }}
             >
               {hasKey ? 'You have a key' : 'Get a key & leave'}
             </button>
