@@ -7,10 +7,10 @@ export default class Camera extends Component {
   constructor() {
     super();
     this.state = {
-      marker_lock: false,
-      marker_letter: false,
-      marker_clock: false,
-      marker_chest: false,
+      lock: false,
+      clock: false,
+      letter: false,
+      door: false,
     };
   }
 
@@ -27,7 +27,7 @@ export default class Camera extends Component {
     // init scene
     const scene = new THREE.Scene();
 
-    // init camera
+    // init camera//
     const camera = new THREE.Camera();
     scene.add(camera);
 
@@ -63,51 +63,117 @@ export default class Camera extends Component {
     const { ArMarkerControls } = THREEx;
 
     // load custom markers
-    const marker_lock = new ArMarkerControls(arToolkitContext, markerRoot, {
+    const mLock = new ArMarkerControls(arToolkitContext, markerRoot, {
       type: 'pattern',
-      patternUrl: '../../assets/marker_lock.hiro',
+      patternUrl: '../../assets/markerP.hiro',
     });
-    const marker_lock2 = new ArMarkerControls(arToolkitContext, markerRoot, {
+    const mClock = new ArMarkerControls(arToolkitContext, markerRoot, {
       type: 'pattern',
-      patternUrl: '../../assets/marker_lock2.hiro',
+      patternUrl: '../../assets/markerX.hiro',
+    });
+    const mLetter = new ArMarkerControls(arToolkitContext, markerRoot, {
+      type: 'pattern',
+      patternUrl: '../../assets/markerI.hiro',
+    });
+    const mDoor = new ArMarkerControls(arToolkitContext, markerRoot, {
+      type: 'pattern',
+      patternUrl: '../../assets/markerZ.hiro',
     });
 
     // load .. loaders?
     const loader = new THREE.GLTFLoader();
 
-    // load 3d models
-    // TODO: DRY it
+    // load lock
     loader.load(
-      '../../assets/lock/scene.gltf',
+      '../../assets/lock1/scene.gltf',
       function(gltf) {
-        gltf.scene.traverse(function(child) {
-          if (child.isMesh) {
-            child.position.z = -1;
-            child.scale.x = 0.03;
-            child.scale.y = 0.03;
-            child.scale.z = 0.03;
-            window.lock = child;
+        gltf.scene.traverse(function(lock) {
+          if (lock.isMesh) {
+            lock.position.z = -1;
+            lock.scale.x = 0.05;
+            lock.scale.y = 0.05;
+            lock.scale.z = 0.05;
+            window.lock = lock;
           }
         });
+        onRenderFcts.push(() => {
+          lock.rotation.x -= 0.02;
+          lock.rotation.y -= 0.02;
+        });
+        console.log('lock loaded.');
       },
-      console.log('loading..'),
+      console.log('lock loading..'),
       e => console.error(e)
     );
 
+    // load clock
     loader.load(
-      '../../assets/lock2/scene.gltf',
+      '../../assets/clock/scene.gltf',
       function(gltf) {
-        gltf.scene.traverse(function(child) {
-          if (child.isMesh) {
-            child.position.z = -1;
-            child.scale.x = 0.25;
-            child.scale.y = 0.25;
-            child.scale.z = 0.25;
-            window.lock2 = child;
+        window.clockArr = [];
+        gltf.scene.traverse(function(clock) {
+          if (clock.isMesh) {
+            clock.scale.x = 3;
+            clock.scale.y = 3;
+            clock.scale.z = -3;
+            window.clockArr.push(clock);
           }
         });
+        onRenderFcts.push(() => {
+          window.clockArr.map(clock => {
+            clock.rotation.x = -Math.PI / 2;
+          });
+        });
+        console.log('clock loaded.');
       },
-      console.log('loading..'),
+      console.log('clock loading..'),
+      e => console.error(e)
+    );
+
+    // load letter
+    loader.load(
+      '../../assets/letter2/scene.gltf',
+      function(gltf) {
+        gltf.scene.traverse(function(letter) {
+          if (letter.isMesh) {
+            letter.scale.x = 15;
+            letter.scale.y = 15;
+            letter.scale.z = 15;
+            window.letter = letter;
+          }
+        });
+        onRenderFcts.push(() => {
+          letter.rotation.x = -Math.PI / 2;
+        });
+        console.log('letter loaded.');
+      },
+      console.log('letter oading..'),
+      e => console.error(e)
+    );
+
+    // load door
+    loader.load(
+      '../../assets/door1/scene.gltf',
+      function(gltf) {
+        window.doorArr = [];
+        gltf.scene.traverse(function(door) {
+          if (door.isMesh) {
+            door.position.z = -1;
+            door.scale.x = 0.25;
+            door.scale.y = 0.25;
+            door.scale.z = 0.25;
+            //window.door = door;
+            window.doorArr.push(door);
+          }
+        });
+        onRenderFcts.push(() => {
+          window.doorArr.map(door => {
+            door.rotation.x = -Math.PI / 2;
+          });
+        });
+        console.log('door loaded.');
+      },
+      console.log('door loading..'),
       e => console.error(e)
     );
 
@@ -124,47 +190,73 @@ export default class Camera extends Component {
       };
     }
 
-    // throttling of model add/remove's
-    // TODO: DRY it
-    marker_lock.addEventListener(
-      'marker_lock',
+    // toggle display lock
+    mLock.addEventListener(
+      'markerP',
       throttled(3000, () => {
-        if (!this.state.marker_lock) {
+        if (!this.state.lock) {
           console.log('lock found');
-          this.setState({ marker_lock: true });
+          this.setState({ lock: true });
           markerRoot.add(lock);
           setTimeout(() => {
             console.log('lock removed');
             markerRoot.remove(lock);
-            this.setState({ marker_letter: false });
-          }, 3000);
-        }
-      })
-    );
-    marker_lock2.addEventListener(
-      'marker_lock2',
-      throttled(3000, () => {
-        if (!this.state.marker_lock) {
-          console.log('lock2 found');
-          this.setState({ marker_lock: true });
-          markerRoot.add(lock2);
-          setTimeout(() => {
-            console.log('lock2 removed');
-            markerRoot.remove(lock2);
-            this.setState({ marker_letter: false });
+            this.setState({ lock: false });
           }, 3000);
         }
       })
     );
 
-    // init 3d object rotation
-    // TODO: deal with undefined vals before 3d models loaded
-    onRenderFcts.push(() => {
-      lock.rotation.x -= 0.02;
-      lock.rotation.y -= 0.02;
-      lock2.rotation.x += 0.02;
-      lock2.rotation.y += 0.02;
-    });
+    // toggle display clock
+    mClock.addEventListener(
+      'markerX',
+      throttled(3000, () => {
+        if (!this.state.marker_clock) {
+          console.log('clock found');
+          this.setState({ clock: true });
+          window.clockArr.map(m => markerRoot.add(m));
+          setTimeout(() => {
+            console.log('clock removed');
+            window.clockArr.map(m => markerRoot.remove(m));
+            this.setState({ clock: false });
+          }, 3000);
+        }
+      })
+    );
+
+    // toggle display letter
+    mLetter.addEventListener(
+      'markerI',
+      throttled(3000, () => {
+        if (!this.state.letter) {
+          console.log('letter found');
+          this.setState({ letter: true });
+          markerRoot.add(letter);
+          setTimeout(() => {
+            console.log('clock removed');
+            markerRoot.remove(letter);
+            this.setState({ letter: false });
+          }, 3000);
+        }
+      })
+    );
+
+    // toggle display door
+    mDoor.addEventListener(
+      'markerZ',
+      throttled(3000, () => {
+        if (!this.state.door) {
+          console.log('door found');
+          this.setState({ door: true });
+          window.doorArr.map(m => markerRoot.add(m));
+          setTimeout(() => {
+            console.log('door removed');
+            window.doorArr.map(m => markerRoot.remove(m));
+            this.setState({ door: false });
+          }, 3000);
+        }
+      })
+    );
 
     // render the scene
     onRenderFcts.push(function() {
