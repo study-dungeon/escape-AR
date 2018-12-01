@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import Nav from './Nav';
 import { login } from '../store';
 
 class Login extends Component {
@@ -40,10 +41,11 @@ class Login extends Component {
       return history.push("/")
     }
     return (
-      <div className="Login">
-        <form onSubmit={this.handleSubmit}>
+      <div id="login" className="background">
+        <Nav />
+        <form onSubmit={this.handleSubmit} className="basic-form">
           <div className="form-group">
-            <label>Email</label>
+            <label>E-mail</label>
             <input
               autoFocus
               type="email"
@@ -62,12 +64,12 @@ class Login extends Component {
             />
             <div className="invalid-feedback">{error}</div>
           </div>
-          <button disabled={!this.validateForm()} type="submit">
+          <button className="welcome-btn" disabled={!this.validateForm()} type="submit">
             Login
           </button>
           <br />
           <br />
-          <Link to="/signup">Sign up.</Link>
+          <Link to="/signup">New player?</Link>
         </form>
       </div>
     );
