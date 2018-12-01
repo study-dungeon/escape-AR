@@ -39,6 +39,7 @@ router.post('/', (req, res, next) => {
 })
 
 
+
 // edit user
 router.put('/:id', (req, res, next) => {
   User.findById(req.params.id)
@@ -61,7 +62,7 @@ router.delete('/:id', (req, res, next) => {
   User.findById(req.params.id)
     .then(user => {
       if(!user) {
-        res.status(404).send('<h1>user Not Found!</h1>')
+        res.status(404).send('<h1>User Not Found!</h1>')
       }
       else {
         user.destroy()
@@ -70,6 +71,34 @@ router.delete('/:id', (req, res, next) => {
     })
     .catch(error => next(error))
 
+})
+
+
+// user joins team
+router.post('/:id', (req, res, next) => {
+  const { name, password } = req.body;
+
+  Team.findOne({
+    where: { name, password }
+  })
+  .then(team => {
+    if(!team){
+      res.sendStatus(404);
+    }
+    else {
+      User.findById(req.params.id)
+        .then(user => {
+          if(!user){
+            res.sendStatus(404);
+          }
+          else {
+            user.teamId = team.id
+            res.send(user)
+          }
+        })
+    }
+  })
+  .catch(error => next(error))
 })
 
 
