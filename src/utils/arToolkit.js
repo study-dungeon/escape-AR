@@ -25,7 +25,7 @@ export const initializeArToolkit = (renderer, camera, onRenderFcts) => {
   });
 
   // initialize it
-  arToolkitContext.init(() => {
+  arToolkitContext.ingit it(() => {
     camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
   });
 

@@ -1,17 +1,28 @@
 /*global THREE THREEx*/
 
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { initializeArToolkit } from '../utils/arToolkit';
+import moment from 'moment';
+import Escaped from './Escaped';
 
 export default class Camera extends Component {
   constructor() {
     super();
     this.state = {
+      startTime: moment(),
+      // marker_[item] field determine if call-to-action buttons show
       lock: false,
       clock: false,
       letter: false,
       door: false,
+      hasKey: false,
+      codeAnswer: '1234',
     };
+    this.lockClick = this.lockClick.bind(this);
+    this.clockClick = this.clockClick.bind(this);
+    this.letterClick = this.letterClick.bind(this);
+    this.doorClick = this.doorClick.bind(this);
   }
 
   componentDidMount() {
@@ -153,22 +164,20 @@ export default class Camera extends Component {
 
     // load door
     loader.load(
-      '../../assets/door1/scene.gltf',
+      '../../assets/chest/scene.gltf',
       function(gltf) {
         window.doorArr = [];
         gltf.scene.traverse(function(door) {
           if (door.isMesh) {
-            door.position.z = -1;
-            door.scale.x = 0.25;
-            door.scale.y = 0.25;
-            door.scale.z = 0.25;
-            //window.door = door;
+            door.scale.x = 3;
+            door.scale.y = 3;
+            door.scale.z = 3;
             window.doorArr.push(door);
           }
         });
         onRenderFcts.push(() => {
           window.doorArr.map(door => {
-            door.rotation.x = -Math.PI / 2;
+            door.rotation.x = +Math.PI / 2;
           });
         });
         console.log('door loaded.');
@@ -279,11 +288,105 @@ export default class Camera extends Component {
     }
     animate();
   }
-  componentWillUnmount() {
-    this.renderer.dispose();
+  // componentWillUnmount() {
+  //   this.renderer.dispose();
+  // }
+
+  lockClick() {
+    if (!this.state.lock) {
+      console.log('lock found');
+      this.setState({ lock: true });
+
+      setTimeout(() => {
+        console.log('lock removed');
+        this.setState({ lock: false });
+      }, 3000);
+    }
+  }
+
+  clockClick() {
+    if (!this.state.clock) {
+      console.log('clock found');
+      this.setState({ clock: true });
+
+      setTimeout(() => {
+        console.log('clock removed');
+        this.setState({ clock: false });
+      }, 3000);
+    }
+  }
+
+  letterClick() {
+    if (!this.state.marker_letter) {
+      console.log('letter found');
+      this.setState({ marker_letter: true });
+      // markerRoot.add(sphere);
+
+      setTimeout(() => {
+        console.log('letter removed');
+        // markerRoot.remove(sphere);
+        this.setState({ marker_letter: false });
+      }, 3000);
+    }
+  }
+
+  doorClick() {
+    if (!this.state.marker_door) {
+      console.log('door found');
+      this.setState({ marker_door: true });
+      // markerRoot.add(sphere);
+
+      if (!this.state.hasKey) {
+        setTimeout(() => {
+          console.log('door removed');
+          // markerRoot.remove(sphere);
+          this.setState({
+            marker_door: false,
+            hasKey: true, // NEED TO REMOVE AFTER TESTING
+          });
+        }, 3000);
+      }
+    }
   }
 
   render() {
-    return <canvas id="camera" />;
+    const { lock, clock, letter, door, hasKey, startTime } = this.state;
+
+    return (
+      <div className="button-grid-container">
+        <div className="button-grid-item">
+          {clock && (
+            <Link to="/room/clock">
+              <button className="welcome-btn">Check the time</button>
+            </Link>
+          )}
+          {letter && (
+            <Link to="/room/letter">
+              <button className="welcome-btn">Read me</button>
+            </Link>
+          )}
+          {lock && (
+            <Link to="/room/lock">
+              <button className="welcome-btn">Unlock me</button>
+            </Link>
+          )}
+          {door && (
+              <button
+                className="welcome-btn"
+                onClick={() => {
+                  this.setState({ hasKey: !this.state.hasKey });
+                }}
+              >
+                hasKey: {hasKey}
+              </button>
+            ) &&
+            (hasKey ? (
+              <Escaped startTime={startTime} endTime={moment()} />
+            ) : (
+              <div style={{ color: 'white' }}>You need a key!</div>
+            ))}
+        </div>
+      </div>
+    );
   }
 }
