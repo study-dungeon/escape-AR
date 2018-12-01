@@ -10,9 +10,10 @@ const User = conn.define('user', {
     primaryKey: true
   },
 
-  name: {
+  username: {
     type: conn.Sequelize.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       notEmpty: true
     }

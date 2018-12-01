@@ -7,6 +7,7 @@ const Team = conn.define('team', {
   name: {
     type: conn.Sequelize.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       notEmpty: true
     }
@@ -42,12 +43,6 @@ const Team = conn.define('team', {
     validate: {
       notEmpty: true
     }
-  },
-
-  escaped: {
-    type: conn.Sequelize.BOOLEAN,
-    allowNull: false,
-    defaultValue: false
   }
 
 })
