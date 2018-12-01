@@ -22,9 +22,12 @@ export default class Camera extends Component {
       hasLetter: false,
       hasNote: false,
       hasLockPick: false,
+      hasBrokenLockPick: false,
     };
     this.removeCamera = this.removeCamera.bind(this);
     this.lookBehindClock = this.lookBehindClock.bind(this);
+    this.useLockPick = this.useLockPick.bind(this);
+    this.bangDoor = this.bangDoor.bind(this);
   }
 
   componentDidMount() {
@@ -309,6 +312,32 @@ export default class Camera extends Component {
     }
   }
 
+  useLockPick() {
+    if (this.state.hasBrokenLockPick) {
+      return alert(
+        'You desperately try to pick the lock again. Moments pass and it dawns on you --- you have no idea how to pick locks. Especially with a broken pick.'
+      );
+    } else {
+      alert(
+        'You bend down and carefully insert the lockpick into the keyhole. A careful turn left, a small jiggle right. Did I just hear a click? Pushing a bit harder then suddenly - snap - the lock pick breaks, oh no!'
+      );
+      this.setState({ hasLockPick: false, hasBrokenLockPick: true });
+    }
+  }
+
+  bangDoor() {
+    if (this.state.hasNote) {
+      return alert(
+        'you bang again, this time even louder! silence, bitter silence. Lets keep looking around.'
+      );
+    } else {
+      alert(
+        `Brute force has worked before - why not now? You raised your fists and begin knocking on the door. A small folded note slips out from the crack in the hinge. It reads: "This is a red herring."`
+      );
+      this.setState({ hasNote: true });
+    }
+  }
+
   render() {
     const {
       lock,
@@ -319,6 +348,7 @@ export default class Camera extends Component {
       hasLetter,
       hasNote,
       hasLockPick,
+      hasBrokenLockPick,
       startTime,
     } = this.state;
 
@@ -337,7 +367,12 @@ export default class Camera extends Component {
           )}
           {letter && (
             <Link to="/room/letter">
-              <button className="welcome-btn">Read me</button>
+              <button
+                className="welcome-btn"
+                onClick={() => this.setState({ hasLetter: true })}
+              >
+                Read me
+              </button>
             </Link>
           )}
           {lock && (
@@ -346,14 +381,25 @@ export default class Camera extends Component {
             </Link>
           )}
           {door && (
-            <button
-              className="welcome-btn"
-              onClick={() => {
-                this.removeCamera();
-                this.setState({ hasKey: !this.state.hasKey });
-              }}
-            >
-              {hasKey ? 'You have a key' : 'Get a key & leave'}
+            <div>
+              <button
+                className="welcome-btn"
+                onClick={() => {
+                  this.removeCamera();
+                  this.setState({ hasKey: !this.state.hasKey });
+                }}
+              >
+                {hasKey ? 'You have a key' : 'Get a key & leave'}
+              </button>
+              <button className="welcome-btn" onClick={this.bangDoor}>
+                {hasNote ? 'Bang louder' : 'Bang against the door'}
+              </button>
+            </div>
+          )}
+
+          {door && hasLockPick && (
+            <button className="welcome-btn" onClick={this.useLockPick}>
+              Use Lock Pick
             </button>
           )}
           {hasKey ? (
@@ -367,6 +413,7 @@ export default class Camera extends Component {
           hasLetter={hasLetter}
           hasNote={hasNote}
           hasLockPick={hasLockPick}
+          hasBrokenLockPick={hasBrokenLockPick}
         />
       </div>
     );
