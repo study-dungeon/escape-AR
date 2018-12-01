@@ -10,21 +10,17 @@ const initialState = {
     id: 1,
     username: 'tester'
   },
-  activeTeamId: 0,
   gameStartTime: moment()
 }
 
 // ACTION TYPES
 const SET_AUTH = 'SET_AUTH';
 const SET_START = 'SET_START';
-const SET_TEAM = 'SET_TEAM';
 
 // ACTION CREATORS
 const setAuth = auth => ({ type: SET_AUTH, auth });
 
 export const setStart = () => ({ type: SET_START, time: moment()});
-
-export const setTeam = teamId => ({ type: SET_TEAM, teamId });
 
 // THUNK CREATORS
 const exchangeTokenForAuth = () => {
@@ -58,6 +54,35 @@ export const login = credentials => {
       });
   };
 };
+
+// joinTeam sends a user, teamName, and password as credentials
+// a successful put request adds the user to the team and updates state
+export const joinTeam = credentials => {
+  return dispatch => {
+    return axios.put('/api/user/team', credentials)
+      .then(res => res.data)
+      .then(user => user.team.id)
+      .then(() => dispatch(exchangeTokenForAuth()))
+  }
+}
+
+export const createTeam = data => {
+  return dispatch => {
+    return axios.post('/api/team', data)
+      .then(res => res.data)
+      .then(team => team.id)
+      .then(() => dispatch(exchangeTokenForAuth()))
+  }
+}
+
+export const updateUser = data => {
+  return dispatch => {
+    return axios.put('/api/user', data)
+      .then(res => res.data)
+      .then(user => user.team.id)
+      .then(() => dispatch(exchangeTokenForAuth()))
+  }
+}
 
 // REDUCER
 const reducer = (state = initialState, action) => {

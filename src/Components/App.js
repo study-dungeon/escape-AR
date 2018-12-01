@@ -17,6 +17,7 @@ import Temp from './Temp';
 import Escaped from './Escaped';
 import Enter from './Enter';
 import Login from './Login';
+import Account from './Account';
 
 class App extends Component {
   render() {
@@ -31,15 +32,12 @@ class App extends Component {
         </Router>
       )
     }
-    return ( // left off here; need to figure out app.js routes, add account Component, finish Success page
+    return ( //add account Component, finish Success page
       <Router>
         <Fragment>
-          <div id="preGame" className='background'>
-            <Nav />
-            <Route exact path="/" component={ Enter } />
-            <Route exact path="/account" component={ Account } />
-            <Route path="/info" component={ GamePlay } />
-          </div>
+          <Route exact path="/" component={ Enter } />
+          <Route path="/account" component={ Account } />
+          <Route path="/info" component={ GamePlay } />
           <Route path="/temp" component={ Temp } />
           <Route path="/room" component={ Camera } />
           <Route exact path="/room/clock" component={ Clock } />
