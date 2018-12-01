@@ -45,7 +45,7 @@ class Login extends Component {
         <Nav />
         <form onSubmit={this.handleSubmit} className="basic-form">
           <div className="form-group">
-            <label>Email</label>
+            <label>E-mail</label>
             <input
               autoFocus
               type="email"

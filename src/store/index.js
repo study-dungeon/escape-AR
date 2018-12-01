@@ -7,7 +7,7 @@ import axios from 'axios';
 // INITIAL STATE
 const initialState = {
   auth: {
-    id: 0,
+    id: 1,
     username: 'tester'
   },
   gameStartTime: moment(),

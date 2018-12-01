@@ -41,7 +41,7 @@ class Signup extends Component {
       <div id="signup" className="background">
         <Nav />
         <div id="signup">
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit} className="basic-form">
             <div className="form-group">
             <label>E-mail</label>
               <input
@@ -70,12 +70,12 @@ class Signup extends Component {
               />
               <div className="invalid-feedback">{error}</div>
             </div>
-            <button disabled={!this.validateForm()} type="submit">
+            <button disabled={!this.validateForm()} type="submit" className="welcome-btn">
               Sign Up
             </button>
             <br />
-          </form>
           <Link to="/">Return to Login</Link>
+          </form>
         </div>
       </div>
     );
