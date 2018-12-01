@@ -3,13 +3,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const jwt = require('jwt-simple');
-// const env = require('dotenv');
+const env = require('dotenv');
 
 // instantiate express
 const app = express();
 
 // dotenv file config
-// env.config();
+env.config();
 
 // data models
 const { User } = require('./db').models;
