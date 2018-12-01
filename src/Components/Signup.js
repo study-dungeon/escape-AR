@@ -38,7 +38,7 @@ class Signup extends Component {
   render() {
     const { email, username, password, error } = this.state;
     return (
-      <div className="background">
+      <div id="signup" className="background">
         <Nav />
         <div id="signup">
           <form onSubmit={this.handleSubmit}>

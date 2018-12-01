@@ -27,10 +27,9 @@ class App extends Component {
       return (
         <Router>
           <div className='background'>
-            <Nav />
             <Switch>
               <Route path="/signup" component={ Signup } />
-              <Route exact path="/" render={ (props) => <Login props={props} /> } />
+              <Route path="/" render={ (props) => <Login props={props} /> } />
             </Switch>
           </div>
         </Router>
