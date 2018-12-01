@@ -6,7 +6,7 @@ import Header from './Header';
 import Home from './Home';
 import GamePlay from './GamePlay';
 
-import Camera from './Camera';
+import Room from './Room';
 import Clock from './Clock';
 import Lock from './Lock';
 import Envelope from './Envelope';

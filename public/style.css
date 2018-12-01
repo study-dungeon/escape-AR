@@ -39,11 +39,12 @@ h1 {
 
 .background {
   /* The image used */
-  background-image: url("http://i64.tinypic.com/2d8j0pi.jpg");
+  background-image: url('http://i64.tinypic.com/2d8j0pi.jpg');
 
   /* Full height */
   height: 100vh; 
   min-height: 100vh;
+
 
   /* Center and scale the image nicely */
   background-position: center;
@@ -144,4 +145,16 @@ h1 {
 
 #accountContainer > div {
   flex: 1
+}
+
+.inventory {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 30px;
+  text-align: center;
+  width: 7em;
+  height: 2em;
+  font-size: 3vw;
+  font-family: 'Courier New';
 }
