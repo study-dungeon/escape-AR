@@ -29,6 +29,7 @@ class App extends Component {
 
   componentDidMount() {
     this.props.init();
+    
   }
 
   render() {

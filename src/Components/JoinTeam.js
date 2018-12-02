@@ -30,17 +30,22 @@ class JoinTeam extends Component {
 
   render() {
     const { team, password, error } = this.state;
+    const { teams } = this.props;
+
     return (
       <div id="joinTeam">
         <form  className="basic-form" onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label>Team Name</label>
-            <input
-              autoFocus
-              name="team"
-              value={team}
-              onChange={this.handleChange}
-            />
+
+            <select autoFocus name="team" value={ team.name } onChange={ this.handleChange }>
+              <option value="">(select team)</option>
+
+              {
+                teams.map(team => <option key={ team.id } value={ team.name }>{ team.name }</option>)
+              }
+
+            </select>
           </div>
           <div className="form-group">
             <label>Password</label>
