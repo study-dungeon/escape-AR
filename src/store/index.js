@@ -4,7 +4,8 @@ import thunk from 'redux-thunk';
 import moment from 'moment';
 import axios from 'axios';
 
-
+import SocketSingleton from '../utils/SocketSingleton';
+const { conn } = new SocketSingleton();
 
 // INITIAL STATE
 const emptyAuth = {
@@ -31,7 +32,7 @@ const ADD_TEAM = 'ADD_TEAM';
 const SET_ACTIVE_GAME = 'SET_ACTIVE_GAME';
 const SET_TEAM = 'SET_TEAM';
 
-
+const ADD_GAME = 'ADD_GAME';
 
 // ACTION CREATORS
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
@@ -41,6 +42,8 @@ const setTeams = teams => ({ type: SET_TEAMS, teams })
 const addTeam = team => ({ type: ADD_TEAM, team })
 const setActiveGame = (game) => ({ type: SET_ACTIVE_GAME, game });
 const setTeam = user => ({ type: SET_TEAM, user })
+export const addGame = (game) => ({ type: ADD_GAME, game })
+
 
 // THUNK CREATORS
 export const exchangeTokenForAuth = () => {
@@ -154,7 +157,10 @@ export const beatTheGame = (game, endTime) => {
   return (dispatch) => {
     return axios.put(`/api/games/${game.id}`, {escaped: true, endTime} )
       .then(res => res.data)
-      .then(_game => dispatch(setActiveGame(_game)))
+      .then(_game => {
+        dispatch(setActiveGame(_game));
+        conn.emit('gameComplete', _game)
+    })
   }
 }
 
@@ -171,6 +177,8 @@ const reducer = (state = initialState, action) => {
       return {...state, activeGame: action.game}
     case SET_TEAM:
       return {...state, auth: { ...state.auth, teamId: action.user.teamId } }
+    case ADD_GAME:
+      return {...state, games: [...state.games, action.game]}
     default:
       return state
   }

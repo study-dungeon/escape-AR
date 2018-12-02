@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import SocketSingleton from '../utils/SocketSingleton';
 
-import { getGames } from '../store';
+import { getGames, addGame } from '../store';
 
 const { conn } = new SocketSingleton();
 
@@ -13,7 +13,6 @@ class Leaderboard extends Component {
 
   componentDidMount() {
     this.props.getGames();
-    conn.emit('test', {message: "test message"})
   }
 
   render() {
@@ -51,11 +50,13 @@ class Leaderboard extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  games: state.games
+  games: state.games,
+  activeGame: state.activeGame
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  getGames: () => dispatch(getGames())
+  getGames: () => dispatch(getGames()),
+  addGame: (game) => dispatch(addGame(game))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Leaderboard);
