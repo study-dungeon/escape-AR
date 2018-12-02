@@ -50,7 +50,7 @@ class JoinTeam extends Component {
               onChange={this.handleChange}
               type="password"
             />
-            <div className="invalid-feedback">{error}</div>
+            {error ? <div className="invalid-feedback">{error}</div> : <br />}
           </div>
           <div className="button-grid-container">
             <div className="button-grid-item">
@@ -64,9 +64,14 @@ class JoinTeam extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => ({
-    auth
-});
+const mapStateToProps = ({ auth, teams }) => {
+
+  return {
+    auth,
+    teams
+  }
+  
+};
 
 const mapDispatchToProps = dispatch => ({
     joinTeam: credentials => dispatch(joinTeam(credentials)),

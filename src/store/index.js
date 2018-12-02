@@ -5,13 +5,18 @@ import moment from 'moment';
 import axios from 'axios';
 
 // INITIAL STATE
+const emptyAuth = {
+  id: '',
+  email: '',
+  username: '',
+  team: []
+}
+
 const initialState = {
-  auth: {
-    id: 1,
-    username: 'tester'
-  },
+  auth: emptyAuth,
   gameStartTime: moment(),
-  games: []
+  games: [],
+  teams: []
 }
 
 // ACTION TYPES
@@ -19,17 +24,22 @@ const SET_AUTH = 'SET_AUTH';
 const SET_START = 'SET_START';
 const SET_GAMES = 'SET_GAMES';
 
+const SET_TEAMS = 'SET_TEAMS';
+const ADD_TEAM = 'ADD_TEAM';
+
 // ACTION CREATORS
-const setAuth = auth => ({ type: SET_AUTH, auth });
+const setAuth = (auth) => ({ type: SET_AUTH, auth });
 export const setStart = () => ({ type: SET_START, time: moment()});
 const setGames = (games) => ({ type: SET_GAMES, games })
+const setTeams = teams => ({ type: SET_TEAMS, teams })
+const addTeam = team => ({ type: ADD_TEAM, team })
 
 // THUNK CREATORS
-const exchangeTokenForAuth = () => {
+export const exchangeTokenForAuth = () => {
   return dispatch => {
     const token = window.localStorage.getItem('token');
     if (!token) return;
-    return axios.get('/api/users/auth', {
+    return axios.get('/api/auth/me', {
         headers: {
           authorization: token,
         }
@@ -41,13 +51,13 @@ const exchangeTokenForAuth = () => {
 };
 
 export const logout = () => {
-  window.localStorage.removeItem('token');
-  setAuth({});
+    window.localStorage.removeItem('token');
+    return setAuth(emptyAuth);
 };
 
 export const login = credentials => {
   return dispatch => {
-    return axios.post('/api/users/auth', credentials)
+    return axios.post('/api/auth/login', credentials)
       .then(res => res.data)
       .then(data => {
         window.localStorage.setItem('token', data.token);
@@ -56,12 +66,49 @@ export const login = credentials => {
   }
 }
 
+export const guestSignIn = () => {
+  const guestAuth = {
+    id: 'a0000000-a000-a000-a000-a00000000000',
+    email: 'noreply@escapearoom.com',
+    username: 'GuestUser',
+    team: []
+  }
+  return setAuth(guestAuth);
+}
+
 export const signup = data => {
   return dispatch => {
-    const { email, password } = data;
+    const { email, username, password } = data;
     return axios.post('/api/users', data)
       .then(res => res.data)
       .then(() => dispatch(login({ email, password })))
+  }
+}
+
+// get all teams
+export const getTeams = () => {
+  return dispatch => {
+    return axios.get('/api/teams')
+      .then(res => res.data)
+      .then(teams => dispatch(setTeams(teams)))
+  }
+}
+
+
+// create team
+export const createTeam = (data, history) => {
+  return dispatch => {
+    return axios.post('/api/teams', data)
+      .then(res => res.data)
+      .then(([team, wasCreated]) => {
+        if (wasCreated) {
+          dispatch(addTeam(team))
+          return wasCreated
+        }
+
+        return wasCreated
+      })
+      // .then(() => dispatch(exchangeTokenForAuth()))
   }
 }
 
@@ -76,14 +123,7 @@ export const joinTeam = credentials => {
   }
 }
 
-export const createTeam = data => {
-  return dispatch => {
-    return axios.post('/api/team', data)
-      .then(res => res.data)
-      .then(team => team.id)
-      .then(() => dispatch(exchangeTokenForAuth()))
-  }
-}
+
 
 export const updateUser = data => {
   return dispatch => {
@@ -107,9 +147,13 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_AUTH:
       return {...state, auth: action.auth}
+    case SET_TEAMS:
+      return { ...state, teams: action.teams }
+    case ADD_TEAM:
+      return { ...state, teams: [ ...state.teams, action.team ] }
     default:
       return state
   }
 };
 
-export default createStore(reducer, applyMiddleware(logger, thunk));
+export default createStore(reducer, applyMiddleware(thunk, logger));

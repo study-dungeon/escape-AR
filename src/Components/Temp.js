@@ -14,7 +14,7 @@ export default class Temp extends Component {
       marker_letter: false,
       marker_clock: false,
       marker_door: false,
-      hasKey: false,
+      hasKey: true,
       codeAnswer: '1234'
     };
     this.lockClick = this.lockClick.bind(this);
@@ -91,31 +91,17 @@ export default class Temp extends Component {
   render() {
     const { marker_letter, marker_clock, marker_door, marker_lock, hasKey, startTime } = this.state;
 
-    return(
+    return (
       <div className="button-grid-container">
-
-        <div className="button-grid-item">
-          <button className="welcome-btn" onClick={this.clockClick}>Clock</button>
-        </div>
-
-        <div className="button-grid-item">
-          <button className="welcome-btn" onClick={this.lockClick}>Lock</button>
-        </div>
-
-        <div className="button-grid-item">
-          <button className="welcome-btn" onClick={this.letterClick}>Letter</button>
-        </div>
 
         <div className="button-grid-item">
           <button className="welcome-btn" onClick={this.doorClick}>Door</button>
         </div>
 
-        <div>Button below will appear on appropriate markerFound</div>
-
         <div className="button-grid-item">
-          {marker_clock && <Link to='/clock'><button className="welcome-btn">Check the time</button></Link>}
-          {marker_letter && <Link to='/letter'><button className="welcome-btn">Read me</button></Link>}
-          {marker_lock && <Link to='/lock'><button className="welcome-btn">Unlock me</button></Link>}
+          {marker_clock && <Link to='/room/clock'><button className="welcome-btn">Check the time</button></Link>}
+          {marker_letter && <Link to='/room/letter'><button className="welcome-btn">Read me</button></Link>}
+          {marker_lock && <Link to='/room/lock'><button className="welcome-btn">Unlock me</button></Link>}
           {marker_door &&  (hasKey ? <Escaped startTime={startTime} endTime={moment()} /> : <div style={{"color": "white"}}>You need a key!</div>)}
         </div>
 

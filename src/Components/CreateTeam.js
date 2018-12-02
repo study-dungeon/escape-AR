@@ -9,9 +9,10 @@ class CreateTeam extends Component {
     super();
     this.state = {
       name: '',
+      password: '',
       city: '',
       state: '',
-      password: '',
+      zip: '',
       error: '',
     };
     this.handleChange = this.handleChange.bind(this);
@@ -24,16 +25,26 @@ class CreateTeam extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { name, city, state, password } = this.state;
-    const { auth } = this.props;
-    this.props.createTeam({ auth, name, city, state, password })
-      .catch(ex => this.setState({ error: 'Team name already exists!' }));
+    const { name, password, city, state, zip } = this.state;
+    const { auth, history } = this.props;
+    this.props.createTeam({ auth, name, password, city, state, zip })
+      .then(wasCreated => {
+        if(!wasCreated) {
+          this.setState({ error: 'Team exists!  Please enter a unique name.' })
+        }
+        else {
+          history.push('/account')
+        }
+      })
+      .catch(error => console.log(error))
   }
 
   render() {
-    const { name, city, state, password, error } = this.state;
+    const { name, password, city, state, zip, error } = this.state;
     return (
       <div id="createTeam">
+        <div className="invalid-feedback">{error}</div>
+
         <form className="basic-form" onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label>Team Name</label>
@@ -42,6 +53,15 @@ class CreateTeam extends Component {
               name="name"
               value={name}
               onChange={this.handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              value={password}
+              name="password"
+              onChange={this.handleChange}
+              type="password"
             />
           </div>
           <div className="form-group">
@@ -63,14 +83,13 @@ class CreateTeam extends Component {
             />
           </div>
           <div className="form-group">
-            <label>Password</label>
+            <label>Zip</label>
             <input
-              value={password}
-              name="password"
+              autoFocus
+              name="zip"
+              value={zip}
               onChange={this.handleChange}
-              type="password"
             />
-            <div className="invalid-feedback">{error}</div>
           </div>
           <div className="button-grid-container">
             <div className="button-grid-item">
@@ -88,8 +107,8 @@ const mapStateToProps = ({ auth }) => ({
     auth
 });
 
-const mapDispatchToProps = dispatch => ({
-    createTeam: data => dispatch(createTeam(data)),
+const mapDispatchToProps = (dispatch, { history }) => ({
+    createTeam: data => dispatch(createTeam(data, history)),
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(CreateTeam);

@@ -8,6 +8,8 @@ import moment from 'moment';
 import Escaped from './Escaped';
 import Inventory from './Inventory';
 import Stopwatch from './Stopwatch';
+import Lock from './Lock';
+import Clock from './Clock';
 
 export default class Camera extends Component {
   constructor() {
@@ -25,11 +27,15 @@ export default class Camera extends Component {
       hasNote: false,
       hasLockPick: false,
       hasBrokenLockPick: false,
+      showLock: false,
+      showClock: false
     };
     this.removeCamera = this.removeCamera.bind(this);
     this.lookBehindClock = this.lookBehindClock.bind(this);
     this.useLockPick = this.useLockPick.bind(this);
     this.bangDoor = this.bangDoor.bind(this);
+    this.receiveKey = this.receiveKey.bind(this);
+    this.testing = this.testing.bind(this);
   }
 
   componentDidMount() {
@@ -340,6 +346,21 @@ export default class Camera extends Component {
     }
   }
 
+  receiveKey() {
+    this.setState({
+      hasKey: true
+    });
+  }
+
+  testing() {
+    this.setState({
+      clock: true,
+      lock: true,
+      door: true,
+      letter: true
+    })
+  }
+
   render() {
     const {
       lock,
@@ -352,6 +373,8 @@ export default class Camera extends Component {
       hasLockPick,
       hasBrokenLockPick,
       startTime,
+      showLock,
+      showClock
     } = this.state;
 
     return (
@@ -359,13 +382,14 @@ export default class Camera extends Component {
         <div className="button-grid-item">
           {clock && (
             <div>
-              <Link to="/room/clock">
-                <button className="welcome-btn">Check the time</button>
-              </Link>
+              <button className="welcome-btn" onClick={() => this.setState({ showClock: true })}>Check the time</button>
               <button className="welcome-btn" onClick={this.lookBehindClock}>
                 Look behind clock
               </button>
             </div>
+          )}
+          {showClock && (
+            <Clock />
           )}
           {letter && (
             <Link to="/room/letter">
@@ -378,9 +402,15 @@ export default class Camera extends Component {
             </Link>
           )}
           {lock && (
-            <Link to="/room/lock">
-              <button className="welcome-btn">Unlock me</button>
-            </Link>
+            <button
+              className="welcome-btn"
+              onClick={() => this.setState({ showLock: true })}
+            >
+              Unlock Me
+            </button>
+          )}
+          {showLock && (
+            <Lock receiveKey={this.receiveKey} />
           )}
           {door && (
             <div>
@@ -419,7 +449,12 @@ export default class Camera extends Component {
           hasLockPick={hasLockPick}
           hasBrokenLockPick={hasBrokenLockPick}
         />
+
+      
+        <button onClick={this.testing}>Testing</button>
       </div>
     );
   }
 }
+
+
