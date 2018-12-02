@@ -114,12 +114,12 @@ export const joinTeam = credentials => {
 
 
 
-export const updateUser = data => {
+export const updateUser = (id, user, history) => {
   return dispatch => {
-    return axios.put('/api/user', data)
+    return axios.put(`/api/users/${ id }`, user)
       .then(res => res.data)
-      .then(user => user.team.id)
       .then(() => dispatch(exchangeTokenForAuth()))
+      .then(() => history.push('/account'))
   }
 }
 
