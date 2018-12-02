@@ -76,12 +76,13 @@ export const joinTeam = credentials => {
   }
 }
 
-export const createTeam = data => {
+export const createTeam = (data, history) => {
   return dispatch => {
-    return axios.post('/api/team', data)
+    return axios.post('/api/teams', data)
       .then(res => res.data)
       .then(team => team.id)
       .then(() => dispatch(exchangeTokenForAuth()))
+      .then(() => history.push('/account'))
   }
 }
 

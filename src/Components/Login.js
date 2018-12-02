@@ -9,7 +9,7 @@ class Login extends Component {
   constructor() {
     super();
     this.state = {
-      email: '',
+      username: '',
       password: '',
       error: '',
     };
@@ -29,13 +29,13 @@ class Login extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { email, password } = this.state;
+    const { username, password } = this.state;
     this.props.login({ email, password })
       .catch(ex => this.setState({ error: 'Bad Credentials!' }));
   }
 
   render() {
-    const { email, password, error } = this.state;
+    const { username, password, error } = this.state;
     const { isLoggedIn, history } = this.props;
     if (isLoggedIn) {
       return history.push("/")
@@ -45,12 +45,12 @@ class Login extends Component {
         <Nav />
         <form onSubmit={this.handleSubmit} className="basic-form">
           <div className="form-group">
-            <label>E-mail</label>
+            <label>Username</label>
             <input
               autoFocus
-              type="email"
-              name="email"
-              value={email}
+              type="text"
+              name="username"
+              value={username}
               onChange={this.handleChange}
             />
           </div>

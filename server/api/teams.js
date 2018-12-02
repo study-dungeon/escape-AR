@@ -9,7 +9,7 @@ const { Team } = require('../db').models;
 // find all teams
 router.get('/', (req, res, next) => {
   Team.findAll()
-    .then(users => res.send(users))
+    .then(teams => res.send(teams))
     .catch(error => next(error))
 });
 
@@ -17,12 +17,12 @@ router.get('/', (req, res, next) => {
 // find team by ID
 router.get('/:id', (req, res, next) => {
   Team.findById(req.params.id)
-    .then(Team => {
-      if(!Team) {
+    .then(team => {
+      if(!team) {
         res.status(404).send('<h1>Team Not Found</h1>')
       }
       else {
-        res.send(Team)
+        res.send(team)
       }
     })
     .catch(error => next(error))
@@ -32,7 +32,7 @@ router.get('/:id', (req, res, next) => {
 // create team
 router.post('/', (req, res, next) => {
   Team.create(req.body)
-    .then(Team => res.status(201).send(Team))
+    .then(team => res.status(201).send(team))
     .catch(error => next(error))
 })
 
