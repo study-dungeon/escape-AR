@@ -75,11 +75,12 @@ class Profile extends Component {
    
             />
           </div>
+
           <div className="form-group">
             <label>Active Team</label>
               <input
                 readOnly
-                value={ auth.team.name }
+                value={ auth.team ? auth.team.name : 'none' }
               />
           </div>
           <br />
