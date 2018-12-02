@@ -2,6 +2,8 @@ import React, { Fragment, Component } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { exchangeTokenForAuth } from '../store';
+
 import Header from './Header';
 import Home from './Home';
 import GamePlay from './GamePlay';
@@ -19,11 +21,11 @@ import Login from './Login';
 import Account from './Account';
 import Signup from './Signup';
 
-import { exchangeTokenForAuth } from '../store';
 
 class App extends Component {
+
   componentDidMount() {
-    this.props.exchangeTokenForAuth();
+    this.props.init();
   }
 
   render() {
@@ -63,10 +65,10 @@ class App extends Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth
-})
+});
 
-const mapDispatchToProps = (dispatch) => ({
-  exchangeTokenForAuth: () => dispatch(exchangeTokenForAuth())
+const mapDispatchToProps = dispatch => ({
+  init: () => dispatch(exchangeTokenForAuth())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

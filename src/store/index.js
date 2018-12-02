@@ -126,4 +126,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default createStore(reducer, applyMiddleware(logger, thunk));
+export default createStore(reducer, applyMiddleware(thunk, logger));

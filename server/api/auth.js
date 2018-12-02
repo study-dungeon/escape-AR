@@ -24,6 +24,14 @@ router.use((req, res, next) => {
     .catch(next);
 });
 
+// router.get('/', (req, res, next) => {
+//   if(!req.user) {
+//     next({ status: 401 })
+//   }
+
+//   res.send(req.user)
+// })
+
 router.post('/login', (req, res, next) => {
   const { email, password } = req.body
   User.findOne({
