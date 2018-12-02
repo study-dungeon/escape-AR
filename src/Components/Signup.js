@@ -38,6 +38,7 @@ class Signup extends Component {
     event.preventDefault();
     const { email, username, password } = this.state;
     this.props.signup({ email, username, password })
+      .then(() => this.props.history.push("/"))
       .catch(ex => this.setState({ error: 'Team name already exists!' }));
   }
 
