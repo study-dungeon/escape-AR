@@ -29,7 +29,7 @@ const SET_GAMES = 'SET_GAMES';
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
 export const setStart = () => ({ type: SET_START, time: moment()});
 const setGames = (games) => ({ type: SET_GAMES, games })
-const setTeams = teams => ({ type: SET_TEAMS, teams })
+
 
 // THUNK CREATORS
 export const exchangeTokenForAuth = () => {
