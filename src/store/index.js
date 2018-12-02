@@ -7,7 +7,7 @@ import axios from 'axios';
 // INITIAL STATE
 const initialState = {
   auth: {
-    id: 'aaec57f7-c20b-4fe4-a130-67de78ca9c8b',
+    id: '812a66d9-9f46-4a15-87dd-c76544253247',
     username: 'tester'
   },
   gameStartTime: moment(),
@@ -19,7 +19,7 @@ const SET_AUTH = 'SET_AUTH';
 const SET_START = 'SET_START';
 const SET_GAMES = 'SET_GAMES';
 
-const SET_TEAMS = 'SET_TEAMS';
+
 
 // ACTION CREATORS
 const setAuth = auth => ({ type: SET_AUTH, auth });
@@ -69,13 +69,13 @@ export const signup = (data, history) => {
 }
 
 // get all teams
-export const getTeams = () => {
-  return dispatch => {
-    return axios.get('/api/teams')
-      .then(res => res.data)
-      .then(teams => dispatch(setTeams(teams)))
-  }
-}
+// export const getTeams = () => {
+//   return dispatch => {
+//     return axios.get('/api/teams')
+//       .then(res => res.data)
+//       .then(teams => dispatch(setTeams(teams)))
+//   }
+// }
 
 
 // create team
@@ -100,7 +100,7 @@ export const joinTeam = credentials => {
   return dispatch => {
     return axios.put('/api/users/team', credentials)
       .then(res => res.data)
-      .then(user => user.team.id)
+      // .then(user => user.team.id)
       .then(() => dispatch(exchangeTokenForAuth()))
   }
 }
@@ -129,8 +129,6 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_AUTH:
       return {...state, auth: action.auth}
-    case SET_TEAMS:
-      return { ...state, teams: action.teams }
     default:
       return state
   }

@@ -43,7 +43,7 @@ router.post('/', (req, res, next) => {
 router.put('/team', (req, res, next) => {
   const { name, password } = req.body;
   console.log(req.body)
-  // const { id } = req.body.auth.id;
+  const { id } = req.body.auth;
 
   Team.findOne({
     where: { name, password }
@@ -53,17 +53,16 @@ router.put('/team', (req, res, next) => {
       res.sendStatus(404);
     }
     else {
-      res.sendStatus(200);
-    //   User.findById(id)
-    //     .then(user => {
-    //       if(!user){
-    //         res.sendStatus(404);
-    //       }
-    //       else {
-    //         user.teamId = team.id
-    //         res.send(user)
-    //       }
-    //     })
+      User.findById(id)
+        .then(user => {
+          if(!user){
+            res.sendStatus(404);
+          }
+          else {
+            user.update({ ...user, teamId: team.id })
+            res.send(user)
+          }
+        })
     }
   })
   .catch(error => next(error))

@@ -33,7 +33,6 @@ class JoinTeam extends Component {
 
   render() {
     const { name, password, error } = this.state;
-    const { teams } = this.props;
 
     return (
       <div id="joinTeam">
@@ -46,15 +45,13 @@ class JoinTeam extends Component {
           <div className="form-group">
 
             <label>Team Name</label>
+            <input
+              value={name}
+              name="name"
+              onChange={this.handleChange}
+              type="text"
+            />
 
-            <select autoFocus name="name" onChange={ this.handleChange }>
-              <option value="">(select team)</option>
-
-              {
-                teams.map(team => <option key={ team.id }>{ team.name }</option>)
-              }
-
-            </select>
           </div>
           <div className="form-group">
             <label>Password</label>
@@ -78,14 +75,8 @@ class JoinTeam extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, teams }) => {
+const mapStateToProps = ({ auth }) => ({ auth });
 
-  return {
-    auth,
-    teams
-  }
-  
-};
 
 const mapDispatchToProps = dispatch => ({
     joinTeam: credentials => dispatch(joinTeam(credentials)),
