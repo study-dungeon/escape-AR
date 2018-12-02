@@ -12,7 +12,7 @@ router.use((req, res, next) => {
   }
   let id;
   try {
-    id = jwt.decode(token, process.env.JWT_SECRET).id;
+    id = jwt.decode(token, process.env.JWT_SECRET || 'dummysecret').id;
   } catch (ex) {
     return next({ status: 401, message: "Error finding logged in user" });
   }
@@ -41,7 +41,7 @@ router.post('/login', (req, res, next) => {
      if (!user) {
        return next({ status: 401, message: "Could not find user" })
      }
-     const token = jwt.encode({ id: user.id }, process.env.JWT_SECRET)
+     const token = jwt.encode({ id: user.id }, process.env.JWT_SECRET || 'dummysecret')
      res.send({ token })
   })
   .catch(error => next(error))

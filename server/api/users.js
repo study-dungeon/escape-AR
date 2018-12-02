@@ -39,7 +39,6 @@ router.post('/', (req, res, next) => {
 })
 
 
-
 // edit user
 router.put('/:id', (req, res, next) => {
   User.findById(req.params.id)

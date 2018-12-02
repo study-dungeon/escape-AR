@@ -50,7 +50,7 @@ class JoinTeam extends Component {
               onChange={this.handleChange}
               type="password"
             />
-            <div className="invalid-feedback">{error}</div>
+            {error ? <div className="invalid-feedback">{error}</div> : <br />}
           </div>
           <div className="button-grid-container">
             <div className="button-grid-item">
