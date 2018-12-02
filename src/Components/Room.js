@@ -7,6 +7,7 @@ import { initializeArToolkit } from '../utils/arToolkit';
 import moment from 'moment';
 import Escaped from './Escaped';
 import Inventory from './Inventory';
+import Stopwatch from './Stopwatch';
 import Lock from './Lock';
 import Clock from './Clock';
 
@@ -440,6 +441,7 @@ export default class Camera extends Component {
               <div style={{ color: 'white' }}>You need a key!</div>
             ))}
         </div>
+        <Stopwatch/>
         <Inventory
           hasKey={hasKey}
           hasLetter={hasLetter}

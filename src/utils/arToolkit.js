@@ -9,10 +9,12 @@ export const initializeArToolkit = (renderer, camera, onRenderFcts) => {
 
   // handle resize
   arToolkitSource.init(() => {
-    arToolkitSource.onResize(renderer.domElement);
+    arToolkitSource.onResizeElement();
+    //arToolkitSource.onResize(renderer.domElement);
   });
   window.addEventListener('resize', () => {
-    arToolkitSource.onResize(renderer.domElement);
+    arToolkitSource.onResizeElement();
+    //arToolkitSource.onResize(renderer.domElement);
   });
 
   // create atToolkitContext
