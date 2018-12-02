@@ -29,7 +29,6 @@ class CreateTeam extends Component {
     const { auth, history } = this.props;
     this.props.createTeam({ auth, name, password, city, state, zip })
       .then(wasCreated => {
-        console.log(wasCreated)
         if(!wasCreated) {
           this.setState({ error: 'Team exists!  Please enter a unique name.' })
         }
@@ -44,6 +43,8 @@ class CreateTeam extends Component {
     const { name, password, city, state, zip, error } = this.state;
     return (
       <div id="createTeam">
+        <div className="invalid-feedback">{error}</div>
+
         <form className="basic-form" onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label>Team Name</label>
@@ -62,7 +63,6 @@ class CreateTeam extends Component {
               onChange={this.handleChange}
               type="password"
             />
-            <div className="invalid-feedback">{error}</div>
           </div>
           <div className="form-group">
             <label>City</label>
