@@ -4,6 +4,8 @@ import thunk from 'redux-thunk';
 import moment from 'moment';
 import axios from 'axios';
 
+
+
 // INITIAL STATE
 const emptyAuth = {
   id: '',
@@ -15,6 +17,7 @@ const emptyAuth = {
 const initialState = {
   auth: emptyAuth,
   gameStartTime: moment(),
+  activeGame: { startTime: moment() },
   games: []
 }
 
@@ -23,6 +26,9 @@ const SET_AUTH = 'SET_AUTH';
 const SET_START = 'SET_START';
 const SET_GAMES = 'SET_GAMES';
 
+const SET_TEAMS = 'SET_TEAMS';
+const ADD_TEAM = 'ADD_TEAM';
+const SET_ACTIVE_GAME = 'SET_ACTIVE_GAME';
 const SET_TEAM = 'SET_TEAM';
 
 
@@ -31,9 +37,10 @@ const SET_TEAM = 'SET_TEAM';
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
 export const setStart = () => ({ type: SET_START, time: moment()});
 const setGames = (games) => ({ type: SET_GAMES, games })
-
+const setTeams = teams => ({ type: SET_TEAMS, teams })
+const addTeam = team => ({ type: ADD_TEAM, team })
+const setActiveGame = (game) => ({ type: SET_ACTIVE_GAME, game });
 const setTeam = user => ({ type: SET_TEAM, user })
-
 
 // THUNK CREATORS
 export const exchangeTokenForAuth = () => {
@@ -125,6 +132,7 @@ export const updateUser = (id, user, history) => {
   }
 }
 
+// GAMES
 export const getGames = () => {
   return dispatch => {
     return axios.get('/api/games')
@@ -133,11 +141,33 @@ export const getGames = () => {
   }
 }
 
+export const createGame = (authId, weekNum) => {
+  return (dispatch) => {
+    return axios.post('/api/games', { authId, weekNum })
+      .then(res => res.data[0])
+      .then(game => dispatch(setActiveGame(game)))
+  }
+}
+
+export const beatTheGame = (game, endTime) => {
+  return (dispatch) => {
+    return axios.put(`/api/games/${game.id}`, {escaped: true, endTime} )
+      .then(res => res.data)
+      .then(_game => dispatch(setActiveGame(_game)))
+  }
+}
+
 // REDUCER
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_AUTH:
       return {...state, auth: action.auth}
+    case SET_TEAMS:
+      return { ...state, teams: action.teams }
+    case ADD_TEAM:
+      return { ...state, teams: [ ...state.teams, action.team ] }
+    case SET_ACTIVE_GAME:
+      return {...state, activeGame: action.game}
     case SET_TEAM:
       return {...state, auth: { ...state.auth, teamId: action.user.teamId } }
     default:

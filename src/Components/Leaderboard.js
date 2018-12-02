@@ -3,12 +3,17 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
+import SocketSingleton from '../utils/SocketSingleton';
+
 import { getGames } from '../store';
+
+const { conn } = new SocketSingleton();
 
 class Leaderboard extends Component {
 
   componentDidMount() {
     this.props.getGames();
+    conn.emit('test', {message: "test message"})
   }
 
   render() {

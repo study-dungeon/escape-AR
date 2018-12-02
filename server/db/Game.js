@@ -1,4 +1,5 @@
 const conn = require('./conn');
+const moment = require('moment');
 
 
 
@@ -9,23 +10,20 @@ const Game = conn.define('game', {
     allowNull: false,
     validate: {
       notEmpty: true
-    }
+    },
+    defaultValue: 1
   },
 
   startTime: {
     type: conn.Sequelize.DATE,
-    allowNull: false,
+    defaultValue: moment(),
     validate: {
       notEmpty: true
     }
   },
 
   endTime: {
-    type: conn.Sequelize.DATE,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
+    type: conn.Sequelize.DATE
   },
 
   escaped: {

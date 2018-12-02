@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const jwt = require('jwt-simple');
 const env = require('dotenv');
+const socketio = require('socket.io');
 
 // instantiate express
 const app = express();

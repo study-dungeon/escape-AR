@@ -11,8 +11,11 @@ import Inventory from './Inventory';
 import Stopwatch from './Stopwatch';
 import Lock from './Lock';
 import Clock from './Clock';
+import { connect } from 'react-redux';
 
-export default class Camera extends Component {
+import { createGame } from '../store';
+
+class Camera extends Component {
   constructor() {
     super();
     this.state = {
@@ -49,6 +52,10 @@ export default class Camera extends Component {
   }
 
   componentDidMount() {
+    // create game
+    const { auth } = this.props;
+    this.props.createGame(auth.id, 1); // weekNum currently hard coded
+
     // init webGL renderer with canvas element
     const renderer = (this.renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -511,4 +518,13 @@ export default class Camera extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  activeGame: state.activeGame
+})
 
+const mapDispatchToProps = (dispatch) => ({
+  createGame: (authId, weekNum) => dispatch(createGame(authId, weekNum))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Camera);
