@@ -109,6 +109,7 @@ export const joinTeam = credentials => {
     return axios.put('/api/users/team', credentials)
       .then(res => res.data)
       .then(user => dispatch(setTeam(user)))
+      .then(() => dispatch(exchangeTokenForAuth()))
   }
 }
 

@@ -4,6 +4,7 @@ const jwt = require('jwt-simple');
 const router = express.Router();
 
 const { User } = require('../db').models;
+const { Team } = require('../db').models;
 
 router.use((req, res, next) => {
   const token = req.headers.authorization;
@@ -16,7 +17,9 @@ router.use((req, res, next) => {
   } catch (ex) {
     return next({ status: 401, message: "Error finding logged in user" });
   }
-  User.findById(id)
+  User.findById(id, {
+    include: [ Team ]
+  })
     .then(user => {
       req.user = user;
       next();

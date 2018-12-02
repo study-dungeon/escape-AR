@@ -18,7 +18,9 @@ router.get('/', (req, res, next) => {
 
 // find user by ID
 router.get('/:id', (req, res, next) => {
-  User.findById(req.params.id)
+  User.findById(req.params.id, {
+    include: [ Team ]
+  })
     .then(user => {
       if(!user) {
         res.status(404).send('<h1>User Not Found</h1>')
