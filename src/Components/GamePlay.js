@@ -32,7 +32,7 @@ const GamePlay = () => {
           </p>
 
           <h1>Gameplay</h1>
-          <p>Clicking <b style={{"color": "red"}}>Play</b> opens window to another (augmented) reality.</p>
+          <p>Clicking <b style={{"color": "red"}}>Play</b> opens a window to another (augmented) reality.</p>
           <p>Work with your team to explore the clues and solve each puzzle.</p>
           <p>The first team to escape wins the weekly grand prize!</p>
           <br />

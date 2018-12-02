@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Nav from './Nav';
-import { login } from '../store';
+import { login, guestSignIn } from '../store';
 
 class Login extends Component {
   constructor() {
@@ -64,9 +64,14 @@ class Login extends Component {
             />
             <div className="invalid-feedback">{error}</div>
           </div>
-          <button className="welcome-btn" disabled={!this.validateForm()} type="submit">
-            Login
-          </button>
+          <div className="button-grid-container">
+            <div className="button-grid-item">
+              <button disabled={!this.validateForm()} type="submit" className="welcome-btn">Login</button>
+            </div>
+            <div className="button-grid-item">
+              <button onClick={this.props.guestSignIn} className="welcome-btn">Play as Guest</button>
+            </div>
+          </div>
           <br />
           <br />
           <Link to="/signup">New player?</Link>
@@ -83,6 +88,7 @@ const mapStateToProps = ({ auth }, { props }) => ({
 
 const mapDispatchToProps = dispatch => ({
     login: credentials => dispatch(login(credentials)),
+    guestSignIn: () => dispatch(guestSignIn())
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(Login);

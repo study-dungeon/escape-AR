@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Header from './Header';
 import Home from './Home';
 import GamePlay from './GamePlay';
-
 import Room from './Room';
 import Clock from './Clock';
 import Lock from './Lock';
@@ -20,7 +19,13 @@ import Login from './Login';
 import Account from './Account';
 import Signup from './Signup';
 
+import { exchangeTokenForAuth } from '../store';
+
 class App extends Component {
+  componentDidMount() {
+    this.props.exchangeTokenForAuth();
+  }
+
   render() {
     const { auth } = this.props
     if (!auth.id) {
@@ -28,7 +33,7 @@ class App extends Component {
         <Router>
           <div className='background'>
             <Switch>
-              <Route path="/signup" component={ Signup } />
+              <Route path="/signup" render={(props) => <Signup props={props} /> } />
               <Route path="/" render={ (props) => <Login props={props} /> } />
             </Switch>
           </div>
@@ -41,7 +46,7 @@ class App extends Component {
           <Route exact path="/" component={ Enter } />
           <Route path="/account" component={ Account } />
           <Route path="/info" component={ GamePlay } />
-          <Route path="/signup" component={ Signup } />
+          <Route path="/signup" render={(props) => <Signup props={props} /> } />
           <Route path="/temp" component={ Temp } />
           <Route path="/room" component={ Room } />
           <Route exact path="/room/clock" component={ Clock } />
@@ -56,8 +61,12 @@ class App extends Component {
   }
 }
 
-const MapStateToProps = (state) => ({
+const mapStateToProps = (state) => ({
   auth: state.auth
 })
 
-export default connect(MapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => ({
+  exchangeTokenForAuth: () => dispatch(exchangeTokenForAuth())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

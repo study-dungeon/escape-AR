@@ -159,7 +159,6 @@ a {
   flex: 1
 }
 
-
 .account-button-container {
   display: flex;
   flex-direction: row;
@@ -171,6 +170,19 @@ a {
 
 .account-button-container > div {
   flex: .8;
+}
+
+#currentUser {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+#logout {
+  color: red;
+  font-style: italic;
+  text-decoration-line: underline;
+  font-weight: bold;
 }
 
 .inventory {
