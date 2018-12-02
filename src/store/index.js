@@ -120,6 +120,7 @@ export const updateUser = (id, user, history) => {
   return dispatch => {
     return axios.put(`/api/users/${ id }`, user)
       .then(res => res.data)
+      .then(user => dispatch(setAuth(user)))
       .then(() => dispatch(exchangeTokenForAuth()))
       .then(() => history.push('/account'))
   }

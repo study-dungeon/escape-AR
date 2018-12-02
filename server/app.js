@@ -13,6 +13,7 @@ env.config();
 
 // data models
 const { User } = require('./db').models;
+const { Team } = require('./db').models;
 
 // routes
 const apiUser = require('./api/users');
@@ -50,7 +51,9 @@ app.use((req, res, next) => {
   let id;
   try {
     id = jwt.decode(token, process.env.JWT_SECRET).id;
-    User.findById(id)
+    User.findById(id, {
+      include: [ Team ]
+    })
       .then(user => {
         if(!user) {
           return next({ status: 401 })
