@@ -1,19 +1,5 @@
 import React from 'react';
 
-function Result(props) {
-  const { flag } = props;
-
-  if(flag === 1){
-    return (
-      <h1>Success!</h1>
-    )
-  } else if(flag === 2){
-    return <h1>Hint: Try looking in the console!</h1>
-  } else {
-    return null;
-  }
-}
-
 export default class Lock extends React.Component{
 
   constructor(){
@@ -22,18 +8,17 @@ export default class Lock extends React.Component{
       one: '',
       two: '',
       three: '',
-      four: '',
-      solution: 1337,
-      flag: 0
+      four: ''
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    opening();
   }
 
   onChange(event) {
     const num = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
     if(!num.includes(event.target.value)){
-      console.log('please enter a number');
+      return ( <h1 color="white">please enter a number</h1> )
     } else {
       this.setState({
         [event.target.name]: event.target.value
@@ -45,48 +30,67 @@ export default class Lock extends React.Component{
     event.preventDefault();
 
     const { one, two, three, four } = this.state;
+    var counter = 0;
 
+    //get submission
     var submission = "" + one + two + three + four;
-    submission *= 1;
-    console.log("input: ", submission);
-    console.log("solution: ", this.state.solution);
-    
-    if(submission === this.state.solution){
-      this.setState({
-        flag: 1
-      })
-    } else {
-      this.setState({
-        flag: 2
-      })
+
+    //CREATE SOLUTION
+    var hour = new Date().getHours();
+
+    while(counter <= 5){
+      hour++;
+      counter++;
+      if(hour === 24){
+        hour = 0;
+      }
     }
+    hour += '';
+    if(hour.length === 1){
+      hour += '0';
+    }
+
+    var minute = new Date().getMinutes() + "";
+    if(minute.length === 1){
+      minute = "0" + minute;
+    }
+
+    var solution = hour + minute;
+
+    //check solution
+    if(submission === solution){
+      this.props.receiveKey();
+      return alert(`You pull on the lock, and voilà! You lift the lid, and find a rusty old key inside.`);
+    } else {
+      return alert(`You pick up the dusty old lockbox. You pull on the lock, but it won't budge. You could figure this out if you give it time!`);
+    }
+
   }
 
-
   render(){
-
     return (
       <div>
         <br />
         <br />
         <h1>Code:</h1>
-        <form onSubmit={this.onSubmit} >
-        <input type="text" name="one" maxLength="1" onChange={this.onChange}/>
+          <form onSubmit={this.onSubmit} >
+          <input type="text" name="one" maxLength="1" onChange={this.onChange}/>
+          <br />
+          <input type="text" name="two" maxLength="1" onChange={this.onChange}/>
+          <br />
+          <input type="text" name="three" maxLength="1" onChange={this.onChange}/>
+          <br />
+          <input type="text" name="four" maxLength="1" onChange={this.onChange}/>
+          <br />
+          <button>Submit</button>
+        </form>
         <br />
-        <input type="text" name="two" maxLength="1" onChange={this.onChange}/>
         <br />
-        <input type="text" name="three" maxLength="1" onChange={this.onChange}/>
-        <br />
-        <input type="text" name="four" maxLength="1" onChange={this.onChange}/>
-        <br />
-        <button>Submit</button>
-      </form>
-      <br />
-      <br />
-      <Result flag={this.state.flag} />
       </div>
     )
   }
-
-  
 }
+
+const opening = () => {
+  return alert(`You find a dusty old lockbox. What could be inside? You pull on the lock, but it won't budge. You could figure this out if you give it time!`);
+};
