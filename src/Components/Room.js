@@ -1,12 +1,12 @@
 /*global THREE THREEx*/
 
 import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
 import Sound from 'react-sound';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import { initializeArToolkit } from '../utils/arToolkit';
 import moment from 'moment';
-import Escaped from './Escaped';
+// import Escaped from './Escaped';
 import Inventory from './Inventory';
 import Stopwatch from './Stopwatch';
 import Lock from './Lock';
@@ -37,7 +37,7 @@ class Camera extends Component {
       playKnockingSound: false,
       bang: false,
       playCreakingSound: false,
-      alreadyLookedBehindClock: false
+      alreadyLookedBehindClock: false,
     };
     this.removeCamera = this.removeCamera.bind(this);
     this.lookBehindClock = this.lookBehindClock.bind(this);
@@ -48,7 +48,6 @@ class Camera extends Component {
     this.stopPlayingKnockingSound = this.stopPlayingKnockingSound.bind(this);
     this.stopPlayingBangingSound = this.stopPlayingBangingSound.bind(this);
     this.stopPlayingCreakingSound = this.stopPlayingCreakingSound.bind(this);
-    this.openDoor = this.openDoor.bind(this);
   }
 
   componentDidMount() {
@@ -321,9 +320,8 @@ class Camera extends Component {
   }
 
   removeCamera() {
-    let videoSource = document.getElementById('videoSource');
+    let videoSource = document.getElementById('camera');
     videoSource.hidden = true;
-    videoSource.remove();
   }
 
   lookBehindClock() {
@@ -367,7 +365,7 @@ class Camera extends Component {
 
   receiveKey() {
     this.setState({
-      hasKey: true
+      hasKey: true,
     });
   }
 
@@ -376,34 +374,26 @@ class Camera extends Component {
       clock: true,
       lock: true,
       door: true,
-      letter: true
-    })
-  }
-
-  stopPlayingKnockingSound(){
-    this.setState({
-      playKnockingSound: false
+      letter: true,
     });
   }
 
-  stopPlayingBangingSound(){
+  stopPlayingKnockingSound() {
     this.setState({
-      playBangingSound: false
+      playKnockingSound: false,
     });
   }
 
-  stopPlayingCreakingSound(){
+  stopPlayingBangingSound() {
     this.setState({
-      playCreakingSound: false
+      playBangingSound: false,
     });
   }
 
-  openDoor(){
-    if(this.state.hasKey){
-      return <Escaped startTime={this.state.startTime} endTime={moment()} />
-    } else {
-      alert('You need a key!')
-    }
+  stopPlayingCreakingSound() {
+    this.setState({
+      playCreakingSound: false,
+    });
   }
 
   render() {
@@ -419,7 +409,7 @@ class Camera extends Component {
       hasBrokenLockPick,
       startTime,
       showLock,
-      showClock
+      showClock,
     } = this.state;
 
     return (
@@ -427,15 +417,18 @@ class Camera extends Component {
         <div className="button-grid-item">
           {clock && (
             <div>
-              <button className="welcome-btn" onClick={() => this.setState({ showClock: true })}>Check the time</button>
+              <button
+                className="welcome-btn"
+                onClick={() => this.setState({ showClock: true })}
+              >
+                Check the time
+              </button>
               <button className="welcome-btn" onClick={this.lookBehindClock}>
                 Look behind clock
               </button>
             </div>
           )}
-          {showClock && (
-            <Clock />
-          )}
+          {showClock && <Clock />}
           {letter && (
             <Link to="/room/letter">
               <button
@@ -454,43 +447,46 @@ class Camera extends Component {
               Unlock Me
             </button>
           )}
-          {showLock && (
-            <Lock receiveKey={this.receiveKey} />
-          )}
+          {showLock && <Lock receiveKey={this.receiveKey} />}
           {door && (
             <div>
-              <button
-                className="welcome-btn"
-                onClick={() => {
-                  this.openDoor();
-                  this.removeCamera();
-                }}
-              >
-                {hasKey ? 'Use the key' : 'Open the door'}
-              </button>
-                
+              {hasKey ? (
+                <Link to="/escaped">
+                  <button className="welcome-btn" onClick={this.removeCamera}>
+                    Open Door
+                  </button>
+                </Link>
+              ) : (
+                <button
+                  className="welcome-btn"
+                  onClick={() => alert('You need a key')}
+                >
+                  Open Door
+                </button>
+              )}
+
               <button className="welcome-btn" onClick={this.bangDoor}>
                 {this.state.playKnockingSound && (
-                    <Sound
-                      url={'knocking.mp3'}
-                      playStatus={Sound.status.PLAYING}
-                      onFinishedPlaying={this.stopPlayingKnockingSound}
-                    />
-                  )}
-                  {this.state.playBangingSound && (
-                    <Sound
-                      url={'banging.mp3'}
-                      playStatus={Sound.status.PLAYING}
-                      onFinishedPlaying={this.stopPlayingBangingSound}
-                    />
-                  )}
-                  {this.state.playCreakingSound && (
-                    <Sound
-                      url={'creaking.mp3'}
-                      playStatus={Sound.status.PLAYING}
-                      onFinishedPlaying={this.stopPlayingCreakingSound}
-                    />
-                  )}
+                  <Sound
+                    url={'knocking.mp3'}
+                    playStatus={Sound.status.PLAYING}
+                    onFinishedPlaying={this.stopPlayingKnockingSound}
+                  />
+                )}
+                {this.state.playBangingSound && (
+                  <Sound
+                    url={'banging.mp3'}
+                    playStatus={Sound.status.PLAYING}
+                    onFinishedPlaying={this.stopPlayingBangingSound}
+                  />
+                )}
+                {this.state.playCreakingSound && (
+                  <Sound
+                    url={'creaking.mp3'}
+                    playStatus={Sound.status.PLAYING}
+                    onFinishedPlaying={this.stopPlayingCreakingSound}
+                  />
+                )}
                 {hasNote ? 'Bang louder' : 'Bang against the door'}
               </button>
             </div>
@@ -502,7 +498,7 @@ class Camera extends Component {
             </button>
           )}
         </div>
-        <Stopwatch/>
+        <Stopwatch />
         <Inventory
           hasKey={hasKey}
           hasLetter={hasLetter}
@@ -510,21 +506,22 @@ class Camera extends Component {
           hasLockPick={hasLockPick}
           hasBrokenLockPick={hasBrokenLockPick}
         />
-
-      
         <button onClick={this.testing}>Testing</button>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   auth: state.auth,
-  activeGame: state.activeGame
-})
+  activeGame: state.activeGame,
+});
 
-const mapDispatchToProps = (dispatch) => ({
-  createGame: (authId, weekNum) => dispatch(createGame(authId, weekNum))
-})
+const mapDispatchToProps = dispatch => ({
+  createGame: (authId, weekNum) => dispatch(createGame(authId, weekNum)),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Camera);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Camera);
