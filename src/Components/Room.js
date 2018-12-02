@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
+import Sound from 'react-sound';
 import { Link } from 'react-router-dom';
 import { initializeArToolkit } from '../utils/arToolkit';
 import moment from 'moment';
@@ -28,7 +29,12 @@ export default class Camera extends Component {
       hasLockPick: false,
       hasBrokenLockPick: false,
       showLock: false,
-      showClock: false
+      showClock: false,
+      playBangingSound: false,
+      playKnockingSound: false,
+      bang: false,
+      playCreakingSound: false,
+      alreadyLookedBehindClock: false
     };
     this.removeCamera = this.removeCamera.bind(this);
     this.lookBehindClock = this.lookBehindClock.bind(this);
@@ -36,6 +42,10 @@ export default class Camera extends Component {
     this.bangDoor = this.bangDoor.bind(this);
     this.receiveKey = this.receiveKey.bind(this);
     this.testing = this.testing.bind(this);
+    this.stopPlayingKnockingSound = this.stopPlayingKnockingSound.bind(this);
+    this.stopPlayingBangingSound = this.stopPlayingBangingSound.bind(this);
+    this.stopPlayingCreakingSound = this.stopPlayingCreakingSound.bind(this);
+    this.openDoor = this.openDoor.bind(this);
   }
 
   componentDidMount() {
@@ -310,11 +320,12 @@ export default class Camera extends Component {
   }
 
   lookBehindClock() {
+    this.setState({ playCreakingSound: true });
     if (this.state.hasKey) {
       return alert('hmm, nothing there');
     } else {
       alert(
-        'You look behind the lock and see a small object wedged behind. After a hard shake, it falls to your feet. It looks like an old lock pick - I wonder where we can use this?'
+        "You move the clock away from the wall and find an old lock pick. It could be useful, but it's not in great shape..."
       );
       this.setState({ hasLockPick: true });
     }
@@ -334,15 +345,16 @@ export default class Camera extends Component {
   }
 
   bangDoor() {
-    if (this.state.hasNote) {
-      return alert(
+    if (this.state.bang) {
+      alert(
         'you bang again, this time even louder! silence, bitter silence. Lets keep looking around.'
       );
+      this.setState({ playBangingSound: true });
     } else {
       alert(
         `Brute force has worked before - why not now? You raised your fists and begin knocking on the door. A small folded note slips out from the crack in the hinge. It reads: "This is a red herring."`
       );
-      this.setState({ hasNote: true });
+      this.setState({ hasNote: true, playKnockingSound: true, bang: true });
     }
   }
 
@@ -359,6 +371,32 @@ export default class Camera extends Component {
       door: true,
       letter: true
     })
+  }
+
+  stopPlayingKnockingSound(){
+    this.setState({
+      playKnockingSound: false
+    });
+  }
+
+  stopPlayingBangingSound(){
+    this.setState({
+      playBangingSound: false
+    });
+  }
+
+  stopPlayingCreakingSound(){
+    this.setState({
+      playCreakingSound: false
+    });
+  }
+
+  openDoor(){
+    if(this.state.hasKey){
+      return <Escaped startTime={this.state.startTime} endTime={moment()} />
+    } else {
+      alert('You need a key!')
+    }
   }
 
   render() {
@@ -417,13 +455,35 @@ export default class Camera extends Component {
               <button
                 className="welcome-btn"
                 onClick={() => {
+                  this.openDoor();
                   this.removeCamera();
-                  this.setState({ hasKey: !this.state.hasKey });
                 }}
               >
-                {hasKey ? 'You have a key' : 'Get a key & leave'}
+                {hasKey ? 'Use the key' : 'Open the door'}
               </button>
+                
               <button className="welcome-btn" onClick={this.bangDoor}>
+                {this.state.playKnockingSound && (
+                    <Sound
+                      url={'knocking.mp3'}
+                      playStatus={Sound.status.PLAYING}
+                      onFinishedPlaying={this.stopPlayingKnockingSound}
+                    />
+                  )}
+                  {this.state.playBangingSound && (
+                    <Sound
+                      url={'banging.mp3'}
+                      playStatus={Sound.status.PLAYING}
+                      onFinishedPlaying={this.stopPlayingBangingSound}
+                    />
+                  )}
+                  {this.state.playCreakingSound && (
+                    <Sound
+                      url={'creaking.mp3'}
+                      playStatus={Sound.status.PLAYING}
+                      onFinishedPlaying={this.stopPlayingCreakingSound}
+                    />
+                  )}
                 {hasNote ? 'Bang louder' : 'Bang against the door'}
               </button>
             </div>
@@ -434,12 +494,6 @@ export default class Camera extends Component {
               Use Lock Pick
             </button>
           )}
-          {door &&
-            (hasKey ? (
-              <Escaped startTime={startTime} endTime={moment()} />
-            ) : (
-              <div style={{ color: 'white' }}>You need a key!</div>
-            ))}
         </div>
         <Stopwatch/>
         <Inventory
