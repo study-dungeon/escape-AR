@@ -5,8 +5,6 @@ const { Team } = require('../db').models;
 const { Game } = require('../db').models;
 const { User } = require('../db').models;
 
-
-
 // find all games
 router.get('/', (req, res, next) => {
   Game.findAll({
@@ -65,7 +63,9 @@ router.put('/:id', (req, res, next) => {
         return game.update(req.body)
       }
     })
-    .then(game => res.send(game))
+    .then(game => {
+      res.send(game);
+    })
     .catch(error => next(error))
 })
 

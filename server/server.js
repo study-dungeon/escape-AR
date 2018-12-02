@@ -25,4 +25,10 @@ io.on('connection', socket => {
     console.log(`Received a test with message: ${data.message}`);
     // socket.broadcast.emit('test', { "message": "successful test" })
   })
+
+  socket.on('gameComplete', ( game ) => {
+    socket.emit('completedGame', { message: "successful completion test", game })
+  })
 })
+
+module.exports = io;
