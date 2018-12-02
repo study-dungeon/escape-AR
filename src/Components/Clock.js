@@ -21,7 +21,11 @@ export default class Clock extends React.Component{
   
     return (
       <div>
-      <h1 className="time">{this.state.time}</h1>
+        <br />
+        <br />
+        <h1 className="time">{this.state.time}</h1>
+        <br />
+        <br />
       </div>
     )
   }

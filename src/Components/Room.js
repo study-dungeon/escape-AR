@@ -7,6 +7,7 @@ import moment from 'moment';
 import Escaped from './Escaped';
 import Inventory from './Inventory';
 import Lock from './Lock';
+import Clock from './Clock';
 
 export default class Camera extends Component {
   constructor() {
@@ -24,7 +25,8 @@ export default class Camera extends Component {
       hasNote: false,
       hasLockPick: false,
       hasBrokenLockPick: false,
-      showLock: false
+      showLock: false,
+      showClock: false
     };
     this.removeCamera = this.removeCamera.bind(this);
     this.lookBehindClock = this.lookBehindClock.bind(this);
@@ -369,7 +371,8 @@ export default class Camera extends Component {
       hasLockPick,
       hasBrokenLockPick,
       startTime,
-      showLock
+      showLock,
+      showClock
     } = this.state;
 
     return (
@@ -377,13 +380,14 @@ export default class Camera extends Component {
         <div className="button-grid-item">
           {clock && (
             <div>
-              <Link to="/room/clock">
-                <button className="welcome-btn">Check the time</button>
-              </Link>
+              <button className="welcome-btn" onClick={() => this.setState({ showClock: true })}>Check the time</button>
               <button className="welcome-btn" onClick={this.lookBehindClock}>
                 Look behind clock
               </button>
             </div>
+          )}
+          {showClock && (
+            <Clock />
           )}
           {letter && (
             <Link to="/room/letter">
