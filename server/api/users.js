@@ -39,6 +39,37 @@ router.post('/', (req, res, next) => {
 })
 
 
+// user joins team
+router.put('/team', (req, res, next) => {
+  const { name, password } = req.body;
+  console.log(req.body)
+  // const { id } = req.body.auth.id;
+
+  Team.findOne({
+    where: { name, password }
+  })
+  .then(team => {
+    if(!team){
+      res.sendStatus(404);
+    }
+    else {
+      res.sendStatus(200);
+    //   User.findById(id)
+    //     .then(user => {
+    //       if(!user){
+    //         res.sendStatus(404);
+    //       }
+    //       else {
+    //         user.teamId = team.id
+    //         res.send(user)
+    //       }
+    //     })
+    }
+  })
+  .catch(error => next(error))
+})
+
+
 
 // edit user
 router.put('/:id', (req, res, next) => {
@@ -74,32 +105,6 @@ router.delete('/:id', (req, res, next) => {
 })
 
 
-// user joins team
-router.post('/:id', (req, res, next) => {
-  const { name, password } = req.body;
-
-  Team.findOne({
-    where: { name, password }
-  })
-  .then(team => {
-    if(!team){
-      res.sendStatus(404);
-    }
-    else {
-      User.findById(req.params.id)
-        .then(user => {
-          if(!user){
-            res.sendStatus(404);
-          }
-          else {
-            user.teamId = team.id
-            res.send(user)
-          }
-        })
-    }
-  })
-  .catch(error => next(error))
-})
 
 
 

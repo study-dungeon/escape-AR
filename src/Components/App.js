@@ -27,11 +27,6 @@ import Signup from './Signup';
 
 class App extends Component {
 
-  componentDidMount() {
-    this.props.init();
-    
-  }
-
   render() {
     const { auth } = this.props
     if (!auth.id) {
@@ -74,7 +69,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   init: () => {
     dispatch(exchangeTokenForAuth())
-    dispatch(getTeams())
   }
 })
 

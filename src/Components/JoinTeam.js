@@ -8,7 +8,7 @@ class JoinTeam extends Component {
   constructor() {
     super();
     this.state = {
-      team: '',
+      name: '',
       password: '',
       error: '',
     };
@@ -22,27 +22,36 @@ class JoinTeam extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { team, password } = this.state;
+    const { name, password } = this.state;
     const { auth } = this.props;
-    this.props.joinTeam({ auth, team, password })
-      .catch(ex => this.setState({ error: 'Bad Credentials!' }));
+    this.props.joinTeam({ auth, name, password })
+      .catch(ex => {
+        console.log(ex)
+        this.setState({ error: 'Bad Credentials!' })
+      })
   }
 
   render() {
-    const { team, password, error } = this.state;
+    const { name, password, error } = this.state;
     const { teams } = this.props;
 
     return (
       <div id="joinTeam">
+
+        {
+          error ? <div className="invalid-feedback">{error}</div> : null
+        }
+
         <form  className="basic-form" onSubmit={this.handleSubmit}>
           <div className="form-group">
+
             <label>Team Name</label>
 
-            <select autoFocus name="team" value={ team.name } onChange={ this.handleChange }>
+            <select autoFocus name="name" onChange={ this.handleChange }>
               <option value="">(select team)</option>
 
               {
-                teams.map(team => <option key={ team.id } value={ team.name }>{ team.name }</option>)
+                teams.map(team => <option key={ team.id }>{ team.name }</option>)
               }
 
             </select>
@@ -55,7 +64,7 @@ class JoinTeam extends Component {
               onChange={this.handleChange}
               type="password"
             />
-            <div className="invalid-feedback">{error}</div>
+            
           </div>
           <div className="button-grid-container">
             <div className="button-grid-item">
