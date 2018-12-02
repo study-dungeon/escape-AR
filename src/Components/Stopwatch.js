@@ -7,6 +7,7 @@ export default class Stopwatch extends Component {
     this.state = {
       startTime: moment(),
       current: moment(),
+      textColor: 'timeGreen',
     };
     this.tick = this.tick.bind(this);
   }
@@ -18,17 +19,21 @@ export default class Stopwatch extends Component {
     clearInterval(this.interval);
   }
   tick() {
+    const { current, startTime } = this.state;
+    const timeElapsed = moment(current.diff(startTime));
+    if (timeElapsed.minutes() >= 0 && timeElapsed.seconds() > 10) {
+      this.setState({ textColor: 'timeRed' });
+    }
     this.setState({ current: moment() });
   }
 
   render() {
-    const { current, startTime } = this.state;
+    const { current, startTime, textColor } = this.state;
     const timeElapsed = moment(current.diff(startTime));
-    const dynamicClass = timeElapsed.minutes() > 1 ? 'timeRed' : 'timeGreen';
     return (
       <div className="stopwatch">
         <h5> </h5>
-        <h5 className={dynamicClass}>
+        <h5 className={textColor}>
           {timeElapsed.format('mm[mins] ss.SSS[s]')}
         </h5>
       </div>
