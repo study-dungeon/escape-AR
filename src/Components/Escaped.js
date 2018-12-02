@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
 import Leaderboard from './Leaderboard';
+import { beatTheGame } from '../store';
 
-export default class Escaped extends Component {
+class Escaped extends Component {
+  componentDidMount() {
+    const { activeGame } = this.props
+    this.props.beatTheGame( activeGame, moment());
+  }
+
   render() {
     const { startTime, endTime } = this.props;
     const timeElapsed = moment(endTime.diff(startTime));
@@ -26,3 +33,14 @@ export default class Escaped extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  activeGame: state.activeGame
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  beatTheGame: (game, endTime) => dispatch(beatTheGame(game, endTime))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Escaped);

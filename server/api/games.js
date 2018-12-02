@@ -3,6 +3,7 @@ const router = express.Router();
 
 const { Team } = require('../db').models;
 const { Game } = require('../db').models;
+const { User } = require('../db').models;
 
 
 
@@ -31,20 +32,34 @@ router.get('/:id', (req, res, next) => {
 })
 
 
-// create game
+// create game takes a userId and weekNum, and creates a new game if one does not yet exist
 router.post('/', (req, res, next) => {
-  Game.create(req.body)
-    .then(game => res.status(201).send(game))
-    .catch(error => next(error))
+  // find the current user
+  const { authId, weekNum } = req.body;
+  const _weekNum = weekNum * 1;
+  const currUser = User.findByPk(authId);
+  // if the user has a team, store it
+  const teamId = currUser.teamId ? currUser.teamId : null;
+  let game
+  if (teamId) {
+    game = Game.findOrCreate({ where: { teamId, weekNum: _weekNum }})
+      .then(_game => res.send(_game))
+      .catch(next)
+  }
+  else {
+    game = Game.findOrCreate({ where: { userId: authId, weekNum: _weekNum }})
+      .then(_game => res.send(_game))
+      .catch(next)
+  }
 })
 
 
 // edit game
 router.put('/:id', (req, res, next) => {
-  Game.findById(req.params.id)
+  Game.findByPk(req.params.id)
     .then(game => {
-      if(!game) {
-        res.status(404).send('<h1>Game Not Found</h1>')
+      if (!game) {
+        res.status(404).send('Game Not Found')
       }
       else {
         return game.update(req.body)

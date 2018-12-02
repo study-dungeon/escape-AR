@@ -4,6 +4,8 @@ import thunk from 'redux-thunk';
 import moment from 'moment';
 import axios from 'axios';
 
+
+
 // INITIAL STATE
 const emptyAuth = {
   id: '',
@@ -15,6 +17,7 @@ const emptyAuth = {
 const initialState = {
   auth: emptyAuth,
   gameStartTime: moment(),
+  activeGame: { startTime: moment() },
   games: [],
   teams: []
 }
@@ -26,6 +29,8 @@ const SET_GAMES = 'SET_GAMES';
 
 const SET_TEAMS = 'SET_TEAMS';
 const ADD_TEAM = 'ADD_TEAM';
+const SET_ACTIVE_GAME = 'SET_ACTIVE_GAME';
+
 
 // ACTION CREATORS
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
@@ -33,6 +38,7 @@ export const setStart = () => ({ type: SET_START, time: moment()});
 const setGames = (games) => ({ type: SET_GAMES, games })
 const setTeams = teams => ({ type: SET_TEAMS, teams })
 const addTeam = team => ({ type: ADD_TEAM, team })
+const setActiveGame = (game) => ({ type: SET_ACTIVE_GAME, game });
 
 // THUNK CREATORS
 export const exchangeTokenForAuth = () => {
@@ -134,11 +140,28 @@ export const updateUser = data => {
   }
 }
 
+// GAMES
 export const getGames = () => {
   return dispatch => {
     return axios.get('/api/games')
       .then(res => res.data)
       .then(games => dispatch(setGames(games)))
+  }
+}
+
+export const createGame = (authId, weekNum) => {
+  return (dispatch) => {
+    return axios.post('/api/games', { authId, weekNum })
+      .then(res => res.data[0])
+      .then(game => dispatch(setActiveGame(game)))
+  }
+}
+
+export const beatTheGame = (game, endTime) => {
+  return (dispatch) => {
+    return axios.put(`/api/games/${game.id}`, {escaped: true, endTime} )
+      .then(res => res.data)
+      .then(_game => dispatch(setActiveGame(_game)))
   }
 }
 
@@ -151,6 +174,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, teams: action.teams }
     case ADD_TEAM:
       return { ...state, teams: [ ...state.teams, action.team ] }
+    case SET_ACTIVE_GAME:
+      return {...state, activeGame: action.game}
     default:
       return state
   }

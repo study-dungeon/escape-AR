@@ -15,6 +15,9 @@ Captain.belongsTo(Team);
 Game.belongsTo(Team);
 Team.hasMany(Game);
 
+Game.belongsTo(User);
+User.hasMany(Game);
+
 
 const syncAndSeed = async () => {
 
