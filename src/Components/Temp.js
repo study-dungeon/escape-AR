@@ -99,9 +99,9 @@ export default class Temp extends Component {
         </div>
 
         <div className="button-grid-item">
-          {marker_clock && <Link to='/clock'><button className="welcome-btn">Check the time</button></Link>}
-          {marker_letter && <Link to='/letter'><button className="welcome-btn">Read me</button></Link>}
-          {marker_lock && <Link to='/lock'><button className="welcome-btn">Unlock me</button></Link>}
+          {marker_clock && <Link to='/room/clock'><button className="welcome-btn">Check the time</button></Link>}
+          {marker_letter && <Link to='/room/letter'><button className="welcome-btn">Read me</button></Link>}
+          {marker_lock && <Link to='/room/lock'><button className="welcome-btn">Unlock me</button></Link>}
           {marker_door &&  (hasKey ? <Escaped startTime={startTime} endTime={moment()} /> : <div style={{"color": "white"}}>You need a key!</div>)}
         </div>
 
