@@ -77,11 +77,17 @@ class Profile extends Component {
           </div>
           <div className="form-group">
             <label>Active Team</label>
-            <select value={teamId} name="teamId" onChange={this.handleChange}>
+
+            <input
+              readOnly
+              value={ auth.team.name }
+            />
+
+            {/* <select value={teamId} name="teamId" onChange={this.handleChange}>
               {
               // auth.teams.map(team => <option key={team.id} value={team.id}>{team.name}</option>)
               }
-            </select>
+            </select> */}
           </div>
           <br />
           <div className="button-grid-container">
