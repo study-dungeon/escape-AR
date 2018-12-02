@@ -70,7 +70,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   init: () => {
     dispatch(exchangeTokenForAuth())
-    dispatch(getTeams())
   }
 })
 

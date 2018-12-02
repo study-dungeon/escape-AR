@@ -15,8 +15,7 @@ const emptyAuth = {
 const initialState = {
   auth: emptyAuth,
   gameStartTime: moment(),
-  games: [],
-  teams: []
+  games: []
 }
 
 // ACTION TYPES
@@ -24,15 +23,17 @@ const SET_AUTH = 'SET_AUTH';
 const SET_START = 'SET_START';
 const SET_GAMES = 'SET_GAMES';
 
-const SET_TEAMS = 'SET_TEAMS';
-const ADD_TEAM = 'ADD_TEAM';
+const SET_TEAM = 'SET_TEAM';
+
+
 
 // ACTION CREATORS
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
 export const setStart = () => ({ type: SET_START, time: moment()});
 const setGames = (games) => ({ type: SET_GAMES, games })
-const setTeams = teams => ({ type: SET_TEAMS, teams })
-const addTeam = team => ({ type: ADD_TEAM, team })
+
+const setTeam = user => ({ type: SET_TEAM, user })
+
 
 // THUNK CREATORS
 export const exchangeTokenForAuth = () => {
@@ -85,52 +86,42 @@ export const signup = data => {
   }
 }
 
-// get all teams
-export const getTeams = () => {
-  return dispatch => {
-    return axios.get('/api/teams')
-      .then(res => res.data)
-      .then(teams => dispatch(setTeams(teams)))
-  }
-}
-
-
 // create team
 export const createTeam = (data, history) => {
   return dispatch => {
     return axios.post('/api/teams', data)
       .then(res => res.data)
       .then(([team, wasCreated]) => {
-        if (wasCreated) {
-          dispatch(addTeam(team))
+        if(wasCreated) {
           return wasCreated
         }
 
         return wasCreated
       })
-      // .then(() => dispatch(exchangeTokenForAuth()))
+      .then(() => dispatch(exchangeTokenForAuth()))
   }
 }
 
 // joinTeam sends a user, teamName, and password as credentials
 // a successful put request adds the user to the team and updates state
-export const joinTeam = credentials => {
+export const joinTeam = (credentials, history) => {
   return dispatch => {
-    return axios.put('/api/user/team', credentials)
+    return axios.put('/api/users/team', credentials)
       .then(res => res.data)
-      .then(user => user.team.id)
+      .then(user => dispatch(setTeam(user)))
       .then(() => dispatch(exchangeTokenForAuth()))
+      .then(() => history.push('/account'))
   }
 }
 
 
 
-export const updateUser = data => {
+export const updateUser = (id, user, history) => {
   return dispatch => {
-    return axios.put('/api/user', data)
+    return axios.put(`/api/users/${ id }`, user)
       .then(res => res.data)
-      .then(user => user.team.id)
       .then(() => dispatch(exchangeTokenForAuth()))
+      .then(() => history.push('/account'))
   }
 }
 
@@ -147,10 +138,8 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_AUTH:
       return {...state, auth: action.auth}
-    case SET_TEAMS:
-      return { ...state, teams: action.teams }
-    case ADD_TEAM:
-      return { ...state, teams: [ ...state.teams, action.team ] }
+    case SET_TEAM:
+      return {...state, auth: { ...state.auth, teamId: action.user.teamId } }
     default:
       return state
   }
