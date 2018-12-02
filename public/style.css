@@ -31,6 +31,15 @@ a {
   font-weight: bold;
 }
 
+/* ### ERROR HANDLING */
+.invalid-feedback {
+  background-color: red;
+  color: white;
+  text-align: center;
+  width: 75%;
+  margin: 0 auto;
+  border-radius: 10px;
+}
 
 /* ### HEADER ### */
 
