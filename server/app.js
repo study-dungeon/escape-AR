@@ -56,7 +56,6 @@ app.use((req, res, next) => {
         if(!user) {
           return next({ status: 401 })
         }
-
         req.user = user;
         next();
       })

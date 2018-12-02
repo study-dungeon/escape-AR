@@ -8,7 +8,7 @@ class JoinTeam extends Component {
   constructor() {
     super();
     this.state = {
-      team: '',
+      name: '',
       password: '',
       error: '',
     };
@@ -22,25 +22,33 @@ class JoinTeam extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { team, password } = this.state;
+    const { name, password } = this.state;
     const { auth } = this.props;
-    this.props.joinTeam({ auth, team, password })
-      .catch(ex => this.setState({ error: 'Bad Credentials!' }));
+    this.props.joinTeam({ auth, name, password })
+      .catch(ex => this.setState({ error: 'Bad Credentials!' }))
   }
 
   render() {
-    const { team, password, error } = this.state;
+    const { name, password, error } = this.state;
+
     return (
       <div id="joinTeam">
+
+        {
+          error ? <div className="invalid-feedback">{error}</div> : null
+        }
+
         <form  className="basic-form" onSubmit={this.handleSubmit}>
           <div className="form-group">
+
             <label>Team Name</label>
             <input
-              autoFocus
-              name="team"
-              value={team}
+              value={name}
+              name="name"
               onChange={this.handleChange}
+              type="text"
             />
+
           </div>
           <div className="form-group">
             <label>Password</label>
@@ -64,17 +72,11 @@ class JoinTeam extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, teams }) => {
+const mapStateToProps = ({ auth }) => ({ auth });
 
-  return {
-    auth,
-    teams
-  }
-  
-};
 
-const mapDispatchToProps = dispatch => ({
-    joinTeam: credentials => dispatch(joinTeam(credentials)),
+const mapDispatchToProps = (dispatch, { history }) => ({
+    joinTeam: credentials => dispatch(joinTeam(credentials, history)),
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(JoinTeam);

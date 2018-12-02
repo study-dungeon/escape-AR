@@ -2,14 +2,29 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import Sound from 'react-sound';
 
 import Leaderboard from './Leaderboard';
 import { beatTheGame } from '../store';
 
 class Escaped extends Component {
+  constructor(){
+    super();
+    this.state = {
+      play: true
+    }
+    this.stopPlayingSound = this.stopPlayingSound.bind(this);
+  }
+  
   componentDidMount() {
     const { activeGame } = this.props
     this.props.beatTheGame( activeGame, moment());
+  }
+
+  stopPlayingSound(){
+    this.setState({
+      play: false
+    });
   }
 
   render() {
@@ -28,6 +43,15 @@ class Escaped extends Component {
           <br />
           <Leaderboard />
           <br />
+          <br />
+          <br />
+          {this.state.play && (
+            <Sound
+              url={'door.mp3'}
+              playStatus={Sound.status.PLAYING}
+              onFinishedPlaying={this.stopPlayingSound}
+            />
+          )}
         </div>
       </div>
     )

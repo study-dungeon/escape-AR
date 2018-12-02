@@ -1,4 +1,5 @@
 import React from 'react';
+import Sound from 'react-sound';
 
 export default class Lock extends React.Component{
 
@@ -8,10 +9,12 @@ export default class Lock extends React.Component{
       one: '',
       two: '',
       three: '',
-      four: ''
+      four: '',
+      play: true
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.stopPlayingSound = this.stopPlayingSound.bind(this);
     opening();
   }
 
@@ -67,6 +70,12 @@ export default class Lock extends React.Component{
 
   }
 
+  stopPlayingSound(){
+    this.setState({
+      play: false
+    })
+  }
+
   render(){
     return (
       <div>
@@ -86,6 +95,13 @@ export default class Lock extends React.Component{
         </form>
         <br />
         <br />
+        {this.state.play && (
+          <Sound
+            url={'lock.mp3'}
+            playStatus={Sound.status.PLAYING}
+            onFinishedPlaying={this.stopPlayingSound}
+          />
+        )}
       </div>
     )
   }

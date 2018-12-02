@@ -18,7 +18,9 @@ router.get('/', (req, res, next) => {
 
 // find user by ID
 router.get('/:id', (req, res, next) => {
-  User.findById(req.params.id)
+  User.findById(req.params.id, {
+    include: [ Team ]
+  })
     .then(user => {
       if(!user) {
         res.status(404).send('<h1>User Not Found</h1>')
@@ -37,6 +39,36 @@ router.post('/', (req, res, next) => {
     .then(user => res.status(201).send(user))
     .catch(error => next(error))
 })
+
+
+// user joins team
+router.put('/team', (req, res, next) => {
+  const { name, password } = req.body;
+  const { id } = req.body.auth;
+
+  Team.findOne({
+    where: { name, password }
+  })
+  .then(team => {
+    if(!team){
+      res.sendStatus(404);
+    }
+    else {
+      User.findById(id)
+        .then(user => {
+          if(!user){
+            res.sendStatus(404);
+          }
+          else {
+            user.update({ ...user, teamId: team.id })
+            res.send(user)
+          }
+        })
+    }
+  })
+  .catch(error => next(error))
+})
+
 
 
 // edit user
@@ -73,32 +105,6 @@ router.delete('/:id', (req, res, next) => {
 })
 
 
-// user joins team
-router.post('/:id', (req, res, next) => {
-  const { name, password } = req.body;
-
-  Team.findOne({
-    where: { name, password }
-  })
-  .then(team => {
-    if(!team){
-      res.sendStatus(404);
-    }
-    else {
-      User.findById(req.params.id)
-        .then(user => {
-          if(!user){
-            res.sendStatus(404);
-          }
-          else {
-            user.teamId = team.id
-            res.send(user)
-          }
-        })
-    }
-  })
-  .catch(error => next(error))
-})
 
 
 
