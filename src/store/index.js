@@ -78,7 +78,7 @@ export const guestSignIn = () => {
 
 export const signup = data => {
   return dispatch => {
-    const { email, password } = data;
+    const { email, username, password } = data;
     return axios.post('/api/users', data)
       .then(res => res.data)
       .then(() => dispatch(login({ email, password })))
@@ -101,7 +101,7 @@ export const createTeam = (data, history) => {
     return axios.post('/api/teams', data)
       .then(res => res.data)
       .then(([team, wasCreated]) => {
-        if(wasCreated) {
+        if (wasCreated) {
           dispatch(addTeam(team))
           return wasCreated
         }

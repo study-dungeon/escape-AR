@@ -39,7 +39,7 @@ class Signup extends Component {
     const { email, username, password } = this.state;
     this.props.signup({ email, username, password })
       .then(() => this.props.history.push("/"))
-      .catch(ex => this.setState({ error: 'Team name already exists!' }));
+      .catch(ex => this.setState({ error: 'Invalid attempt' }));
   }
 
   render() {
@@ -75,7 +75,7 @@ class Signup extends Component {
                 onChange={this.handleChange}
                 type="password"
               />
-              <div className="invalid-feedback">{error}</div>
+              {error ? <div className="invalid-feedback">{error}</div> : <br />}
             </div>
             <div className="button-grid-container">
               <div className="button-grid-item">
