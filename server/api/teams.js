@@ -31,10 +31,20 @@ router.get('/:id', (req, res, next) => {
 
 // create team
 router.post('/', (req, res, next) => {
-  Team.create(req.body)
-    .then(team => res.status(201).send(team))
-    .catch(error => next(error))
-})
+  Team.findOrCreate({
+    where: {
+      name: req.body.name
+    },
+    defaults: {
+      password: req.body.password,
+      city: req.body.city,
+      state: req.body.state,
+      zip: req.body.zip
+    }
+  })
+  .then(result => res.status(201).send(result))
+  .catch(error => next(error))
+});
 
 
 // edit team

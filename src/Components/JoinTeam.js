@@ -64,9 +64,14 @@ class JoinTeam extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => ({
-    auth
-});
+const mapStateToProps = ({ auth, teams }) => {
+
+  return {
+    auth,
+    teams
+  }
+  
+};
 
 const mapDispatchToProps = dispatch => ({
     joinTeam: credentials => dispatch(joinTeam(credentials)),

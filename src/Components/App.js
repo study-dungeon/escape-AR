@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { exchangeTokenForAuth } from '../store';
+import { exchangeTokenForAuth, getTeams } from '../store';
 
 import Header from './Header';
 import Home from './Home';
@@ -71,7 +71,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  init: () => dispatch(exchangeTokenForAuth())
+  init: () => {
+    dispatch(exchangeTokenForAuth())
+    dispatch(getTeams())
+  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

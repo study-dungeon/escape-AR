@@ -26,9 +26,18 @@ class CreateTeam extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const { name, password, city, state, zip } = this.state;
-    const { auth } = this.props;
+    const { auth, history } = this.props;
     this.props.createTeam({ auth, name, password, city, state, zip })
-      .catch(ex => this.setState({ error: 'An error has occurred!' }));
+      .then(wasCreated => {
+        console.log(wasCreated)
+        if(!wasCreated) {
+          this.setState({ error: 'Team exists!  Please enter a unique name.' })
+        }
+        else {
+          history.push('/account')
+        }
+      })
+      .catch(error => console.log(error))
   }
 
   render() {
