@@ -1,6 +1,7 @@
 /*global THREE THREEx*/
 
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { initializeArToolkit } from '../utils/arToolkit';
 import moment from 'moment';
@@ -402,12 +403,12 @@ export default class Camera extends Component {
               Use Lock Pick
             </button>
           )}
-          {door &&  ( hasKey ? (
-            <Escaped startTime={startTime} endTime={moment()} />
-          ) : (
-            <div style={{ color: 'white' }}>You need a key!</div>
-          ))
-          }
+          {door &&
+            (hasKey ? (
+              <Escaped startTime={startTime} endTime={moment()} />
+            ) : (
+              <div style={{ color: 'white' }}>You need a key!</div>
+            ))}
         </div>
         <Inventory
           hasKey={hasKey}

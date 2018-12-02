@@ -20,8 +20,8 @@ export const initializeArToolkit = (renderer, camera, onRenderFcts) => {
     cameraParametersUrl: '../../assets/camera_para.dat',
     detectionMode: 'mono',
     maxDetectionRate: 30,
-    canvasWidth: 80 * 6,
-    canvasHeight: 60 * 6,
+    canvasWidth: 80 * 3,
+    canvasHeight: 60 * 3,
   });
 
   // initialize it
