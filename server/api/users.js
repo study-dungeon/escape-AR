@@ -42,7 +42,6 @@ router.post('/', (req, res, next) => {
 // user joins team
 router.put('/team', (req, res, next) => {
   const { name, password } = req.body;
-  console.log(req.body)
   const { id } = req.body.auth;
 
   Team.findOne({
