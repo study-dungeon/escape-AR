@@ -23,12 +23,16 @@ const SET_AUTH = 'SET_AUTH';
 const SET_START = 'SET_START';
 const SET_GAMES = 'SET_GAMES';
 
+const SET_TEAM = 'SET_TEAM';
+
 
 
 // ACTION CREATORS
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
 export const setStart = () => ({ type: SET_START, time: moment()});
 const setGames = (games) => ({ type: SET_GAMES, games })
+
+const setTeam = user => ({ type: SET_TEAM, user })
 
 
 // THUNK CREATORS
@@ -94,7 +98,7 @@ export const createTeam = (data, history) => {
 
         return wasCreated
       })
-      // .then(() => dispatch(exchangeTokenForAuth()))
+      .then(() => dispatch(exchangeTokenForAuth()))
   }
 }
 
@@ -104,8 +108,7 @@ export const joinTeam = credentials => {
   return dispatch => {
     return axios.put('/api/users/team', credentials)
       .then(res => res.data)
-      // .then(user => user.team.id)
-      .then(() => dispatch(exchangeTokenForAuth()))
+      .then(user => dispatch(setTeam(user)))
   }
 }
 
@@ -133,6 +136,8 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_AUTH:
       return {...state, auth: action.auth}
+    case SET_TEAM:
+      return {...state, auth: { ...state.auth, teamId: action.user.teamId } }
     default:
       return state
   }
