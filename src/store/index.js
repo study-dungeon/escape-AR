@@ -104,12 +104,13 @@ export const createTeam = (data, history) => {
 
 // joinTeam sends a user, teamName, and password as credentials
 // a successful put request adds the user to the team and updates state
-export const joinTeam = credentials => {
+export const joinTeam = (credentials, history) => {
   return dispatch => {
     return axios.put('/api/users/team', credentials)
       .then(res => res.data)
       .then(user => dispatch(setTeam(user)))
       .then(() => dispatch(exchangeTokenForAuth()))
+      .then(() => history.push('/account'))
   }
 }
 

@@ -25,10 +25,7 @@ class JoinTeam extends Component {
     const { name, password } = this.state;
     const { auth } = this.props;
     this.props.joinTeam({ auth, name, password })
-      .catch(ex => {
-        console.log(ex)
-        this.setState({ error: 'Bad Credentials!' })
-      })
+      .catch(ex => this.setState({ error: 'Bad Credentials!' }))
   }
 
   render() {
@@ -78,8 +75,8 @@ class JoinTeam extends Component {
 const mapStateToProps = ({ auth }) => ({ auth });
 
 
-const mapDispatchToProps = dispatch => ({
-    joinTeam: credentials => dispatch(joinTeam(credentials)),
+const mapDispatchToProps = (dispatch, { history }) => ({
+    joinTeam: credentials => dispatch(joinTeam(credentials, history)),
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(JoinTeam);
