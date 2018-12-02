@@ -19,6 +19,12 @@ class Signup extends Component {
     this.validateForm = this.validateForm.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.auth.id && this.props.auth.username !== 'GuestUser') {
+      this.props.history.push("/");
+    }
+  }
+
   validateForm() {
     const rgx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return rgx.test(this.state.email) && this.state.password.length > 0;
@@ -32,7 +38,7 @@ class Signup extends Component {
     event.preventDefault();
     const { email, username, password } = this.state;
     this.props.signup({ email, username, password })
-      .catch(ex => this.setState({ error: 'An error has occurred!' }));
+      .catch(ex => this.setState({ error: 'Team name already exists!' }));
   }
 
   render() {
@@ -70,11 +76,13 @@ class Signup extends Component {
               />
               <div className="invalid-feedback">{error}</div>
             </div>
-            <button disabled={!this.validateForm()} type="submit" className="welcome-btn">
-              Sign Up
-            </button>
+            <div className="button-grid-container">
+              <div className="button-grid-item">
+                <button disabled={!this.validateForm()} type="submit" className="welcome-btn">Signup</button>
+              </div>
+            </div>
             <br />
-          <Link to="/">Return to Login</Link>
+          <Link to="/">Back</Link>
           </form>
         </div>
       </div>
@@ -82,8 +90,13 @@ class Signup extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, { history }) => ({
-    signup: data => dispatch(signup(data, history)),
+const mapStateToProps = (state, ownProps) => ({
+  auth: state.auth,
+  history: ownProps.props.history
+})
+
+const mapDispatchToProps = dispatch => ({
+    signup: data => dispatch(signup(data)),
 });
 
-export default connect(null, mapDispatchToProps)(Signup);
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

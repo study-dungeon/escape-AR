@@ -5,11 +5,15 @@ import moment from 'moment';
 import axios from 'axios';
 
 // INITIAL STATE
+const emptyAuth = {
+  id: '',
+  email: '',
+  username: '',
+  team: []
+}
+
 const initialState = {
-  auth: {
-    id: 1,
-    username: 'tester'
-  },
+  auth: emptyAuth,
   gameStartTime: moment(),
   games: [],
   teams: []
@@ -24,7 +28,7 @@ const SET_TEAMS = 'SET_TEAMS';
 const ADD_TEAM = 'ADD_TEAM';
 
 // ACTION CREATORS
-const setAuth = auth => ({ type: SET_AUTH, auth });
+const setAuth = (auth) => ({ type: SET_AUTH, auth });
 export const setStart = () => ({ type: SET_START, time: moment()});
 const setGames = (games) => ({ type: SET_GAMES, games })
 const setTeams = teams => ({ type: SET_TEAMS, teams })
@@ -35,7 +39,7 @@ export const exchangeTokenForAuth = () => {
   return dispatch => {
     const token = window.localStorage.getItem('token');
     if (!token) return;
-    return axios.get('/api/auth', {
+    return axios.get('/api/auth/me', {
         headers: {
           authorization: token,
         }
@@ -47,8 +51,8 @@ export const exchangeTokenForAuth = () => {
 };
 
 export const logout = () => {
-  window.localStorage.removeItem('token');
-  setAuth({});
+    window.localStorage.removeItem('token');
+    return setAuth(emptyAuth);
 };
 
 export const login = credentials => {
@@ -62,12 +66,22 @@ export const login = credentials => {
   }
 }
 
-export const signup = (data, history) => {
-  return (dispatch) => {
+export const guestSignIn = () => {
+  const guestAuth = {
+    id: 'a0000000-a000-a000-a000-a00000000000',
+    email: 'noreply@escapearoom.com',
+    username: 'GuestUser',
+    team: []
+  }
+  return setAuth(guestAuth);
+}
+
+export const signup = data => {
+  return dispatch => {
     const { email, password } = data;
     return axios.post('/api/users', data)
       .then(res => res.data)
-      .then(() => history.push('/'))
+      .then(() => dispatch(login({ email, password })))
   }
 }
 

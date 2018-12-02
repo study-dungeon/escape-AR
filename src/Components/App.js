@@ -7,7 +7,6 @@ import { exchangeTokenForAuth, getTeams } from '../store';
 import Header from './Header';
 import Home from './Home';
 import GamePlay from './GamePlay';
-
 import Room from './Room';
 import Clock from './Clock';
 import Lock from './Lock';
@@ -23,8 +22,6 @@ import Account from './Account';
 import Signup from './Signup';
 
 
-
-
 class App extends Component {
 
   componentDidMount() {
@@ -38,7 +35,7 @@ class App extends Component {
         <Router>
           <div className='background'>
             <Switch>
-              <Route path="/signup" component={ Signup } />
+              <Route path="/signup" render={(props) => <Signup props={props} /> } />
               <Route path="/" render={ (props) => <Login props={props} /> } />
             </Switch>
           </div>
@@ -51,7 +48,7 @@ class App extends Component {
           <Route exact path="/" component={ Enter } />
           <Route path="/account" component={ Account } />
           <Route path="/info" component={ GamePlay } />
-          <Route path="/signup" component={ Signup } />
+          <Route path="/signup" render={(props) => <Signup props={props} /> } />
           <Route path="/temp" component={ Temp } />
           <Route path="/room" component={ Room } />
           <Route exact path="/room/clock" component={ Clock } />

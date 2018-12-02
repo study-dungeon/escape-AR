@@ -12,7 +12,7 @@ export default class Escaped extends Component {
       <div>
         <div id="escaped-container">
           <h2>Congratulations!</h2>
-          <h3>You escaped in {timeElapsed.minutes()} min and {timeElapsed.seconds()} sec.</h3>
+          <h3>You escaped in <br /> {timeElapsed.minutes()} min and {timeElapsed.seconds()} sec.</h3>
           <div>Your time ranks:
             <br/>
             <b style={{"color": "red"}}>3rd</b> out of 29
