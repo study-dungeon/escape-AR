@@ -17,7 +17,9 @@ router.use((req, res, next) => {
   } catch (ex) {
     return next({ status: 401, message: "Error finding logged in user" });
   }
-  User.findById(id)
+  User.findById(id, {
+    include: [ Team ]
+  })
     .then(user => {
       req.user = user;
       next();

@@ -75,13 +75,13 @@ class Profile extends Component {
    
             />
           </div>
-          {/* <div className="form-group">
+          <div className="form-group">
             <label>Active Team</label>
               <input
                 readOnly
                 value={ auth.team.name }
               />
-          </div> */}
+          </div>
           <br />
           <div className="button-grid-container">
             <div className="button-grid-item">
