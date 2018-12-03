@@ -63,9 +63,7 @@ router.put('/:id', (req, res, next) => {
         return game.update(req.body)
       }
     })
-    .then(game => {
-      res.send(game);
-    })
+    .then(game => res.send(game))
     .catch(error => next(error))
 })
 
