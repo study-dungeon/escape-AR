@@ -28,8 +28,10 @@ class Escaped extends Component {
   }
 
   render() {
-    const { startTime, endTime } = this.props;
-    const timeElapsed = moment(endTime.diff(startTime));
+    const { activeGame, games } = this.props;
+    const { startTime } = activeGame;
+    const endTime = activeGame.endTime ? moment(activeGame.endTime) : this.props.endTime;
+    const timeElapsed = moment(endTime.diff(moment(startTime)));
     return (
       <div>
         <div id="escaped-container">
@@ -41,7 +43,7 @@ class Escaped extends Component {
             <br />
             escapes this week!</div>
           <br />
-          <Leaderboard />
+          <Leaderboard games={games}/>
           <br />
           <br />
           <br />
@@ -60,7 +62,9 @@ class Escaped extends Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  activeGame: state.activeGame
+  activeGame: state.activeGame,
+  games: state.games,
+  endTime: moment()
 })
 
 const mapDispatchToProps = (dispatch) => ({

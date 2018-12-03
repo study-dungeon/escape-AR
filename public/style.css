@@ -236,6 +236,7 @@ a {
   color: rgb(230, 54, 10);
   text-shadow: 0 0 0px rgb(230, 54, 10), 0 0 20px rgba(10, 175, 230, 0);
   transform: translate(-50%, -50%);
+}
 
 /* ### ESCAPED AND LEADERBOARD ### */
 #escaped-container {

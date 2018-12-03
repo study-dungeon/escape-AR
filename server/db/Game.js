@@ -1,8 +1,6 @@
 const conn = require('./conn');
 const moment = require('moment');
 
-
-
 const Game = conn.define('game', {
   
   weekNum: {

@@ -507,6 +507,11 @@ class Camera extends Component {
           hasBrokenLockPick={hasBrokenLockPick}
         />
         <button onClick={this.testing}>Testing</button>
+        <Link to="/escaped">
+            <button className="welcome-btn" onClick={this.removeCamera}>
+              Open Door
+            </button>
+        </Link>
       </div>
     );
   }
