@@ -3,23 +3,35 @@ import { Link } from 'react-router-dom';
 import Lock from './Lock';
 import Clock from './Clock';
 import Letter from './Letter';
+import Sound from 'react-sound';
+import Escaped from './Escaped';
 
 
 export default class Testing extends React.Component {
   constructor(){
     super();
     this.state = {
+      key: false,
+      open: false,
       showClock: false,
       showLock: false,
       showLetter: false,
-      showBand: false,
-      showDoor: false
+      showDoor: false,
+      knock: false,
+      bang: false
     };
-
+    this.stopKnock = this.stopKnock.bind(this);
+    this.stopBang = this.stopBang.bind(this);
+    this.receiveKey = this.receiveKey.bind(this);
   }
+
+  stopKnock(){ this.setState({ knock: false }) };
+  stopBang(){ this.setState({ bang: false }) };
+  receiveKey(){ this.setState({ key: true }) };
+
   render(){
 
-    const { showClock, showLock, showLetter, showBang, showDoor } = this.state;
+    const { key, open, showClock, showLock, showLetter, showDoor, knock, bang } = this.state;
 
     return (
 
@@ -28,7 +40,6 @@ export default class Testing extends React.Component {
           <button className="welcome-btn" onClick={()=> this.setState({ showClock: true})}>Clock</button>
           <button className="welcome-btn" onClick={()=> this.setState({ showLock: true})}>Lock</button>
           <button className="welcome-btn" onClick={()=> this.setState({ showLetter: true})}>Letter</button>
-          <button className="welcome-btn" onClick={()=> this.setState({ showBang: true})}>Bang</button>
           <button className="welcome-btn" onClick={()=> this.setState({ showDoor: true})}>Door</button>
 
           {showClock && (
@@ -40,7 +51,7 @@ export default class Testing extends React.Component {
 
           {showLock && (
             <div>
-              <Lock />
+              <Lock receiveKey={this.receiveKey}/>
               <button onClick={()=> this.setState({ showLock: false }) } >x</button>
             </div>
           )}
@@ -52,10 +63,35 @@ export default class Testing extends React.Component {
             </div>
           )}
 
-          {showLock && (
+          {showDoor && (
             <div>
-              <Lock />
-              <button onClick={()=> this.setState({ showLock: false }) } >x</button>
+              <br />
+              <button className="welcome-btn" onClick={()=> this.setState({ knock: true }) }>Knock</button>
+              <button className="welcome-btn" onClick={()=> this.setState({ bang: true }) }>Bang</button>
+              {key && (
+                <button className="welcome-btn" onClick={()=> this.setState({ open: true }) }>Open</button>
+              )}
+              <button onClick={()=> this.setState({ showDoor: false }) } >x</button>
+              <br />
+            </div>
+          )}
+
+          {knock && ( 
+            <div>
+              <Sound url={'knocking.mp3'} playStatus={Sound.status.PLAYING} onFinishedPlaying={this.stopKnock} />
+            </div>
+          )}
+
+          {bang && (
+            <div>
+              <Sound url={'banging.mp3'} playStatus={Sound.status.PLAYING} onFinishedPlaying={this.stopBang} />
+            </div>
+          )}
+
+          {open && (
+            <div>
+              <Escaped />
+              <Sound url={'door.mp3'} playStatus={Sound.status.PLAYING} onFinishedPlaying={this.stopBang} />
             </div>
           )}
 

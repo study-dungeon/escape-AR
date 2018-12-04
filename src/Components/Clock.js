@@ -33,7 +33,6 @@ export default class Clock extends React.Component{
         <br />
         <h1 className="time">{this.state.time}</h1>
         <br />
-        <br />
         {this.state.play && (
           <Sound
             url={'clock.mp3'}

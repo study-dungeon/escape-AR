@@ -81,7 +81,7 @@ export default class Lock extends React.Component{
       <div>
         <br />
         <br />
-        <h1>Code:</h1>
+        <h1>Enter Code:</h1>
           <form onSubmit={this.onSubmit} >
           <input type="text" name="one" maxLength="1" onChange={this.onChange}/>
           <br />
@@ -93,7 +93,6 @@ export default class Lock extends React.Component{
           <br />
           <button>Submit</button>
         </form>
-        <br />
         <br />
         {this.state.play && (
           <Sound
