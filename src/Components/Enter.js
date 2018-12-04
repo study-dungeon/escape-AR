@@ -31,7 +31,7 @@ const Enter = () => {
         </div>
 
         <div className="button-grid-item">
-          <Link to='/testing'><button className="welcome-btn">Testing</button></Link>
+          <Link to='/play'><button className="welcome-btn">Testing</button></Link>
         </div>
 
       </div>

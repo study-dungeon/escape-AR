@@ -1,18 +1,10 @@
 /*global THREE THREEx*/
 
 import React, { Component } from 'react';
-import Sound from 'react-sound';
-import { Link } from 'react-router-dom';
-import { Redirect } from 'react-router';
 import { initializeArToolkit } from '../utils/arToolkit';
 import moment from 'moment';
-// import Escaped from './Escaped';
-import Inventory from './Inventory';
-import Stopwatch from './Stopwatch';
-import Lock from './Lock';
-import Letter from './Letter';
-import Clock from './Clock';
 import { connect } from 'react-redux';
+import Interface from './Interface';
 
 import { createGame } from '../store';
 
@@ -26,31 +18,8 @@ class Camera extends Component {
       clock: false,
       letter: false,
       door: false,
-      codeAnswer: '1234',
-      hasKey: false,
-      hasLetter: false,
-      hasNote: false,
-      hasLockPick: false,
-      hasBrokenLockPick: false,
-      showLock: false,
-      showClock: false,
-      playBangingSound: false,
-      playKnockingSound: false,
-      bang: false,
-      playCreakingSound: false,
-      alreadyLookedBehindClock: false,
-      displayLetter: false
     };
     this.removeCamera = this.removeCamera.bind(this);
-    this.lookBehindClock = this.lookBehindClock.bind(this);
-    this.useLockPick = this.useLockPick.bind(this);
-    this.bangDoor = this.bangDoor.bind(this);
-    this.receiveKey = this.receiveKey.bind(this);
-    this.testing = this.testing.bind(this);
-    this.stopPlayingKnockingSound = this.stopPlayingKnockingSound.bind(this);
-    this.stopPlayingBangingSound = this.stopPlayingBangingSound.bind(this);
-    this.stopPlayingCreakingSound = this.stopPlayingCreakingSound.bind(this);
-    this.hideLock = this.hideLock.bind(this);
   }
 
   componentDidMount() {
@@ -327,217 +296,17 @@ class Camera extends Component {
     videoSource.hidden = true;
   }
 
-  lookBehindClock() {
-    this.setState({ playCreakingSound: true });
-    if (this.state.hasKey) {
-      return alert('hmm, nothing there');
-    } else {
-      alert(
-        "You move the clock away from the wall and find an old lock pick. It could be useful, but it's not in great shape..."
-      );
-      this.setState({ hasLockPick: true });
-    }
-  }
-
-  useLockPick() {
-    if (this.state.hasBrokenLockPick) {
-      return alert(
-        'You desperately try to pick the lock again. Moments pass and it dawns on you --- you have no idea how to pick locks. Especially with a broken pick.'
-      );
-    } else {
-      alert(
-        'You bend down and carefully insert the lockpick into the keyhole. A careful turn left, a small jiggle right. Did I just hear a click? Pushing a bit harder then suddenly - snap - the lock pick breaks, oh no!'
-      );
-      this.setState({ hasLockPick: false, hasBrokenLockPick: true });
-    }
-  }
-
-  bangDoor() {
-    if (this.state.bang) {
-      alert(
-        'you bang again, this time even louder! silence, bitter silence. Lets keep looking around.'
-      );
-      this.setState({ playBangingSound: true });
-    } else {
-      alert(
-        `Brute force has worked before - why not now? You raised your fists and begin knocking on the door. A small folded note slips out from the crack in the hinge. It reads: "This is a red herring."`
-      );
-      this.setState({ hasNote: true, playKnockingSound: true, bang: true });
-    }
-  }
-
-  receiveKey() {
-    this.setState({
-      hasKey: true,
-    });
-  }
-
-  testing() {
-    this.setState({
-      clock: true,
-      lock: true,
-      door: true,
-      letter: true,
-    });
-  }
-
-  hideLock(){
-    this.setState({
-      showLock: false
-    });
-  }
-
-  stopPlayingKnockingSound() {
-    this.setState({
-      playKnockingSound: false,
-    });
-  }
-
-  stopPlayingBangingSound() {
-    this.setState({
-      playBangingSound: false,
-    });
-  }
-
-  stopPlayingCreakingSound() {
-    this.setState({
-      playCreakingSound: false,
-    });
-  }
-
   render() {
     const {
       lock,
       clock,
       letter,
-      door,
-      hasKey,
-      hasLetter,
-      hasNote,
-      hasLockPick,
-      hasBrokenLockPick,
-      startTime,
-      showLock,
-      showClock,
-      displayLetter
+      door
     } = this.state;
 
     return (
-
-      <div className="button-grid-container">
-        <div className="button-grid-item">
-          {clock && (
-            <div>
-              <button
-                className="welcome-btn"
-                onClick={() => this.setState({ showClock: true })}
-              >
-                Check the time
-              </button>
-              <button className="welcome-btn" onClick={this.lookBehindClock}>
-                {this.state.playCreakingSound && (
-                  <Sound
-                    url={'creaking.mp3'}
-                    playStatus={Sound.status.PLAYING}
-                    onFinishedPlaying={this.stopPlayingCreakingSound}
-                  />
-                )}
-                Look behind clock
-              </button>
-            </div>
-          )}
-          {showClock && <Clock />}
-          {letter && (
-              <button
-                className="welcome-btn"
-                onClick={() => this.setState({ hasLetter: true, displayLetter: true })}
-              >
-                Read me
-              </button>
-          )}
-          {lock && (
-            <button
-              className="welcome-btn"
-              onClick={() => {
-                this.setState({ showLock: true })
-              }}
-            >
-              Unlock Me
-            </button>
-          )}
-          {displayLetter && (
-            <div>
-              <Letter />
-              <button onClick={()=> this.setState({ displayLetter: false }) }>
-                x
-              </button>
-            </div>
-          )}
-          {showLock && (
-            <div>
-              <Lock receiveKey={this.state.receiveKey}/>
-              <button onClick={ ()=> this.setState({ showLock: false}) }>x</button>
-            </div>
-          )}
-          {door && (
-            <div>
-              {hasKey ? (
-                <Link to="/escaped">
-                  <button className="welcome-btn" onClick={this.removeCamera}>
-                    Open Door
-                  </button>
-                </Link>
-              ) : (
-                <button
-                  className="welcome-btn"
-                  onClick={() => alert('You need a key')}
-                >
-                  Open Door
-                </button>
-              )}
-
-              <button className="welcome-btn" onClick={this.bangDoor}>
-                {hasNote ? 'Bang louder' : 'Bang against the door'}
-              </button>
-            </div>
-          )}
-
-          {this.state.playBangingSound && (
-            <Sound
-              url={'banging.mp3'}
-              playStatus={Sound.status.PLAYING}
-              onFinishedPlaying={this.stopPlayingBangingSound}
-            />
-          )}
-
-          {this.state.playKnockingSound && (
-            <Sound
-              url={'knocking.mp3'}
-              playStatus={Sound.status.PLAYING}
-              onFinishedPlaying={this.stopPlayingKnockingSound}
-            />
-          )}
-
-          {door && hasLockPick && (
-            <button className="welcome-btn" onClick={this.useLockPick}>
-              Use Lock Pick
-            </button>
-          )}
-        </div>
-        <Stopwatch />
-        <Inventory
-          hasKey={hasKey}
-          hasLetter={hasLetter}
-          hasNote={hasNote}
-          hasLockPick={hasLockPick}
-          hasBrokenLockPick={hasBrokenLockPick}
-        />
-        {/* <button onClick={this.testing}>Testing</button> */}
-        <Link to="/escaped">
-            <button className="welcome-btn" onClick={this.removeCamera}>
-              Open Door
-            </button>
-        </Link>
+      <div>
+        <Interface clockProp={clock} lockProp={lock} letterProp={letter} doorProp={door} />
       </div>
     );
   }

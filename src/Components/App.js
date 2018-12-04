@@ -20,7 +20,7 @@ import Enter from './Enter';
 import Login from './Login';
 import Account from './Account';
 import Signup from './Signup';
-import Testing from './Testing';
+import New from './Room-New';
 
 class App extends Component {
   componentDidMount() {
@@ -60,7 +60,7 @@ class App extends Component {
           <Route exact path="/room/letter" component={Letter} />
           <Route exact path="/escaped" component={Escaped} />
           <Route exact path="/opening" component={Opening} />
-          <Route exact path="/testing" component={Testing} />
+          <Route exact path="/play" component={New} />
         </Fragment>
       </Router>
     );
