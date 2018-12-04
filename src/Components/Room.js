@@ -10,6 +10,7 @@ import moment from 'moment';
 import Inventory from './Inventory';
 import Stopwatch from './Stopwatch';
 import Lock from './Lock';
+import Letter from './Letter';
 import Clock from './Clock';
 import { connect } from 'react-redux';
 
@@ -38,6 +39,7 @@ class Camera extends Component {
       bang: false,
       playCreakingSound: false,
       alreadyLookedBehindClock: false,
+      displayLetter: false
     };
     this.removeCamera = this.removeCamera.bind(this);
     this.lookBehindClock = this.lookBehindClock.bind(this);
@@ -48,6 +50,7 @@ class Camera extends Component {
     this.stopPlayingKnockingSound = this.stopPlayingKnockingSound.bind(this);
     this.stopPlayingBangingSound = this.stopPlayingBangingSound.bind(this);
     this.stopPlayingCreakingSound = this.stopPlayingCreakingSound.bind(this);
+    this.hideLock = this.hideLock.bind(this);
   }
 
   componentDidMount() {
@@ -378,6 +381,12 @@ class Camera extends Component {
     });
   }
 
+  hideLock(){
+    this.setState({
+      showLock: false
+    });
+  }
+
   stopPlayingKnockingSound() {
     this.setState({
       playKnockingSound: false,
@@ -410,6 +419,7 @@ class Camera extends Component {
       startTime,
       showLock,
       showClock,
+      displayLetter
     } = this.state;
 
     return (
@@ -424,30 +434,50 @@ class Camera extends Component {
                 Check the time
               </button>
               <button className="welcome-btn" onClick={this.lookBehindClock}>
+                {this.state.playCreakingSound && (
+                  <Sound
+                    url={'creaking.mp3'}
+                    playStatus={Sound.status.PLAYING}
+                    onFinishedPlaying={this.stopPlayingCreakingSound}
+                  />
+                )}
                 Look behind clock
               </button>
             </div>
           )}
           {showClock && <Clock />}
           {letter && (
-            <Link to="/room/letter">
               <button
                 className="welcome-btn"
-                onClick={() => this.setState({ hasLetter: true })}
+                onClick={() => this.setState({ hasLetter: true, displayLetter: true })}
               >
                 Read me
               </button>
-            </Link>
           )}
           {lock && (
             <button
               className="welcome-btn"
-              onClick={() => this.setState({ showLock: true })}
+              onClick={() => {
+                this.setState({ showLock: true })
+              }}
             >
               Unlock Me
             </button>
           )}
-          {showLock && <Lock receiveKey={this.receiveKey} />}
+          {displayLetter && (
+            <div>
+              <Letter />
+              <button onClick={()=> this.setState({ displayLetter: false }) }>
+                x
+              </button>
+            </div>
+          )}
+          {showLock && (
+            <div>
+              <Lock receiveKey={this.state.receiveKey}/>
+              <button onClick={ ()=> this.setState({ showLock: false}) }>x</button>
+            </div>
+          )}
           {door && (
             <div>
               {hasKey ? (
@@ -466,30 +496,25 @@ class Camera extends Component {
               )}
 
               <button className="welcome-btn" onClick={this.bangDoor}>
-                {this.state.playKnockingSound && (
-                  <Sound
-                    url={'knocking.mp3'}
-                    playStatus={Sound.status.PLAYING}
-                    onFinishedPlaying={this.stopPlayingKnockingSound}
-                  />
-                )}
-                {this.state.playBangingSound && (
-                  <Sound
-                    url={'banging.mp3'}
-                    playStatus={Sound.status.PLAYING}
-                    onFinishedPlaying={this.stopPlayingBangingSound}
-                  />
-                )}
-                {this.state.playCreakingSound && (
-                  <Sound
-                    url={'creaking.mp3'}
-                    playStatus={Sound.status.PLAYING}
-                    onFinishedPlaying={this.stopPlayingCreakingSound}
-                  />
-                )}
                 {hasNote ? 'Bang louder' : 'Bang against the door'}
               </button>
             </div>
+          )}
+
+          {this.state.playBangingSound && (
+            <Sound
+              url={'banging.mp3'}
+              playStatus={Sound.status.PLAYING}
+              onFinishedPlaying={this.stopPlayingBangingSound}
+            />
+          )}
+
+          {this.state.playKnockingSound && (
+            <Sound
+              url={'knocking.mp3'}
+              playStatus={Sound.status.PLAYING}
+              onFinishedPlaying={this.stopPlayingKnockingSound}
+            />
           )}
 
           {door && hasLockPick && (
@@ -506,7 +531,7 @@ class Camera extends Component {
           hasLockPick={hasLockPick}
           hasBrokenLockPick={hasBrokenLockPick}
         />
-        <button onClick={this.testing}>Testing</button>
+        {/* <button onClick={this.testing}>Testing</button> */}
         <Link to="/escaped">
             <button className="welcome-btn" onClick={this.removeCamera}>
               Open Door

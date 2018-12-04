@@ -20,7 +20,7 @@ export default class Letter extends React.Component {
   render() {
     return (
       <div>
-        <p>This is the letter</p>;
+        <img src="letter.png" />
         {this.state.play && (
           <Sound
               url={'letter.mp3'}

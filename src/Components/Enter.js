@@ -30,6 +30,10 @@ const Enter = () => {
           <Link to='/opening'><button className="welcome-btn">Opening</button></Link>
         </div>
 
+        <div className="button-grid-item">
+          <Link to='/testing'><button className="welcome-btn">Testing</button></Link>
+        </div>
+
       </div>
       <br />
       <br />
