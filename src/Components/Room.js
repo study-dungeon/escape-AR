@@ -193,23 +193,23 @@ class Camera extends Component {
 
     // load door
     loader.load(
-      '../../assets/chest/scene.gltf',
+      '../../assets/door3/scene.gltf',
       function(gltf) {
         window.doorArr = [];
         gltf.scene.traverse(function(door) {
           if (door.isMesh) {
-            door.scale.x = 3;
-            door.scale.y = 3;
-            door.scale.z = 3;
+            door.scale.x = 1;
+            door.scale.y = 1;
+            door.scale.z = 1;
             window.doorArr.push(door);
           }
         });
-        onRenderFcts.push(() => {
-          window.doorArr.map(door => {
-            door.rotation.x = -Math.PI / 2;
-            door.rotation.y = Math.PI;
-          });
-        });
+        // onRenderFcts.push(() => {
+        // window.doorArr.map(door => {
+        //   door.rotation.x = -Math.PI / 2;
+        //   door.rotation.y = Math.PI;
+        // });
+        // });
         console.log('door loaded.');
       },
       console.log('door loading..'),
@@ -508,9 +508,9 @@ class Camera extends Component {
         />
         <button onClick={this.testing}>Testing</button>
         <Link to="/escaped">
-            <button className="welcome-btn" onClick={this.removeCamera}>
-              Open Door
-            </button>
+          <button className="welcome-btn" onClick={this.removeCamera}>
+            Open Door
+          </button>
         </Link>
       </div>
     );
