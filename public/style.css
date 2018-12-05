@@ -224,9 +224,9 @@ a {
 
 #stopwatch {
   font-family: 'Share Tech Mono', monospace;
-  /* position: relative; */
-  /* top: 10px;
-  left: 10px; */
+  position: relative;
+  top: 30px;
+  left: 30px;
 }
 .timeGreen {
   font-size: 30px;

@@ -20,6 +20,8 @@ export default class Letter extends React.Component {
   render() {
     return (
       <div>
+        <br />
+        <br />
         <img src="letter.png" />
         {this.state.play && (
           <Sound

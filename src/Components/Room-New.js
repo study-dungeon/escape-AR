@@ -125,9 +125,12 @@ class Camera extends Component {
         window.clockArr = [];
         gltf.scene.traverse(function(clock) {
           if (clock.isMesh) {
-            clock.scale.x = 3;
-            clock.scale.y = 3;
-            clock.scale.z = -3;
+            clock.position.x = 0;
+            clock.position.y = -1;
+            clock.position.z = -1;
+            clock.scale.x = 1.5;
+            clock.scale.y = 1.5;
+            clock.scale.z = -1.5;
             window.clockArr.push(clock);
           }
         });
@@ -148,9 +151,10 @@ class Camera extends Component {
       function(gltf) {
         gltf.scene.traverse(function(letter) {
           if (letter.isMesh) {
-            letter.scale.x = 15;
-            letter.scale.y = 15;
-            letter.scale.z = 15;
+            letter.position.z = -1;
+            letter.scale.x = 10;
+            letter.scale.y = 10;
+            letter.scale.z = -10;
             window.letter = letter;
           }
         });
@@ -165,20 +169,23 @@ class Camera extends Component {
 
     // load door
     loader.load(
-      '../../assets/chest/scene.gltf',
+      '../../assets/door1/scene.gltf',
       function(gltf) {
         window.doorArr = [];
         gltf.scene.traverse(function(door) {
           if (door.isMesh) {
-            door.scale.x = 3;
-            door.scale.y = 3;
-            door.scale.z = 3;
+            door.position.x = 0.5;
+            door.position.y = 0;
+            door.position.z = -2;
+            door.scale.x = 0.4;
+            door.scale.y = 0.4;
+            door.scale.z = 0.4;
             window.doorArr.push(door);
           }
         });
         onRenderFcts.push(() => {
           window.doorArr.map(door => {
-            door.rotation.x = -Math.PI / 2;
+            door.rotation.x = -Math.PI;
             door.rotation.y = Math.PI;
           });
         });
