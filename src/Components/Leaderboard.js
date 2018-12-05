@@ -14,7 +14,7 @@ class Leaderboard extends Component {
             <table id="leaderboard-table">
               <thead>
                 <tr>
-                  <th>Team</th>
+                  <th>Team/User</th>
                   <th>Location</th>
                   <th>Escaped In</th>
                 </tr>
@@ -22,12 +22,14 @@ class Leaderboard extends Component {
               <tbody>
               {
               games.map( game => {
-                const timeElapsed = moment(moment(game.endTime).diff(moment(game.startTime)))
+                const endTime = moment(game.endTime);
+                const startTime = moment(game.startTime);
+                const timeElapsed = moment(endTime.diff(startTime));
+                const dummyLocations = ['Seattle, WA', 'San Francisco, CA', 'New York, NY', 'Albany, NY', 'Austin, TX', 'Chicago, IL', 'Brooklyn, NY', 'Orlando, FL', 'Paris, FR', 'Hong Kong, HK'];
                 return (
                   <tr key={game.id}>
-                    <td>{game.userId}</td>
-                    {/* <td>{game.team.city}, {game.team.state}</td> */}
-                    <td>Seattle, WA</td>
+                    <td>{game.team ? game.team.name : game.user.username}</td>
+                    <td>{game.team ? `${game.team.city}, ${game.team.state}` : dummyLocations[Math.floor(Math.random() * 10)]}</td>
                     <td>{timeElapsed.minutes()} min {timeElapsed.seconds()} sec</td>
                   </tr>)
                 })
@@ -60,7 +62,7 @@ class Leaderboard extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  games: state.games,
+  games: state.games.sort((gameA, gameB) => gameA.endTime - gameB.endTime),
   activeGame: state.activeGame
 })
 

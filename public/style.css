@@ -217,13 +217,16 @@ a {
 }
 
 /* STOPWATCH*/
-.stopwatch {
-  display: flex;
-  flex-direction: row;
+#stopwatchContainer {
+  width: 500px;
+  height: 300px;
+}
+
+#stopwatch {
   font-family: 'Share Tech Mono', monospace;
-  position: relative;
-  top: 10px;
-  left: 10px;
+  /* position: relative; */
+  /* top: 10px;
+  left: 10px; */
 }
 .timeGreen {
   font-size: 30px;

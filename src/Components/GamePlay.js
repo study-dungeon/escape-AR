@@ -24,7 +24,7 @@ const GamePlay = () => {
           </div>
           <p>
             To turn your living room, office, kitchen, bathroom (!?) into an escape room,
-            <b style={{"color": "red"}}>download the ARoom Markers PDF, print out the markers, and set them up in your room. </b>
+            <b style={{"color": "red"}}> download the ARoom Markers PDF, print out the markers, and set them up in your room. </b>
             We recommend keeping at least 3 ft between markers - and placing the door marker on your door (duh).
             <span>
               <a className="hiro-link" href="/hiro.png"></a>

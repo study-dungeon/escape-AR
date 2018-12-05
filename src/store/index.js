@@ -149,7 +149,18 @@ export const createGame = (authId, weekNum) => {
   return (dispatch) => {
     return axios.post('/api/games', { authId, weekNum })
       .then(res => res.data[0])
-      .then(game => dispatch(setActiveGame(game)))
+      .then(game => {
+        // if the game comes back with a user and/or team
+        if (game.user || game.team) {
+          dispatch(setActiveGame(game))
+        }
+        // otherwise, database needs time to sync so call for the game with the user again
+        else {
+          axios.get(`/api/games/${game.id}`)
+            .then(res => res.data)
+            .then(_game => dispatch(setActiveGame(_game)))
+      }
+    })
   }
 }
 
