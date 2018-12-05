@@ -31,11 +31,10 @@ export default class Stopwatch extends Component {
     const { current, startTime, textColor } = this.state;
     const timeElapsed = moment(current.diff(startTime));
     return (
-      <div className="stopwatch">
-        <h5> </h5>
-        <h5 className={textColor}>
+      <div className="stopwatchContainer">
+        <h2 id="stopwatch" className={textColor}>
           {timeElapsed.format('mm[mins] ss.SSS[s]')}
-        </h5>
+        </h2>
       </div>
     );
   }

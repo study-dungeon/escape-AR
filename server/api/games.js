@@ -10,14 +10,17 @@ router.get('/', (req, res, next) => {
   Game.findAll({
     include: [ Team ]
   })
-    .then(games => res.send(games))
+    .then(games => {
+      console.log(games)
+      res.send(games)
+    })
     .catch(error => next(error))
 });
 
 
 // find game by ID
 router.get('/:id', (req, res, next) => {
-  Game.findById(req.params.id)
+  Game.findById(req.params.id, {include: [ User, Team ]})
     .then(game => {
       if(!game) {
         res.status(404).send('<h1>Game Not Found</h1>')
@@ -38,15 +41,15 @@ router.post('/', (req, res, next) => {
   const currUser = User.findByPk(authId);
   // if the user has a team, store it
   const teamId = currUser.teamId ? currUser.teamId : null;
-  let game
   if (teamId) {
-    game = Game.findOrCreate({ where: { teamId, weekNum: _weekNum }})
-      .then(_game => res.send(_game))
+    Game.findOrCreate({ where: { teamId, weekNum: _weekNum }})
+      .then(game => res.send(game))
       .catch(next)
   }
   else {
-    game = Game.findOrCreate({ where: { userId: authId, weekNum: _weekNum }})
-      .then(_game => res.send(_game))
+    console.log("In the right block")
+    Game.findOrCreate({ where: { userId: authId, weekNum: _weekNum }, include: [User, Team] })
+      .then(game => res.send(game))
       .catch(next)
   }
 })
@@ -54,7 +57,7 @@ router.post('/', (req, res, next) => {
 
 // edit game
 router.put('/:id', (req, res, next) => {
-  Game.findByPk(req.params.id)
+  Game.findByPk(req.params.id, {include: [User, Team]})
     .then(game => {
       if (!game) {
         res.status(404).send('Game Not Found')

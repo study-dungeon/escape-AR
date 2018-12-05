@@ -305,7 +305,7 @@ class Camera extends Component {
     } = this.state;
 
     return (
-      <div>
+      <div id="interface">
         <Interface clockProp={clock} lockProp={lock} letterProp={letter} doorProp={door} />
       </div>
     );

@@ -29,9 +29,9 @@ class Escaped extends Component {
 
   render() {
     const { activeGame, games } = this.props;
-    const { startTime } = activeGame;
+    const startTime = moment(activeGame.startTime);
     const endTime = activeGame.endTime ? moment(activeGame.endTime) : this.props.endTime;
-    const timeElapsed = moment(endTime.diff(moment(startTime)));
+    const timeElapsed = moment(endTime.diff(startTime));
     return (
       <div>
         <div id="escaped-container">
@@ -39,7 +39,7 @@ class Escaped extends Component {
           <h3>You escaped in <br /> {timeElapsed.minutes()} min and {timeElapsed.seconds()} sec.</h3>
           <div>Your time ranks:
             <br/>
-            <b style={{"color": "red"}}>3rd</b> out of 29
+            <b style={{"color": "red"}}>{games.findIndex(game => game.id === activeGame.id) + 1}</b> out of {games.length}
             <br />
             escapes this week!</div>
           <br />
@@ -63,7 +63,7 @@ class Escaped extends Component {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   activeGame: state.activeGame,
-  games: state.games,
+  games: state.games.sort((gameA, gameB) => gameA.endTime - gameB.endTime),
   endTime: moment()
 })
 

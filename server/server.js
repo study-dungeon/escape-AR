@@ -13,21 +13,16 @@ const server = app.listen(port, () => {
 const io = socketio(server)
 
 io.on('connection', socket => {
-  console.log(`New connection from ${socket.handshake.address.slice(7)} with id=${socket.id}`)
-  io.to(socket.id).emit('connect', { "message": "hello world" })
+  console.log(`New connection with id=${socket.id}`)
+  io.to(socket.id).emit('connect', { message: "connected" })
 
   socket.on('disconnect', msg => {
     console.log('Client disconnected')
     console.log(msg)
   })
 
-  socket.on('test', (data) => {
-    console.log(`Received a test with message: ${data.message}`);
-    // socket.broadcast.emit('test', { "message": "successful test" })
-  })
-
   socket.on('gameComplete', ( game ) => {
-    socket.emit('completedGame', { message: "successful completion test", game })
+    io.emit('completedGame', { message: "completion", game })
   })
 })
 
