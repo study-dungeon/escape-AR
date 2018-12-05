@@ -29,7 +29,7 @@ export default class Enter extends React.Component {
           <div className="button-grid-container">
 
             <div className="button-grid-item">
-              <Link to='/room' ><button className="welcome-btn">Play</button></Link>
+              <Link to='/play' ><button className="welcome-btn">Play</button></Link>
             </div>
 
             <div className="button-grid-item">
@@ -40,13 +40,13 @@ export default class Enter extends React.Component {
               <Link to='/account' ><button className="welcome-btn">Account</button></Link>
             </div>
 
-            <div className="button-grid-item">
+            {/* <div className="button-grid-item">
               <Link to='/opening'><button className="welcome-btn">Opening</button></Link>
-            </div>
+            </div> */}
 
-            <div className="button-grid-item">
+            {/* <div className="button-grid-item">
               <Link to='/play'><button className="welcome-btn">Testing</button></Link>
-            </div>
+            </div> */}
 
             {this.state.rain && (
               <div className="button-grid-item">
