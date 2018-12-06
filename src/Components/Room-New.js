@@ -169,7 +169,7 @@ class Camera extends Component {
 
     // load door
     loader.load(
-      '../../assets/door1/scene.gltf',
+      '../../assets/door3/scene.gltf',
       function(gltf) {
         window.doorArr = [];
         gltf.scene.traverse(function(door) {
