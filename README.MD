@@ -26,4 +26,4 @@ visit https://escapearoom.herokuapp.com
 
 ### Authors
 
-Andrew Reis, Tom Licitra, Charlie Robinson, and Tom Heller.
+Andrew Reis, Tom Licitra, Charlie Robinson, and Andrew Heller.
